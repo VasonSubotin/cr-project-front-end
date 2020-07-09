@@ -31,7 +31,7 @@ export class RegistrationComponent {
     password: new FormControl('', [
       Validators.required,
     ]),
-    login: new FormControl('', [
+    confirmPass: new FormControl('', [
       Validators.required,
     ])
   });
@@ -44,11 +44,15 @@ export class RegistrationComponent {
     const body = {
       email: this.myGroup.controls['email'].value,
       password: this.myGroup.controls['password'].value,
-    }
+    };
     this.authService.singUp(body).pipe(tap((res: any) => {
       if (res.status === 201) this.router.navigate(['/login']);
     })).subscribe().unsubscribe();
 
+  }
+
+  checkPasswords() {
+    return this.myGroup.controls['confirmPass'].value !== this.myGroup.controls['password'].value
   }
 
 }

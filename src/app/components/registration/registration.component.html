@@ -32,17 +32,17 @@
 
       <mat-form-field class="input-element margin-top-25">
         <mat-label>Password</mat-label>
-        <input matInput formControlName="login" [errorStateMatcher]="matcher"
-               placeholder="******">
+        <input matInput formControlName="confirmPass" [errorStateMatcher]="matcher"
+               placeholder="******" >
         <mat-hint>Errors appear instantly!</mat-hint>
-        <mat-error *ngIf="myGroup.controls['login'].touched">
+        <mat-error *ngIf="myGroup.controls['confirmPass'].touched">
           Please enter a valid password
         </mat-error>
-        <mat-error *ngIf="myGroup.controls['login'].hasError('required')">
-          Password is <strong>required</strong>
+        <mat-error *ngIf="checkPasswords()">
+          Your password and confirmation password <strong>do not match is</strong>
         </mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" [disabled]="!UserLogin.form.valid">Register</button>
+      <button mat-raised-button color="primary" [disabled]="!UserLogin.form.valid || checkPasswords()">Register</button>
 
     </form>
   </mat-card>
