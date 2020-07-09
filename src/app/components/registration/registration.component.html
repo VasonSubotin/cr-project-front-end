@@ -1,14 +1,49 @@
-<form class="example-form">
-  <mat-form-field class="example-full-width">
-    <mat-label>Email</mat-label>
-    <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-           placeholder="Ex. pat@example.com">
-    <mat-hint>Errors appear instantly!</mat-hint>
-    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="emailFormControl.hasError('required')">
-      Email is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-</form>
+
+
+<div class="flex-block flex-block--center">
+  <mat-card class="width-50">
+    <form #UserLogin="ngForm" class="example-form flex-block flex-block--center flex-block--column" [formGroup]=myGroup (ngSubmit)="onSubmit()">
+
+      <mat-form-field class="input-element margin-top-25">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" [errorStateMatcher]="matcher"
+               placeholder="Ex. pat@example.com">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="myGroup.controls['email'].invalid && myGroup.controls['email'].touched">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="myGroup.controls['email'].hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="input-element margin-top-25">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" [errorStateMatcher]="matcher"
+               placeholder="******">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="myGroup.controls['password'].touched">
+          Please enter a valid password
+        </mat-error>
+        <mat-error *ngIf="myGroup.controls['password'].hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="input-element margin-top-25">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="login" [errorStateMatcher]="matcher"
+               placeholder="******">
+        <mat-hint>Errors appear instantly!</mat-hint>
+        <mat-error *ngIf="myGroup.controls['login'].touched">
+          Please enter a valid password
+        </mat-error>
+        <mat-error *ngIf="myGroup.controls['login'].hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="!UserLogin.form.valid">Register</button>
+
+    </form>
+  </mat-card>
+</div>

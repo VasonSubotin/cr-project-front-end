@@ -1,4 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.flex-block {
+  display: flex ;
+  justify-content: center ;
+  height: 100%;
+}
+
+.flex-block--center {
+  align-items: center;
+}
+
+.flex-block--column {
+  flex-direction: column;
+}
+
+.justify-content--space-evenly {
+  justify-content: space-evenly;
+}
+
+.height-200 {
+  height: 200px;
+}
+
+.margin-top-25 {
+  margin-top: 25px;
+}
+
+.width-50 {
+  width: 50%;
+}
+.enrollment-container {
+  display: flex !important;
+  justify-content: space-evenly;
+  height: 200px;
+}
