@@ -3,4 +3,5 @@ export const request = {
   signupGoogle: 'googleLogin',
   signup: 'signup',
   authenticate: 'authenticate',
+  resources: 'resources',
 }

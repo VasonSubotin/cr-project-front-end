@@ -1,19 +1,21 @@
 <div class="flex-block flex-block--center">
   <div class="vertical-container max-width--600">
-    <button mat-raised-button color="primary" (click)="authByGoogle()">Google</button>
+    <button mat-raised-button color="primary" >
+      <a class="link-button" href="http://localhost:8080/googleLogin"></a>
+      Google</button>
     <mat-card class="width-100 max-width--600">
       <form #UserLogin="ngForm" class="example-form flex-block flex-block--center flex-block--column"
             [formGroup]=myGroup (ngSubmit)="onSubmit()">
 
         <mat-form-field class="input-element margin-top-25">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" [errorStateMatcher]="matcher"
-                 placeholder="Ex. pat@example.com">
+          <mat-label>Login</mat-label>
+          <input matInput formControlName="login" [errorStateMatcher]="matcher"
+                 placeholder="login">
           <mat-hint>Errors appear instantly!</mat-hint>
-          <mat-error *ngIf="myGroup.controls['email'].invalid && myGroup.controls['email'].touched">
+          <mat-error *ngIf="myGroup.controls['login'].invalid && myGroup.controls['login'].touched">
             Please enter a valid email address
           </mat-error>
-          <mat-error *ngIf="myGroup.controls['email'].hasError('required')">
+          <mat-error *ngIf="myGroup.controls['login'].hasError('required')">
             Email is <strong>required</strong>
           </mat-error>
         </mat-form-field>
@@ -30,7 +32,9 @@
             Password is <strong>required</strong>
           </mat-error>
         </mat-form-field>
-        <button mat-raised-button color="primary" [disabled]="!UserLogin.form.valid">Login</button>
+        <button mat-raised-button color="primary" [disabled]="!UserLogin.form.valid">
+
+          Login</button>
 
       </form>
     </mat-card>

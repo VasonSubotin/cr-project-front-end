@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {AuthService} from "../../services/auth.service";
@@ -12,9 +12,12 @@ import {tap, map} from 'rxjs/operators';
 })
 
 
-export class EnrollmentComponent {
+export class EnrollmentComponent implements  OnInit{
   constructor(private authService: AuthService,
               private router: Router) {
   }
+ngOnInit(): void {
+  this.authService.getResources().subscribe(res => console.log(res))
 
+}
 }

@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
-import {tap, map} from 'rxjs/operators';
+import {tap} from 'rxjs/operators';
 
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -19,10 +19,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 
-export class RegistrationComponent {
+export class RegistrationComponent implements OnDestroy {
   constructor(private authService: AuthService,
               private router: Router) {
   }
+
+  private subscriptions$ = [];
+
 
   myGroup = new FormGroup({
     login: new FormControl('', [
@@ -44,18 +47,28 @@ export class RegistrationComponent {
       login: this.myGroup.controls['login'].value,
       password: this.myGroup.controls['password'].value,
     };
-    this.authService.singUp(body).pipe(tap((res: any) => {
+    const request$ = this.authService.singUp(body).pipe(tap((res: any) => {
       if (res.status === 201) this.router.navigate(['/login']);
-    })).subscribe().unsubscribe();
+    })).subscribe();
+    this.subscriptions$.push(request$)
   }
-  singupByGoogle () {
-    this.authService.googleLogin().pipe(tap((res: any) => {
+
+  singupByGoogle() {
+    const requestGoogle$ = this.authService.googleLogin().pipe(tap((res: any) => {
       debugger
       if (res.status === 200) this.router.navigate(['/enrollment']);
-    })).subscribe().unsubscribe();
+    })).subscribe();
+    this.subscriptions$.push(requestGoogle$)
+
   }
+
   checkPasswords() {
     return this.myGroup.controls['confirmPass'].value !== this.myGroup.controls['password'].value
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions$.forEach(s$ => {
+      s$.unsubscribe();
+    });
+  }
 }

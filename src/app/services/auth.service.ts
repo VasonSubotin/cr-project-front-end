@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {request} from "../constants/api";
 
 @Injectable()
@@ -8,6 +8,7 @@ export class AuthService {
               ) {
   }
   public apiConstants = request;
+  public auth_token ;
 
 
   singUp(body) {
@@ -19,4 +20,16 @@ export class AuthService {
   googleLogin() {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.signupGoogle}`)
   }
+ getResources() {
+
+ const _options = { headers: new HttpHeaders({
+       'Content-Type': 'application/json',
+       'Authorization': `Bearer ${localStorage.getItem('token')}`
+     }) };
+ debugger
+
+   return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, _options);
+
+ }
+
 }

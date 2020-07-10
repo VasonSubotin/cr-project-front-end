@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {tap} from "rxjs/operators";
@@ -18,7 +18,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './login.component.html'
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private subscriptions$ = [];
 
   constructor(private authService: AuthService,
               private router: Router
@@ -27,11 +28,9 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   myGroup = new FormGroup({
-    email: new FormControl('', [
-      Validators.required,
-      Validators.email]),
+    login: new FormControl('', [
+      Validators.required]),
     password: new FormControl('', [
       Validators.required,
     ])
@@ -43,18 +42,22 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const body = {
-      email: this.myGroup.controls['email'].value,
+      login: this.myGroup.controls['login'].value,
       password: this.myGroup.controls['password'].value,
     }
-    this.authService.authenticate(body).pipe(tap((res: any) => {
-      if (res.status === 200) this.router.navigate(['/enrollment']);
-    })).subscribe().unsubscribe();
+    const request$ = this.authService.authenticate(body).pipe(tap((res: any) => {
+      if (res.status === 200) {
+        localStorage.setItem('token', res.body.token);
+        this.authService.auth_token =  res.body.token;
+        this.router.navigate(['/enrollment'])
+      };
+    })).subscribe();
+    this.subscriptions$.push(request$)
+  }
+  ngOnDestroy(): void {
+    this.subscriptions$.forEach(s$ => {
+      s$.unsubscribe();
+    });
   }
 
-  authByGoogle() {
-    this.authService.googleLogin().pipe(tap((res: any) => {
-      debugger
-      if (res.status === 200) this.router.navigate(['/enrollment']);
-    })).subscribe().unsubscribe();
-  }
 }
