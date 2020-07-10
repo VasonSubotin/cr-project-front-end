@@ -38,8 +38,22 @@ body {
 .width-50 {
   width: 50%;
 }
+.width-100 {
+  width: 100%;
+}
+.max-width--600 {
+  max-width: 600px;
+}
 .enrollment-container {
   display: flex !important;
   justify-content: space-evenly;
   height: 200px;
+}
+.vertical-container {
+  width: 100%;
+  height: 400px;
+  align-items: start;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
 }

@@ -25,9 +25,8 @@ export class RegistrationComponent {
   }
 
   myGroup = new FormGroup({
-    email: new FormControl('', [
-      Validators.required,
-      Validators.email]),
+    login: new FormControl('', [
+      Validators.required]),
     password: new FormControl('', [
       Validators.required,
     ]),
@@ -42,15 +41,19 @@ export class RegistrationComponent {
 
   onSubmit() {
     const body = {
-      email: this.myGroup.controls['email'].value,
+      login: this.myGroup.controls['login'].value,
       password: this.myGroup.controls['password'].value,
     };
     this.authService.singUp(body).pipe(tap((res: any) => {
       if (res.status === 201) this.router.navigate(['/login']);
     })).subscribe().unsubscribe();
-
   }
-
+  singupByGoogle () {
+    this.authService.googleLogin().pipe(tap((res: any) => {
+      debugger
+      if (res.status === 200) this.router.navigate(['/enrollment']);
+    })).subscribe().unsubscribe();
+  }
   checkPasswords() {
     return this.myGroup.controls['confirmPass'].value !== this.myGroup.controls['password'].value
   }

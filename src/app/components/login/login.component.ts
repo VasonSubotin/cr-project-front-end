@@ -19,10 +19,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 
 export class LoginComponent implements OnInit {
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
 
   constructor(private authService: AuthService,
               private router: Router
@@ -30,15 +26,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onSubmit() {
-    const body = {
-      email: this.myGroup.controls['email'].value,
-      password: this.myGroup.controls['password'].value,
-    }
-    this.authService.authenticate(body).pipe(tap((res: any) => {
-      if (res.status === 200) this.router.navigate(['/enrollment']);
-    })).subscribe().unsubscribe();
-  }
+
 
   myGroup = new FormGroup({
     email: new FormControl('', [
@@ -53,4 +41,20 @@ export class LoginComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
+  onSubmit() {
+    const body = {
+      email: this.myGroup.controls['email'].value,
+      password: this.myGroup.controls['password'].value,
+    }
+    this.authService.authenticate(body).pipe(tap((res: any) => {
+      if (res.status === 200) this.router.navigate(['/enrollment']);
+    })).subscribe().unsubscribe();
+  }
+
+  authByGoogle() {
+    this.authService.googleLogin().pipe(tap((res: any) => {
+      debugger
+      if (res.status === 200) this.router.navigate(['/enrollment']);
+    })).subscribe().unsubscribe();
+  }
 }

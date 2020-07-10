@@ -17,13 +17,4 @@ export class EnrollmentComponent {
               private router: Router) {
   }
 
-
-
-
-
-  onSubmit() {
-
-
-  }
-
 }

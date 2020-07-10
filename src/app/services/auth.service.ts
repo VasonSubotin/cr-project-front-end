@@ -16,7 +16,7 @@ export class AuthService {
   authenticate(body) {
     return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.authenticate}`, body,  {observe: 'response'})
   }
-  googleLogin(body) {
-    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.signupGoogle}`, body).subscribe(res=> console.log(res))
+  googleLogin() {
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.signupGoogle}`)
   }
 }
