@@ -13,14 +13,18 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {HttpClientModule} from "@angular/common/http";
 import {AuthService} from "./services/auth.service";
-import {EnrollmentComponent} from "./components/enrollment/enrollment.component";
+import {ResourcesComponent} from "./components/resources/resources.component";
+import {ResourceComponent} from "./components/resources/resource/resource.component";
+import {LogoutComponent} from "./reusable-components/logout.component/logout.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    LogoutComponent,
     RegistrationComponent,
-    EnrollmentComponent
+    ResourcesComponent,
+    ResourceComponent
   ],
   imports: [
     BrowserModule,

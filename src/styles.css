@@ -66,3 +66,26 @@ body {
   width: 100%;
   height: 100%;
 }
+.resource-container {
+  padding: 40px 0;
+  justify-content: space-around;
+  display: flex;
+  flex-flow: row wrap;
+  margin: auto;
+}
+.resource-content {
+  margin-right: 20px;
+  margin-bottom: 20px;
+  width: 350px;
+  min-height: 250px;
+  cursor: pointer;
+}
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 80%;
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 40px;
+}

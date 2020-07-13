@@ -4,4 +4,6 @@ export const request = {
   signup: 'signup',
   authenticate: 'authenticate',
   resources: 'resources',
+  smartCarLogin: 'smartCarLogin',
+  smartCarSession: 'SmartCarSession',
 }

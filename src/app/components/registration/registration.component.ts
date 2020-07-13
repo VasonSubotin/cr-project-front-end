@@ -26,7 +26,6 @@ export class RegistrationComponent implements OnDestroy {
 
   private subscriptions$ = [];
 
-
   myGroup = new FormGroup({
     login: new FormControl('', [
       Validators.required]),
@@ -55,8 +54,6 @@ export class RegistrationComponent implements OnDestroy {
 
   singupByGoogle() {
     const requestGoogle$ = this.authService.googleLogin().pipe(tap((res: any) => {
-      debugger
-      if (res.status === 200) this.router.navigate(['/enrollment']);
     })).subscribe();
     this.subscriptions$.push(requestGoogle$)
 

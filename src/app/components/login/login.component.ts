@@ -12,7 +12,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
@@ -25,8 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               private router: Router
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   myGroup = new FormGroup({
     login: new FormControl('', [
@@ -49,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       if (res.status === 200) {
         localStorage.setItem('token', res.body.token);
         this.authService.auth_token =  res.body.token;
-        this.router.navigate(['/enrollment'])
+        this.router.navigate(['/resources'])
       };
     })).subscribe();
     this.subscriptions$.push(request$)

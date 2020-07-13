@@ -5,31 +5,55 @@ import {request} from "../constants/api";
 @Injectable()
 export class AuthService {
   constructor(private http: HttpClient,
-              ) {
+  ) {
   }
+
   public apiConstants = request;
-  public auth_token ;
+  public auth_token;
 
 
   singUp(body) {
-    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.signup}`, body,  {observe: 'response'})
+    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.signup}`, body, {observe: 'response'})
   }
+
   authenticate(body) {
-    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.authenticate}`, body,  {observe: 'response'})
+    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.authenticate}`, body, {observe: 'response'})
   }
+
   googleLogin() {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.signupGoogle}`)
   }
- getResources() {
 
- const _options = { headers: new HttpHeaders({
-       'Content-Type': 'application/json',
-       'Authorization': `Bearer ${localStorage.getItem('token')}`
-     }) };
- debugger
+  smartCarSession(code) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    console.log(_options)
+    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.smartCarSession}?code=${code}`,{}, _options)
+  }
 
-   return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, _options);
+  getResources() {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, _options);
+  }
+  getResourceById(idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}`, _options);
 
- }
+
+  }
 
 }
