@@ -86,15 +86,16 @@ export class ResourcesComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const code = params['code'];
       this.authService.smartCarSession(code).pipe(tap((res: any) => {
-        if (res.status === 201) {
-          this.authService.getResources().subscribe((res: any) => {
-            console.log(res)
-            /*  this.mockedData = [];*/
-            /* this.mockedData = res;*/
-          });
-        }
-      })).subscribe();
+        if (res.status === 200) {
 
+        }
+
+      })).subscribe();
+      this.authService.getResources().subscribe((res: any) => {
+        console.log(res)
+        /*  this.mockedData = [];*/
+        /* this.mockedData = res;*/
+      });
     });
   }
   navigateByResource(idResource) {
