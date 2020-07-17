@@ -1,3 +1,54 @@
-<app-logout></app-logout>
+<app-header></app-header>
+<div class="resource-container">
+  <mat-card class="resource-content max-width--600 width-80">
+    <div class="resource-container__double">
+      <div class="resource-container resource-container--column">
+        <mat-card-content class="header-style">
+          {{resource.vendor}} / {{resource.model}}
+        </mat-card-content>
+        <mat-card-content>
+          Currect vehilce status :
+        </mat-card-content>
+        <mat-card-content>
+          Battery capacity:  {{resource.capacity}} kWh
+        </mat-card-content>
+        <mat-card-content>
+          SOC:  {{resource.power}}%
+        </mat-card-content>
+        <mat-card-content>
+          {{resource.policyId}}
+        </mat-card-content>
+      </div>
 
-<button mat-raised-button color="primary">Request schedule</button>
+      <div class="resource-container resource-container--column">
+        <mat-card-content class="header-style">
+          Settings
+        </mat-card-content>
+        <mat-card-content>
+          <mat-card-content>
+            <label id="example-radio-group-label"> Choose Policy:</label>
+          </mat-card-content>
+          <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="resource-container--column"
+            [(ngModel)]="favoritePolice">
+            <mat-card-content *ngFor="let season of favoritePolices">
+              <mat-radio-button class="example-radio-button" [value]="season">
+                {{season}}
+              </mat-radio-button>
+            </mat-card-content>
+          </mat-radio-group>
+          <mat-card-content>
+            <mat-checkbox class="example-margin" [(ngModel)]="useCalendarFlag">Use my calendar</mat-checkbox>
+          </mat-card-content>
+        </mat-card-content>
+      </div>
+    </div>
+  </mat-card>
+  <div class="footer-container">
+
+    <button mat-raised-button color="primary" (click)="openSchedule()">Request schedule</button>
+
+  </div>
+</div>
+

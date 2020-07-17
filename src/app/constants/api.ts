@@ -5,5 +5,6 @@ export const request = {
   authenticate: 'authenticate',
   resources: 'resources',
   smartCarLogin: 'smartCarLogin',
-  smartCarSession: 'SmartCarSession',
+  smartCarSession: 'smartCarSession',
+  schedule: 'schedule ',
 }

@@ -25,14 +25,13 @@ export class AuthService {
   }
 
   smartCarSession(code) {
-    const _options = {
-      headers: new HttpHeaders({
+      const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    };
-    console.log(_options)
-    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.smartCarSession}?code=${code}`,{}, _options)
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.smartCarSession}?code=${code}`,
+      {},
+      {headers, observe: 'response'})
   }
 
   getResources() {
@@ -44,6 +43,7 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, _options);
   }
+
   getResourceById(idResource) {
     const _options = {
       headers: new HttpHeaders({
@@ -51,9 +51,16 @@ export class AuthService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}`, _options);
-
-
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/resourceInfo`, _options);
+  }
+  getScheduleById(idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, _options);
   }
 
 }

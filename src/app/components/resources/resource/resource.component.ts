@@ -16,13 +16,22 @@ export class ResourceComponent implements OnInit {
 
   }
 
+  resource;
+  idResource: number;
+  favoritePolice: string;
+  useCalendarFlag: boolean;
+  favoritePolices: string[] = ['Minimize CO2 emission', 'Minimize costs', 'Monetary savings', 'Charge car as fast as possible'];
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(res => {
-      const idResource = res.get('idResource');
-      console.log(idResource)
-      this.authService.getResourceById(idResource).subscribe(res => {
-        console.log(res)
+      this.idResource = +res.get('idResource');
+      this.authService.getResourceById(this.idResource).subscribe(res => {
+        this.resource = res;
       })
     });
+  }
+
+  openSchedule() {
+    this.router.navigate([`/resource/schedule/${this.idResource}`],)
   }
 }

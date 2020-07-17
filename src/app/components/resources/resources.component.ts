@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {POLICIES} from "../../constants/policies";
-import {tap} from "rxjs/operators";
+import {filter, tap} from "rxjs/operators";
 
 
 @Component({
@@ -19,85 +19,36 @@ export class ResourcesComponent implements OnInit {
 
   policies: POLICIES;
 
-  mockedData = [
-    {
-    "idResource": 567890,
-    "accountId": 6067786,
-    "externalResourceId": "dronew-1-df5-6",
-    "vendor": "SF Chen",
-    "model": "MychukiTest",
-    "policyId": 0,
-    "resourceTypeId": 2,
-    "groupId": "TeslaG1",
-    "power": 25,
-    "capacity": 60,
-    "dtUpdated": "2020-06-20T18:10:000-07:00",
-    "dtCreated": "2020-06-15T18:10:000-07:00",
-    "deleted": null
-  },
-    {
-      "idResource": 567890,
-      "accountId": 6067786,
-      "externalResourceId": "dronew-1-df5-6",
-      "vendor": "SF Chen",
-      "model": "MychukiTest",
-      "policyId": 0,
-      "resourceTypeId": 2,
-      "groupId": "TeslaG1",
-      "power": 25,
-      "capacity": 60,
-      "dtUpdated": "2020-06-20T18:10:000-07:00",
-      "dtCreated": "2020-06-15T18:10:000-07:00",
-      "deleted": null
-    },
-    {
-    "idResource": 567890,
-    "accountId": 6067786,
-    "externalResourceId": "dronew-1-df5-6",
-    "vendor": "SF Chen",
-    "model": "MychukiTest",
-    "policyId": 0,
-    "resourceTypeId": 2,
-    "groupId": "TeslaG1",
-    "power": 25,
-    "capacity": 60,
-    "dtUpdated": "2020-06-20T18:10:000-07:00",
-    "dtCreated": "2020-06-15T18:10:000-07:00",
-    "deleted": null
-  },
-    {
-      "idResource": 567890,
-      "accountId": 6067786,
-      "externalResourceId": "dronew-1-df5-6",
-      "vendor": "SF Chen",
-      "model": "MychukiTest",
-      "policyId": 0,
-      "resourceTypeId": 2,
-      "groupId": "TeslaG1",
-      "power": 25,
-      "capacity": 60,
-      "dtUpdated": "2020-06-20T18:10:000-07:00",
-      "dtCreated": "2020-06-15T18:10:000-07:00",
-      "deleted": null
-    }
-  ];
+  mockedData = [];
 
   ngOnInit(): void {
+ /*   const code = localStorage.getItem('smartCarToken');
+    if (code) {
+      this.startSmartCarSession(code)
+    }*/
     this.activatedRoute.queryParams.subscribe(params => {
       const code = params['code'];
-      this.authService.smartCarSession(code).pipe(tap((res: any) => {
-        if (res.status === 200) {
-
-        }
-
-      })).subscribe();
-      this.authService.getResources().subscribe((res: any) => {
-        console.log(res)
-        /*  this.mockedData = [];*/
-        /* this.mockedData = res;*/
-      });
+      localStorage.setItem('smartCarToken', code);
+      this.startSmartCarSession(code)
     });
   }
+
+  startSmartCarSession(code) {
+    this.authService.smartCarSession(code).pipe(tap((res: any) => {
+      if (res.status === 200) {
+        this.getResourcesArray();
+      }
+    })).subscribe();
+    this.getResourcesArray();
+  }
+
+  getResourcesArray() {
+    this.authService.getResources().subscribe((res: any) => {
+      this.mockedData = res;
+    });
+
+  }
+
   navigateByResource(idResource) {
     this.router.navigate([`/resource/${idResource}`])
   }

@@ -4,6 +4,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {ResourcesComponent} from "./components/resources/resources.component";
 import {ResourceComponent} from "./components/resources/resource/resource.component";
+import {ScheduleComponent} from "./components/schedule/schedule.component";
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
   {path: 'resources', component: ResourcesComponent},
   {path: 'resource/:idResource', component: ResourceComponent},
+  {path: 'resource/schedule/:idResource', component: ScheduleComponent},
 ];
 
 @NgModule({
