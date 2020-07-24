@@ -79,6 +79,8 @@ body {
   display: flex;
   flex-flow: row wrap;
   margin: auto;
+  min-height: 60vh;
+  height: 60vh;
 }
 .resource-container--column {
   display: flex;
@@ -102,13 +104,34 @@ body {
   padding-bottom: 40px;
 }
 .header-style {
+  position: absolute;
+  top: 10px;
   font-style: normal;
   font-weight: bold;
   font-size: 32px;
   line-height: 37px;
   /* identical to box height */
-
-
   color: #000000;
+}
+.resource-card {
+  width: 451px;
+  height: 200px;
+  background: #FFFFFF;
+  border: 1px solid rgba(157, 165, 174, 0.2);
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+.mat-raised-button {
+  background: #4339F2;
+  color: #FFFFFF;
+}
+.big-button {
+  width: 248px !important;
+  height: 55px !important;
+  border-radius: 6px !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-size: 24px !important;
+  line-height: 31px !important;
 
 }

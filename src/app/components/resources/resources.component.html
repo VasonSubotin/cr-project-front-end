@@ -1,50 +1,52 @@
 <app-header></app-header>
-<ng-container *ngIf="mockedData.length else emptyResourceList">
-  <div class="resource-container">
-    <ng-container *ngFor="let resource of mockedData">
-      <mat-card class="resource-content max-width--600" (click)="navigateByResource(resource.idResource)">
-        <mat-card-header>
-          {{resource.vendor}} / {{resource.model}}
-        </mat-card-header>
-        <mat-card-content>
-         SOC:  {{resource.power}}%
-        </mat-card-content>
-        <mat-card-content>
-          {{resource.policyId}}
-        </mat-card-content>
-      </mat-card>
-    </ng-container>
-    <div class="footer-container">
-      <button mat-raised-button color="primary"
-      >
-        <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
-        Add a car
-      </button>
-      <button mat-raised-button color="primary" [disabled]="true">Add a drone</button>
-      <button mat-raised-button color="primary" [disabled]="true">Add a station</button>
-    </div>
-  </div>
+<app-page-loader ></app-page-loader>
 
-</ng-container>
-
-<ng-template #emptyResourceList>
-  <div class="flex-block flex-block--center">
-    <mat-card class="width-50 max-width--600">
-      <mat-card-header>
-        <mat-card-title>
-          You have not added your car yet
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="enrollment-container flex-block--column">
-        <button mat-raised-button color="primary"
-        >
+  <ng-container *ngIf="mockedData.length else emptyResourceList">
+    <div class="resource-container">
+      <ng-container *ngFor="let resource of mockedData">
+        <div class="resource-content resource-card max-width--600" (click)="navigateByResource(resource.idResource)">
+          <div class="resource-card__header">
+            {{resource.vendor}} / {{resource.model}}
+          </div>
+          <div class="resource-card__content">
+            SOC:  {{resource.power}}%
+          </div>
+          <div class="resource-card__content">
+            {{resource.policyId}}
+          </div>
+        </div>
+      </ng-container>
+      <div class="footer-container">
+        <button mat-raised-button color="primary">
           <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
           Add a car
         </button>
         <button mat-raised-button color="primary" [disabled]="true">Add a drone</button>
         <button mat-raised-button color="primary" [disabled]="true">Add a station</button>
+      </div>
+    </div>
 
-      </mat-card-content>
-    </mat-card>
-  </div>
-</ng-template>
+  </ng-container>
+
+  <ng-template #emptyResourceList>
+    <div class="flex-block flex-block--center">
+      <mat-card class="width-50 max-width--600">
+        <mat-card-header>
+          <mat-card-title>
+            You have not added your car yet
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="enrollment-container flex-block--column">
+          <button mat-raised-button color="primary"
+          >
+            <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
+            Add a car
+          </button>
+          <button mat-raised-button color="primary" [disabled]="true">Add a drone</button>
+          <button mat-raised-button color="primary" [disabled]="true">Add a station</button>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-template>
+

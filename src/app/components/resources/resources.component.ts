@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {POLICIES} from "../../constants/policies";
-import {filter, tap} from "rxjs/operators";
+import {tap} from "rxjs/operators";
 
 
 @Component({
@@ -18,19 +18,25 @@ export class ResourcesComponent implements OnInit {
   }
 
   policies: POLICIES;
-
+  dataIsReady = false;
   mockedData = [];
 
   ngOnInit(): void {
- /*   const code = localStorage.getItem('smartCarToken');
-    if (code) {
-      this.startSmartCarSession(code)
-    }*/
     this.activatedRoute.queryParams.subscribe(params => {
       const code = params['code'];
-      localStorage.setItem('smartCarToken', code);
-      this.startSmartCarSession(code)
+      const type = params['type'];
+      if (type === 'google') {
+        debugger
+        localStorage.setItem('token', params['code']);
+        window.location.href = 'http://localhost:8080/smartCarLogin';
+      } else if (type === 'smartCar') {
+        localStorage.setItem('smartCarToken', code);
+        this.startSmartCarSession(code)
+      }
     });
+    if ( localStorage.getItem('smartCarToken')) {
+      this.startSmartCarSession(localStorage.getItem('smartCarToken'))
+    }
   }
 
   startSmartCarSession(code) {
@@ -39,12 +45,12 @@ export class ResourcesComponent implements OnInit {
         this.getResourcesArray();
       }
     })).subscribe();
-    this.getResourcesArray();
   }
 
   getResourcesArray() {
     this.authService.getResources().subscribe((res: any) => {
       this.mockedData = res;
+      this.dataIsReady = true;
     });
 
   }

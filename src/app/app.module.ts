@@ -20,6 +20,8 @@ import {HeaderComponent} from "./reusable-components/header/header.component";
 import {ScheduleComponent} from "./components/schedule/schedule.component";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {PageLoaderComponent} from "./reusable-components/page-loader/page-loader.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,11 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     ResourcesComponent,
     ResourceComponent,
     HeaderComponent,
-    ScheduleComponent
+    ScheduleComponent,
+
+
+
+    PageLoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +50,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatRadioModule,
     FormsModule,
     MatCheckboxModule,
+    MatExpansionModule,
     MatCardModule
   ],
   providers: [AuthService],
