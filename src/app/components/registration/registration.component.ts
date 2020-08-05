@@ -47,7 +47,12 @@ export class RegistrationComponent implements OnDestroy {
       password: this.myGroup.controls['password'].value,
     };
     const request$ = this.authService.singUp(body).pipe(tap((res: any) => {
-      if (res.status === 201) this.router.navigate(['/login']);
+
+      if (res.status === 201) {
+        debugger
+        localStorage.setItem('token', res.tpken);
+
+        this.router.navigate(['/login'])};
     })).subscribe();
     this.subscriptions$.push(request$)
   }

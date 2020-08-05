@@ -29,7 +29,6 @@ export class AuthService {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       }
-      debugger
     return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.smartCarSession}?code=${code}`,
       {},
       {headers, observe: 'response'})

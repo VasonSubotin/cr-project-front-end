@@ -26,7 +26,6 @@ export class ResourcesComponent implements OnInit {
       const code = params['code'];
       const type = params['type'];
       if (type === 'google') {
-        debugger
         localStorage.setItem('token', params['code']);
         window.location.href = 'http://localhost:8080/smartCarLogin';
       } else if (type === 'smartCar') {
@@ -37,14 +36,17 @@ export class ResourcesComponent implements OnInit {
     if ( localStorage.getItem('smartCarToken')) {
       this.startSmartCarSession(localStorage.getItem('smartCarToken'))
     }
+    this.getResourcesArray();
+
   }
 
   startSmartCarSession(code) {
     this.authService.smartCarSession(code).pipe(tap((res: any) => {
       if (res.status === 200) {
-        this.getResourcesArray();
+
       }
     })).subscribe();
+
   }
 
   getResourcesArray() {
