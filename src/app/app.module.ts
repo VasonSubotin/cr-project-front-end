@@ -22,6 +22,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {PageLoaderComponent} from "./reusable-components/page-loader/page-loader.component";
+import {DropDownComponent} from "./reusable-components/drop-down/drop-down.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import {PageLoaderComponent} from "./reusable-components/page-loader/page-loader
     ResourceComponent,
     HeaderComponent,
     ScheduleComponent,
-
+    DropDownComponent,
 
 
     PageLoaderComponent

@@ -67,14 +67,15 @@
 <ng-container *ngIf="mockedData.length else emptyResourceList">
   <div class="resource-container">
     <ng-container *ngFor="let resource of mockedData">
-      <div class="resource-content resource-card flex-block flex-block--center flex-block--space-between max-width--600"
-           (click)="navigateByResource(resource.idResource)">
+      <div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
+           >
         <div class="resource-card__content">
           <img src="../../../assets/imgs/cars.png" height="108" width="192"/>
         </div>
         <div class="resource-card__content">
           <div class="title-font">
             {{resource.vendor}} / {{resource.model}}
+            <app-drop-down></app-drop-down>
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">Plugged:</div>

@@ -72,6 +72,7 @@ button {
 }
 
 .title-font {
+  position: relative;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -189,6 +190,7 @@ line-height: 37px;
   /* Black / 5 */
 }
 .resource-card__content {
+  position: relative;
   flex: 1;
   padding: 24px;
 }
