@@ -1,0 +1,111 @@
+<style>
+  .popup-container {
+    justify-content: end;
+    align-content: center;
+  }
+
+  .popup-content {
+    width: 450px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: end;
+  }
+
+  .width-215 {
+    width: 215px;
+  }
+
+  .footer-button {
+    width: 450px !important;
+    height: 56px !important;
+  }
+
+  .checkbox-container {
+    display: flex;
+  }
+
+  .checkbox-container input {
+    padding-left: 20px;
+  }
+
+  .modal-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: #232729;
+  }
+
+  .owl-dt-container-disabled, .owl-dt-trigger-disabled {
+    border: none;
+    color: #D3D4D4;
+  }
+</style>
+<div class="popup-container flex-block flex-block--column">
+  <div class="popup-header flex-block ">
+    <div class="title-font">
+      Edit {{resource.vendor}} {{resource.model}}
+    </div>
+
+    <div class="close" (click)="closeEvent()">
+      <img src="../../../../assets/imgs/Close.png" height="40" width="40"/>
+    </div>
+  </div>
+
+  <div class="popup-content">
+
+    <div class="flex-block flex-block--column flex-block--center">
+      <img src="../../../../assets/imgs/TeslaYwhite.png" height="171" width="450"/>
+    </div>
+    <div class="flex-block flex-block--space-between">
+      <div class="title-font modal-title">
+        Time of use period
+      </div>
+      <div class="checkbox-container">
+        <div class="modal-title">Use as default</div>
+        <input (change)="useTos()"  [checked]="tosSwitcher" type="checkbox">
+      </div>
+
+    </div>
+
+    <div class="flex-block flex-block--space-between ">
+      <div class="input-container">
+        <div class="input-label">From</div>
+        <input class="input-system"  *ngIf="!tosSwitcher"  [disabled]="tosSwitcher" [owlDateTimeTrigger]="pickerFrom" [owlDateTime]="pickerFrom">
+        <owl-date-time [disabled]="tosSwitcher" [pickerType]="'timer'" #pickerFrom></owl-date-time>
+      </div>
+      <div class="input-container">
+        <div class="input-label">To</div>
+        <input class="input-system" *ngIf="!tosSwitcher" [owlDateTimeTrigger]="pickerTo" [owlDateTime]="pickerTo">
+        <owl-date-time [disabled]="tosSwitcher" [pickerType]="'timer'" #pickerTo></owl-date-time>
+      </div>
+    </div>
+
+    <div class="flex-block padding-top-30">
+      <div class="select-container ">
+        <div class="input-label">Default Policy</div>
+        <select class="input-system select-system" (change)="onChange($event.target.selectedIndex)">
+          <option *ngFor="let policy of policyForSelect"> {{policy.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="title-font padding-top-30 modal-title">Maximum duration of charging session. (For green policy)</div>
+    <div class="flex-block flex-block--end">
+      <div class="select-container width-215">
+        <div class="input-label">Duration</div>
+        <input class="input-system" [owlDateTimeTrigger]="pickerDuration" [owlDateTime]="pickerDuration">
+        <owl-date-time [pickerType]="'timer'" #pickerDuration></owl-date-time>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="popup-footer padding-top-30">
+    <button mat-raised-button color="primary" class="big-button footer-button" (click)="onSubmit()">Save</button>
+  </div>
+
+</div>

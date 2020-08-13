@@ -1,13 +1,131 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
 
+input:disabled {
+  pointer-events: none;
+}
+
+.input-container {
+  position: relative;
+  width: 215px;
+  height: 56px;
+  right: 0;
+  top: 7px;
+  border: 1px solid #D3D4D4;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.select-container {
+  position: relative;
+  width: 450px;
+  height: 56px;
+  right: 0;
+  top: 7px;
+  border: 1px solid #D3D4D4;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.input-system {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  border: none;
+  background: #FFFFFF;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  color: #A7A9AA;
+  padding: 10px;
+}
+
+.select-system {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: #4F5254;
+}
+
+.input-label {
+  z-index: 1;
+  position: absolute;
+  background: #FFFFFF;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 15px;
+  top: -8px;
+  left: 12px;
+  padding: 0 3px;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.popup-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-request-button {
+  width: 150px !important;
+  height: 32px !important;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: #4339F2 !important;
+}
+
+.close {
+  cursor: pointer;
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  width: 40px;
+  height: 40px;
+  opacity: 0.3;
+}
+
+.close:hover {
+  opacity: 1;
+}
+
+button:disabled {
+  background: #7B7D7F !important;
+}
+
+/*
+_________________________reusabels_________________________
+*/
 html, body {
   height: 100%;
+}
+
+.mat-tab-nav-bar, .mat-tab-header {
+  border-bottom: none !important;
 }
 
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 button {
   position: relative;
   text-transform: capitalize;
@@ -25,15 +143,23 @@ button {
   background: #4339F2;
   border-radius: 4px;
 }
+
 .flex-block {
   display: flex;
   justify-content: center;
   height: 100%;
+  width: 100%;
 }
 
 .flex-block--center {
   align-items: center;
 }
+
+.flex-block--end {
+  align-items: end;
+  justify-content: end;
+}
+
 .flex-block--space-between {
   justify-content: space-between;
 }
@@ -79,14 +205,18 @@ button {
   line-height: 22px;
   display: flex;
   align-items: center;
-  /* Black / 100 */
-
   color: #232729;
 }
+
+.title-font:hover {
+  text-decoration: underline;
+}
+
 .sub_container {
   display: flex;
   justify-content: space-between;
 }
+
 .sub_tittle {
   width: 70px;
   font-size: 14px;
@@ -94,13 +224,9 @@ button {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  /* identical to box height, or 143% */
-
-
-  /* Black / 60 */
-
   color: #7B7D7F;
 }
+
 .sub_info {
   width: 70px;
   color: #232729;
@@ -121,9 +247,6 @@ button {
   flex-direction: column;
 }
 
-.mat-raised-button {
-  margin-top: 20px !important;
-}
 
 .link-button {
   position: absolute;
@@ -138,44 +261,43 @@ button {
 
 .resource-container {
   padding: 50px 10px 110px 10px;
-  justify-content: start;
+  justify-content: space-between;
   display: flex;
   flex-flow: row wrap;
   min-height: 60vh;
 }
 
 .resource-container--column {
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .resource-content {
-margin-right: 20px;
-margin-bottom: 20px;
-width: 350px;
-min-height: 250px;
-cursor: pointer;
+  margin-bottom: 20px;
+  width: 350px;
+  min-height: 250px;
+  cursor: pointer;
 }
 
 .footer-container {
-display: flex;
-align-items: center;
-justify-content: space-evenly;
-width: 80%;
-position: fixed;
-bottom: 0;
-background: #ffffff;
-padding-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 80%;
+  position: fixed;
+  bottom: 0;
+  background: #ffffff;
+  padding-bottom: 40px;
 }
 
 .header-style {
-position: absolute;
-top: 10px;
-font-style: normal;
-font-weight: bold;
-font-size: 32px;
-line-height: 37px;
-/* identical to box height */
+  position: absolute;
+  top: 10px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 37px;
+  /* identical to box height */
   color: #000000;
 }
 
@@ -189,11 +311,13 @@ line-height: 37px;
   background: linear-gradient(180deg, #FFFFFF 0%, #F6F7F8 100%);
   /* Black / 5 */
 }
+
 .resource-card__content {
   position: relative;
   flex: 1;
   padding: 24px;
 }
+
 .search-container {
   display: flex;
   justify-content: space-between;
@@ -235,13 +359,12 @@ line-height: 37px;
 .search-input {
   position: absolute;
   max-width: 100%;
+  background: #F4F4F4;
   max-height: 100%;
   height: 100%;
   width: calc(100% - 15px);
-  border: none;
   padding-left: 15px;
-  background: #F4F4F4;
-  outline: none;
+
 }
 
 .mat-raised-button {
@@ -258,6 +381,7 @@ line-height: 37px;
   font-size: 24px !important;
   line-height: 31px !important;
 }
+
 .add__resource {
   width: 451px;
   height: 250px;
@@ -265,4 +389,33 @@ line-height: 37px;
   border-radius: 20px;
   margin-bottom: 20px;
   box-sizing: border-box;
+}
+
+.edit-resource-dialog {
+  width: 685px;
+  height: 765px;
+  background: #FFFFFF;
+
+  border: 1px solid #F4F4F4;
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+
+.create-request-dialog {
+  max-width: 100vw !important;
+  width: 100vw;
+  height: 100%;
+}
+
+.mat-dialog-container {
+  border-radius: 20px !important;
+}
+
+.create-request-dialog .mat-dialog-container {
+  border-radius: 0px;
+
+}
+
+.padding-top-30 {
+  padding-top: 30px;
 }

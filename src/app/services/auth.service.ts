@@ -78,7 +78,18 @@ export class AuthService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculate`, _options);
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, _options);
+  }
+
+  calculateGeo(idResource){
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateGeo`, _options);
+
   }
 
 }

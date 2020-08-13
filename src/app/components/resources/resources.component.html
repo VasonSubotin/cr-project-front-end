@@ -54,7 +54,7 @@
 <div class="search-container">
   <div class="title-font">Resources</div>
   <div class="search-input-container">
-    <input class="search-input" placeholder="Search">
+    <input class="input-system search-input" placeholder="Search">
     <button class="search-button">
       Search
     </button>
@@ -73,9 +73,9 @@
           <img src="../../../assets/imgs/cars.png" height="108" width="192"/>
         </div>
         <div class="resource-card__content">
-          <div class="title-font">
-            {{resource.vendor}} / {{resource.model}}
-            <app-drop-down></app-drop-down>
+          <div class="title-font ">
+            <span  (click)="navigateByResource(resource.idResource)">{{resource.vendor}} / {{resource.model}}</span>
+            <app-drop-down [resourceData]="resource"></app-drop-down>
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">Plugged:</div>

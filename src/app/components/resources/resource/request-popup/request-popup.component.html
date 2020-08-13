@@ -1,0 +1,90 @@
+<style>
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .modal-header .modal-text {
+    padding-top: 24px;
+  }
+  .modal-content {
+    align-items: center;
+    justify-content: end;
+  }
+  .modal-text {
+    max-width: 480px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #232729;
+  }
+  .padding-top-92 {
+    padding-top: 92px;
+  }
+  .modal-button {
+    margin-top: 24px;
+    width: 297px;
+    height: 56px;
+    background: #02A0FC;
+    display: flex;
+    border: 1px solid #02A0FC;
+    box-sizing: border-box;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  .sync-calendar-button{
+
+    color: #FFFFFF;
+  }
+  .geo-button{
+    border: 1px solid #34B53A;
+    background: #34B53A;
+  }
+  .modal-button img {
+    margin-right: 14px;
+  }
+  .divider{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    height: 1px;
+    left: 496px;
+    top: 368px;
+    background: #D3D4D4;
+  }
+</style>
+<div class="close" (click)="closeEvent()">
+  <img src="../../../../../assets/imgs/Close.png" height="40" width="40"/>
+</div>
+<div class="modal-header">
+  <div class="title-font">CREATE REQUEST</div>
+  <span class="modal-text">To create request choose one of your preferred ways.</span>
+</div>
+
+<div class="modal-content flex-block flex-block--column padding-top-92">
+  <div class="modal-text">
+    Using this method we will sink with your google callendar and find charging station near locations, which you suppose to visit
+  </div>
+  <button class="modal-button sync-calendar-button" (click)="syncCalendar()"><img src="../../../../../assets/imgs/Sync.png" height="24" width="24"/>SINK WITH CALLENDAR</button>
+  <div class="divider"></div>
+
+<div class="modal-text">
+  You can add the location of your destination manual, and we will purpose a charging station. This text needs to be changed!
+</div>
+  <button class="modal-button geo-button" disabled ><img src="../../../../../assets/imgs/Circle.png" height="24" width="24"/>ADD MANUAL</button>
+  <div class="divider"></div>
+
+  <div class="modal-text">
+    You can add the location of your destination manual, and we will purpose a charging station. This text needs to be changed!
+  </div>
+  <button class="modal-button geo-button" (click)="basedOnGeo()"><img src="../../../../../assets/imgs/Navigation1.png" height="24" width="24"/>BASED ON GEO</button>
+
+</div>
