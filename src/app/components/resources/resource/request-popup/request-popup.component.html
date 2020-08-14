@@ -163,6 +163,25 @@
   <div class="title-font">CREATE REQUEST</div>
   <span class="modal-text" *ngIf="successSync">To create request choose one of your preferred ways.</span>
   <span class="modal-text" *ngIf="!successSync">Type the address of your destination, and we will find the best charging station for you. Just choose which you prefer better and let’s ride</span>
+  <div class="legenda" *ngIf="!successSync">
+    <div class="legenda-item">
+      <img src="../../../../../assets/imgs/my_car.png" height="34" width="30"/>
+      My car
+    </div>
+    <div class="legenda-item">
+      <img src="../../../../../assets/imgs/charging_station.png" height="40" width="32"/>
+      Address of visiting
+    </div>
+    <div class="legenda-item">
+      <img src="../../../../../assets/imgs/address_of_visiting.png" height="40" width="32"/>
+      Charging station
+    </div>
+    <div class="legenda-item">
+      <img src="../../../../../assets/imgs/error_station.png" height="32" width="32"/>
+      Error charging station
+    </div>
+  </div>
+
 </div>
 <ng-container *ngIf="successSync">
   <div class="modal-content flex-block flex-block--column padding-top-92">

@@ -2,12 +2,14 @@
   mat-tab-group {
     width: 100%;
   }
+
   .resource-page {
     padding: 16px;
     display: flex;
     align-items: center;
     flex-direction: column;
   }
+
   .resource-header-navigation {
     width: 100%;
   }
@@ -20,7 +22,12 @@
   }
 
   .visual-container {
+    border: 1px #C4C4C4 solid;
     width: calc(100% - 419px);
+    border-radius: 8px;
+    margin-top: 17px;
+    overflow: hidden;
+    height: 660px;
   }
 
   .event-content {
@@ -85,10 +92,12 @@
     align-items: center;
     color: #232729;
   }
+
   .breadcramps-container {
     display: flex;
   }
-  .breadcramps-container a{
+
+  .breadcramps-container a {
     font-weight: 600;
     font-size: 16px;
     line-height: 20px;
@@ -98,6 +107,7 @@
     text-decoration: none;
     height: 24px;
   }
+
   .breadcpm-arrow {
 
   }
@@ -123,7 +133,7 @@
     <mat-tab label="Driving Schedule">
       <div class="schedule-container">
         <div class="visual-container">
-          <google-map height="660px"
+          <google-map height="603px"
                       width="100%"
                       [center]="center"
                       [zoom]="zoom">
@@ -132,9 +142,25 @@
                         [position]="markerPosition"
                         [options]="markerOptions"
                         (mapClick)="openInfoWindow(marker)"></map-marker>
-            <map-info-window>Info Window content</map-info-window>
           </google-map>
-
+          <div class="legenda">
+            <div class="legenda-item">
+              <img src="../../../../assets/imgs/my_car.png" height="34" width="30"/>
+              My car
+            </div>
+            <div class="legenda-item">
+              <img src="../../../../assets/imgs/address_of_visiting.png" height="32" width="32"/>
+              Charging station
+            </div>
+            <div class="legenda-item">
+              <img src="../../../../assets/imgs/charging_station.png" height="40" width="32"/>
+              Address of visiting
+            </div>
+            <div class="legenda-item">
+              <img src="../../../../assets/imgs/error_station.png" height="40" width="32"/>
+              Error charging station
+            </div>
+          </div>
         </div>
         <div class="event-content">
           <div class="event-container-header">
@@ -192,7 +218,7 @@
       </div>
 
     </mat-tab>
-    <mat-tab label="Charging Progress" >
+    <mat-tab label="Charging Progress">
       <div class="schedule-container">
         <div class="visual-container" *ngIf="loadChartFlag">
           <app-schedule></app-schedule>

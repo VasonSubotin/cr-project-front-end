@@ -231,7 +231,25 @@ button {
 .max-width--600 {
   max-width: 600px;
 }
-
+.legenda {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+}
+.legenda-item img{
+  margin-right: 12px;
+}
+.legenda-item {
+  margin-right: 60px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: #232729;
+}
 .title-font {
   position: relative;
   font-style: normal;
