@@ -1,7 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute} from "@angular/router";
-import * as CanvasJS from './canvasjs.min.js';
+import {ChartDataSets, ChartOptions} from 'chart.js';
+import {BaseChartDirective, Color, Label} from 'ng2-charts';
 
 
 @Component({
@@ -11,135 +12,220 @@ import * as CanvasJS from './canvasjs.min.js';
 
 
 export class ScheduleComponent implements OnInit {
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private authService: AuthService) {
-
+  constructor(private activatedRoute: ActivatedRoute,
+              private authService: AuthService) {
   }
-  idResource;
 
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(res => {
-      this.idResource = +res.get('idResource');
-      this.authService.getScheduleById(this.idResource).subscribe(res => {
-      })
-    });
-
-
-    var chart = new CanvasJS.Chart("chartContainer", {
-      animationEnabled: true,
-      theme: "light2",
-      title: {
-        text: "User Schedule Data"
-      },
-      axisX: {
-
-        valueFormatString: "MMM"
-      },
-      axisY: {
-        title: "SOC, %",
-        prefix: "",
-        //labelFormatter: addSymbols
-      },
-      axisY2: {
-        title: "Price, $/kWh",
-        prefix: "",
-        //labelFormatter: addSymbols
-      },
-      toolTip: {
-        shared: true
-      },
-      legend: {
-        cursor: "pointer",
-        itemclick: toggleDataSeries
-      },
-      data: [
-        {
-          type: "column",
-          name: "Actual Sales",
-          showInLegend: true,
-          xValueFormatString: "MMMM YYYY",
-          yValueFormatString: "$#,##0",
-          dataPoints: [
-            { x: new Date(2016, 0), y: 20000 },
-            { x: new Date(2016, 1), y: 30000 },
-            { x: new Date(2016, 2), y: 25000 },
-            { x: new Date(2016, 3), y: 70000, indexLabel: "High Renewals" },
-            { x: new Date(2016, 4), y: 50000 },
-            { x: new Date(2016, 5), y: 35000 },
-            { x: new Date(2016, 6), y: 30000 },
-            { x: new Date(2016, 7), y: 43000 },
-            { x: new Date(2016, 8), y: 35000 },
-            { x: new Date(2016, 9), y:  30000},
-            { x: new Date(2016, 10), y: 40000 },
-            { x: new Date(2016, 11), y: 50000 }
-          ]
-        },
-        {
-          type: "line",
-          name: "Expected Sales",
-          showInLegend: true,
-          yValueFormatString: "$#,##0",
-          dataPoints: [
-            { x: new Date(2016, 0), y: 40000 },
-            { x: new Date(2016, 1), y: 42000 },
-            { x: new Date(2016, 2), y: 45000 },
-            { x: new Date(2016, 3), y: 45000 },
-            { x: new Date(2016, 4), y: 47000 },
-            { x: new Date(2016, 5), y: 43000 },
-            { x: new Date(2016, 6), y: 42000 },
-            { x: new Date(2016, 7), y: 43000 },
-            { x: new Date(2016, 8), y: 41000 },
-            { x: new Date(2016, 9), y: 45000 },
-            { x: new Date(2016, 10), y: 42000 },
-            { x: new Date(2016, 11), y: 50000 }
-          ]
-        },
-        {
-          type: "line",
-          name: "Price",
-          markerBorderColor: "white",
-          markerBorderThickness: 2,
-          axisYType: "secondary",
-          showInLegend: true,
-          yValueFormatString: "$#,##0",
-          dataPoints: [
-            { x: new Date(2016, 0), y: 5000 },
-            { x: new Date(2016, 1), y: 7000 },
-            { x: new Date(2016, 2), y: 6000},
-            { x: new Date(2016, 3), y: 30000 },
-            { x: new Date(2016, 4), y: 20000 },
-            { x: new Date(2016, 5), y: 15000 },
-            { x: new Date(2016, 6), y: 13000 },
-            { x: new Date(2016, 7), y: 20000 },
-            { x: new Date(2016, 8), y: 15000 },
-            { x: new Date(2016, 9), y:  10000},
-            { x: new Date(2016, 10), y: 19000 },
-            { x: new Date(2016, 11), y: 22000 }
-          ]
-        }]
-    });
-    chart.render();
-
-    function addSymbols(e) {
-      var suffixes = ["", "K", "M", "B"];
-      var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
-
-      if(order > suffixes.length - 1)
-        order = suffixes.length - 1;
-
-      var suffix = suffixes[order];
-      return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+  intervals = [
+    {
+      "start_time": "2014-05-01T05:00:00-",
+      "location": "Location A",
+      "cost_of_charging": 11.5,
+      "price": 3.4,
+      "duration": 60,
+      "energy": 9.3,
+      "power": 6.6,
+      "interval_type": "CHR",
+      "co2_impact": 0,
+      "soc_achieved": 58
+    },
+    {
+      "time_start": "2014-05-01T05:01:00",
+      "location": 'NA',
+      "cost_of_charging": 0,
+      "price": 3.4,
+      "duration": 3600,
+      "energy": 0,
+      "power": 0,
+      "interval_type": "NCRH",
+      "economic_savings": 0,
+      "co2_impact": 0,
+      "soc_achieved": 48
+    },
+    {
+      "time_start": "2014-05-01T05:01:00",
+      "location": 'NA',
+      "cost_of_charging": 0,
+      "price": 3.4,
+      "duration": 3600,
+      "energy": 0,
+      "power": 0,
+      "interval_type": "NCRH",
+      "economic_savings": 0,
+      "co2_impact": 0,
+      "soc_achieved": 48
+    },
+    {
+      "time_start": "2014-05-01T05:01:00",
+      "location": 'NA',
+      "cost_of_charging": 0,
+      "price": 3.4,
+      "duration": 3600,
+      "energy": 0,
+      "power": 0,
+      "interval_type": "NCRH",
+      "economic_savings": 0,
+      "co2_impact": 0,
+      "soc_achieved": 48
+    },
+    {
+      "time_start": "2014-05-01T05:01:00",
+      "location": 'NA',
+      "cost_of_charging": 0,
+      "price": 3.4,
+      "duration": 3600,
+      "energy": 0,
+      "power": 0,
+      "interval_type": "NCRH",
+      "economic_savings": 0,
+      "co2_impact": 0,
+      "soc_achieved": 48
+    },
+    {
+      "time_start": "2014-05-01T05:01:00",
+      "location": 'NA',
+      "cost_of_charging": 0,
+      "price": 3.4,
+      "duration": 3600,
+      "energy": 0,
+      "power": 0,
+      "interval_type": "NCRH",
+      "economic_savings": 0,
+      "co2_impact": 0,
+      "soc_achieved": 48
+    },
+    {
+      "time_start": "2014-05-01T06:01:00-",
+      "location": "Home",
+      "cost_of_charging": 11.5,
+      "price": 3.4,
+      "duration": 8200,
+      "energy": 9.3,
+      "power": 6.6,
+      "interval_type": "CHR",
+      "economic_savings": 0.25,
+      "co2_impact": 0.4,
+      "soc_achieved": 64
     }
+  ]
 
-    function toggleDataSeries(e) {
-      if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-        e.dataSeries.visible = false;
-      } else {
-        e.dataSeries.visible = true;
+  public lineChartData: ChartDataSets[] = [
+    {data: this.generateSOC(), label: 'SOC , %', fill: false,},
+    {data: this.generateCost(), label: 'Cost , $', fill: false,},
+  ];
+  public lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartOptions: (ChartOptions & { annotation: any }) = {
+    responsive: false,
+    scales: {
+      // We use this empty structure as a placeholder for dynamic theming.
+      xAxes: [{}],
+      yAxes: [
+        {
+          id: 'y-axis-0',
+          position: 'left',
+        },
+        {
+          id: 'y-axis-1',
+          position: 'right',
+          gridLines: {
+            color: 'rgba(211,212,212,0.3)',
+          },
+          ticks: {
+            fontColor: 'red',
+          }
+        }
+      ]
+    },
+    annotation: {
+      annotations: [
+        {
+          type: 'line',
+          mode: 'vertical',
+          scaleID: 'x-axis-0',
+          value: 'March',
+          borderColor: 'orange',
+          borderWidth: 2,
+          label: {
+            enabled: true,
+            fontColor: 'orange',
+            content: 'LineAnno'
+          }
+        },
+      ],
+    },
+  };
+  public lineChartColors: Color[] = [
+    { // grey
+      backgroundColor: '#FFB200',
+      borderColor: '#FFB200',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    },
+    { // dark grey
+      backgroundColor: '#34B53A',
+      borderColor: '#34B53A',
+      pointBackgroundColor: 'rgba(77,83,96,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    },
+  ];
+  public lineChartLegend = true;
+  public lineChartType = 'line';
+
+  @ViewChild(BaseChartDirective, {static: true}) chart: BaseChartDirective;
+
+
+  ngOnInit() {
+    this.generateCost();
+  }
+
+  public randomize(): void {
+    for (let i = 0; i < this.lineChartData.length; i++) {
+      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
+        this.lineChartData[i].data[j] = this.generateNumber(i);
       }
-      e.chart.render();
     }
+    this.chart.update();
   }
 
+  generateCost() {
+    const costArray = [];
+    this.intervals.filter(item => costArray.push(item.price));
+    console.log(costArray);
+    return costArray
+  }
+
+  generateSOC() {
+    const costSoc = [];
+    this.intervals.filter(item => costSoc.push(item.energy / 800 *100));
+    console.log(costSoc);
+    return costSoc
+  }
+
+  private generateNumber(i: number) {
+    return Math.floor((Math.random() * (i < 2 ? 100 : 1000)) + 1);
+  }
+
+  // events
+  public chartClicked({event, active}: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
+  }
+
+  public chartHovered({event, active}: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
+  }
+
+
+  public changeColor() {
+    this.lineChartColors[2].borderColor = 'green';
+    this.lineChartColors[2].backgroundColor = `rgba(0, 255, 0, 0.3)`;
+  }
+
+  public changeLabel() {
+    this.lineChartLabels[2] = ['1st Line', '2nd Line'];
+    // this.chart.update();
+  }
 }

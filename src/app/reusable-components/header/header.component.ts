@@ -10,5 +10,7 @@ import {Router} from "@angular/router";
 export class HeaderComponent {
   constructor(private router: Router) {
   }
-
+  routeByLink (link){
+    this.router.navigate([`/${link}`])
+  }
 }

@@ -5,13 +5,17 @@
     justify-content: center;
     flex-direction: column;
   }
+
   .modal-header .modal-text {
     padding-top: 24px;
   }
+
   .modal-content {
+    border: none;
     align-items: center;
     justify-content: end;
   }
+
   .modal-text {
     max-width: 480px;
     font-weight: 500;
@@ -23,9 +27,14 @@
 
     color: #232729;
   }
+
   .padding-top-92 {
     padding-top: 92px;
   }
+  .margin-right-30 {
+    margin-right: 30px;
+  }
+
   .modal-button {
     margin-top: 24px;
     width: 297px;
@@ -41,24 +50,110 @@
     align-items: center;
     justify-content: center;
   }
-  .sync-calendar-button{
 
+  .sync-calendar-button {
     color: #FFFFFF;
   }
-  .geo-button{
+
+  .geo-button {
     border: 1px solid #34B53A;
     background: #34B53A;
   }
+
   .modal-button img {
     margin-right: 14px;
   }
-  .divider{
+
+  .divider {
     margin-top: 40px;
     margin-bottom: 40px;
     height: 1px;
-    left: 496px;
-    top: 368px;
     background: #D3D4D4;
+    width: 100%
+  }
+  .event-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .event-item {
+    position: relative;
+    padding-bottom: 40px;
+    box-sizing: content-box;
+    display: flex;
+    justify-content: space-between;
+    height: 317px;
+    width: 921px;
+    max-width: 921px;
+  }
+  .event-item .divider{
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+  }
+  .charg-station {
+    display: flex;
+    align-items: center;
+    width: 450px;
+    height: 56px;
+    min-height: 56px;
+    background: #F5F5FE;
+    border-radius: 4px;
+  }
+  .charg-station-title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 15px;
+    color: #4F5254;
+    padding: 12px;
+  }
+  .charg-station-value {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4F5254;
+  }
+  .input-system {
+    width: 100%;
+  }
+  .input-container {
+    min-height: 63px;
+  }
+  .select-container {
+    min-height: 63px;
+  }
+  .event-list button{
+    border: 1px solid #4339F2;
+    border-radius: 4px;
+    height: 54px;
+    background: #FFFFFF;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #4339F2;
+    box-shadow: none;
+  }
+  .blue-button {
+    background: #4339F2 !important;
+    color: #FFFFFF !important;
+  }
+  .bottom-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
   }
 </style>
 <div class="close" (click)="closeEvent()">
@@ -66,25 +161,91 @@
 </div>
 <div class="modal-header">
   <div class="title-font">CREATE REQUEST</div>
-  <span class="modal-text">To create request choose one of your preferred ways.</span>
+  <span class="modal-text" *ngIf="successSync">To create request choose one of your preferred ways.</span>
+  <span class="modal-text" *ngIf="!successSync">Type the address of your destination, and we will find the best charging station for you. Just choose which you prefer better and let’s ride</span>
 </div>
+<ng-container *ngIf="successSync">
+  <div class="modal-content flex-block flex-block--column padding-top-92">
+    <div class="modal-text">
+      Using this method we will sink with your google callendar and find charging station near locations, which you
+      suppose to visit
+    </div>
+    <button class="modal-button sync-calendar-button" (click)="syncWidthCalendar()"><img
+      src="../../../../../assets/imgs/Sync.png" height="24" width="24"/>SINK WITH CALLENDAR
+    </button>
+    <div class="divider"></div>
 
-<div class="modal-content flex-block flex-block--column padding-top-92">
-  <div class="modal-text">
-    Using this method we will sink with your google callendar and find charging station near locations, which you suppose to visit
+    <div class="modal-text">
+      You can add the location of your destination manual, and we will purpose a charging station. This text needs to be
+      changed!
+    </div>
+    <button class="modal-button geo-button" disabled><img src="../../../../../assets/imgs/Circle.png" height="24"
+                                                          width="24"/>ADD MANUAL
+    </button>
+    <div class="divider"></div>
+
+    <div class="modal-text">
+      You can add the location of your destination manual, and we will purpose a charging station. This text needs to be
+      changed!
+    </div>
+    <button class="modal-button geo-button" (click)="basedOnGeo()"><img src="../../../../../assets/imgs/Navigation1.png"
+                                                                        height="24" width="24"/>BASED ON GEO
+    </button>
+
   </div>
-  <button class="modal-button sync-calendar-button" (click)="syncCalendar()"><img src="../../../../../assets/imgs/Sync.png" height="24" width="24"/>SINK WITH CALLENDAR</button>
-  <div class="divider"></div>
+</ng-container>
 
-<div class="modal-text">
-  You can add the location of your destination manual, and we will purpose a charging station. This text needs to be changed!
-</div>
-  <button class="modal-button geo-button" disabled ><img src="../../../../../assets/imgs/Circle.png" height="24" width="24"/>ADD MANUAL</button>
-  <div class="divider"></div>
+<ng-container *ngIf="!successSync">
 
-  <div class="modal-text">
-    You can add the location of your destination manual, and we will purpose a charging station. This text needs to be changed!
+  <div class="event-list">
+    <div class="event-item">
+      <div class="flex-block flex-block--column width-450">
+
+        <div class="input-container width-450">
+          <div class="input-label">Destination address</div>
+          <input class="input-system" placeholder="Khreshatic street 48, 2342387">
+        </div>
+        <div class="select-container margin-top-25">
+          <div class="input-label">Policy</div>
+          <select class="input-system" disabled >
+            <option *ngFor="let policy of policyForSelect"> {{policy.name}}</option>
+          </select>
+        </div>
+        <div class="flex flex-block--space-between width-100 ">
+          <div class="input-container margin-top-25">
+            <div class="input-label">From</div>
+            <input class="input-system" placeholder="11:30 am" disabled>
+          </div>
+          <div class="input-container margin-top-25">
+            <div class="input-label" >To</div>
+            <input class="input-system" disabled placeholder="02:15 pm">
+          </div>
+        </div>
+
+        <div class="charg-station margin-top-22">
+          <div class="charg-station-title">Charging Station: </div>
+          <div class="charg-station-value">ALTD LTD Big ECO, LA 1238486</div>
+        </div>
+      </div>
+      <div class="flex-block flex-block--column width-450">
+
+        <div class="width-450 height-239">
+
+        </div>
+
+
+        <div class="flex flex-block--space-between margin-top-25">
+          <button mat-raised-button color="primary" class="width-215"  >EDIT </button>
+          <button mat-raised-button color="primary" class="width-215"  >DELETE</button>
+        </div>
+      </div>
+      <div class="divider margin-top-40"></div>
+
+    </div>
+    <div class="bottom-container">
+
+        <button mat-raised-button color="primary" class="width-450 margin-right-30"  >Add one more address</button>
+        <button mat-raised-button color="primary" class="width-450 blue-button" disabled >CREATE REQUEST</button>
+    </div>
   </div>
-  <button class="modal-button geo-button" (click)="basedOnGeo()"><img src="../../../../../assets/imgs/Navigation1.png" height="24" width="24"/>BASED ON GEO</button>
-
-</div>
+</ng-container>

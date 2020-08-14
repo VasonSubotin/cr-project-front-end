@@ -2,6 +2,7 @@
   .popup-container {
     justify-content: end;
     align-content: center;
+    position: relative;
   }
 
   .popup-content {
@@ -13,9 +14,6 @@
     align-items: end;
   }
 
-  .width-215 {
-    width: 215px;
-  }
 
   .footer-button {
     width: 450px !important;
@@ -40,10 +38,6 @@
     color: #232729;
   }
 
-  .owl-dt-container-disabled, .owl-dt-trigger-disabled {
-    border: none;
-    color: #D3D4D4;
-  }
 </style>
 <div class="popup-container flex-block flex-block--column">
   <div class="popup-header flex-block ">
@@ -73,14 +67,14 @@
     </div>
 
     <div class="flex-block flex-block--space-between ">
-      <div class="input-container">
+      <div class="input-container" *ngIf="!tosSwitcher">
         <div class="input-label">From</div>
-        <input class="input-system"  *ngIf="!tosSwitcher"  [disabled]="tosSwitcher" [owlDateTimeTrigger]="pickerFrom" [owlDateTime]="pickerFrom">
-        <owl-date-time [disabled]="tosSwitcher" [pickerType]="'timer'" #pickerFrom></owl-date-time>
+        <input class="input-system"    [disabled]="tosSwitcher" (dateTimeChange)="eventChange(pickerFrom)" [owlDateTimeTrigger]="pickerFrom" [owlDateTime]="pickerFrom">
+        <owl-date-time [disabled]="tosSwitcher"  [startAt]="startAt"  [pickerType]="'timer'" #pickerFrom></owl-date-time>
       </div>
-      <div class="input-container">
+      <div class="input-container" *ngIf="!tosSwitcher">
         <div class="input-label">To</div>
-        <input class="input-system" *ngIf="!tosSwitcher" [owlDateTimeTrigger]="pickerTo" [owlDateTime]="pickerTo">
+        <input class="input-system"  [owlDateTimeTrigger]="pickerTo" [owlDateTime]="pickerTo">
         <owl-date-time [disabled]="tosSwitcher" [pickerType]="'timer'" #pickerTo></owl-date-time>
       </div>
     </div>

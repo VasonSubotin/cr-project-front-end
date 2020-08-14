@@ -2,12 +2,65 @@
   .header-container {
     height: 84px;
     position: relative;
-    width: 100vw;
+    width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
     background: #ffffff;
     z-index: 2;
   }
+  .img-container {
+    position: absolute;
+    left: 20px;
+  }
+  .img-container:after {
+    position: absolute;
+    right: -30px;
+    content: "";
+    width: 1px;
+    height: 100%;
+    background: #D3D4D4;
+  }
+  .header-menu {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #232729;
+  }
+  .header-menu__item {
+    margin-right: 40px;
+  }
+  .user-name {
+    margin-right: 24px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #232729;
+  }
+  .profile-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+  }
 </style>
 <div class="header-container">
+  <div class="img-container">
+    <img src="../../../assets/imgs/Logo.png" height="36" width="36"/>
+  </div>
+  <div class="header-menu">
+    <div class="header-menu__item" (click)="routeByLink('resources')">Resources</div>
+    <div class="header-menu__item">History</div>
+    <div class="header-menu__item">Statistic</div>
+
+  </div>
+  <div class="profile-container">
+    <div class="user-name">Yevhenii Khudolii</div>
+    <img src="../../../assets/imgs/Photo.png" height="44" width="44"/>
+  </div>
+<!--
   <app-logout></app-logout>
+-->
 </div>

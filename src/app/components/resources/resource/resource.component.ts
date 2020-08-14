@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {MapInfoWindow, MapMarker} from "@angular/google-maps";
-import * as CanvasJS from "../../schedule/canvasjs.min";
 import {RequestPopupComponent} from "./request-popup/request-popup.component";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -113,6 +112,7 @@ export class ResourceComponent implements OnInit {
   idResource: number;
   favoritePolice;
   useCalendarFlag: boolean;
+  loadChartFlag: boolean;
   policyId = 1;
 
   center = {lat: 24, lng: 12};
@@ -152,6 +152,11 @@ export class ResourceComponent implements OnInit {
     this.authService.getScheduleById(this.idResource).subscribe(res => {
       console.log(res)
     })
+  }
+  loadChart() {
+    if (!this.loadChartFlag) {
+      this.loadChartFlag = !this.loadChartFlag;
+    }
   }
 
   openSchedule() {

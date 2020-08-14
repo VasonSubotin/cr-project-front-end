@@ -91,5 +91,24 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateGeo`, _options);
 
   }
+  calculateEvents(idResource){
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateEvents`, _options);
+
+  }
+  timeOfUse (idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tos`, _options);
+  }
 
 }

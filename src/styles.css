@@ -1,6 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
+@font-face {
+  font-family: "Montserrat";
+  src: url("../src/assets/font/Montserrat-Light.woff2") format("woff2"),
+  url("../src/assets/font/Montserrat-Light.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
 input:disabled {
   pointer-events: none;
 }
@@ -48,12 +56,15 @@ input:disabled {
 }
 
 .select-system {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  display: flex;
-  align-items: center;
-  color: #4F5254;
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 20px;
+   display: flex;
+   align-items: center;
+   color: #4F5254;
+ }
+.select-system:disabled {
+
 }
 
 .input-label {
@@ -113,14 +124,18 @@ button:disabled {
 /*
 _________________________reusabels_________________________
 */
-html, body {
-  height: 100%;
-}
+
 
 .mat-tab-nav-bar, .mat-tab-header {
   border-bottom: none !important;
 }
-
+html, body {
+   height: 100%;
+  font-family: 'Montserrat' !important;
+ }
+* {
+  font-family: 'Montserrat' !important;
+}
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -144,6 +159,10 @@ button {
   border-radius: 4px;
 }
 
+.flex {
+  display: flex;
+  width: 100%;
+}
 .flex-block {
   display: flex;
   justify-content: center;
@@ -179,6 +198,13 @@ button {
 .margin-top-25 {
   margin-top: 25px;
 }
+.margin-top-40 {
+  margin-top: 40px;
+}
+
+.margin-top-22 {
+  margin-top: 22px;
+}
 
 .width-50 {
   width: 50%;
@@ -192,7 +218,16 @@ button {
 .width-100 {
   width: 100%;
 }
+.width-450 {
+  width: 450px;
+}
+.width-215 {
+  width: 215px;
+}
 
+.height-239 {
+  height: 239px;
+}
 .max-width--600 {
   max-width: 600px;
 }
@@ -418,4 +453,25 @@ button {
 
 .padding-top-30 {
   padding-top: 30px;
+}
+.padding-top-25 {
+  padding-top: 30px;
+}
+.mat-tab-labels .mat-tab-label:first-child {
+}
+.mat-tab-label {
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  opacity: 1!important;;
+  align-items: center;
+  text-transform: uppercase;
+  color: #A7A9AA !important;
+}
+.mat-tab-label:focus {
+  color: #232729 !important;
+}
+.mat-tab-label:focus {
+  color: #232729 !important;
 }

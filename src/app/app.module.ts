@@ -31,6 +31,7 @@ import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import {GoogleMapsModule} from "@angular/google-maps";
 import {MatTabsModule} from "@angular/material/tabs";
 import {RequestPopupComponent} from "./components/resources/resource/request-popup/request-popup.component";
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import {RequestPopupComponent} from "./components/resources/resource/request-pop
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     GoogleMapsModule,
+    ChartsModule,
     MatTabsModule
   ],
   entryComponents: [

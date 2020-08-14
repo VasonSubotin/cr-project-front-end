@@ -3,6 +3,8 @@ import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {POLICIES} from "../../constants/policies";
 import {tap} from "rxjs/operators";
+import {EditResourcePopupComponent} from "../../reusable-components/popups/edit-resource-popup/edit-resource-popup.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -14,7 +16,8 @@ import {tap} from "rxjs/operators";
 export class ResourcesComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute ,
+              private matDialog: MatDialog,) {
   }
 
   policies: POLICIES;
@@ -37,7 +40,16 @@ export class ResourcesComponent implements OnInit {
       this.startSmartCarSession(localStorage.getItem('smartCarToken'))
     }
     this.getResourcesArray();
-
+    const dialogConf: any = {
+      data: [], panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
+    };
+    const dialogRef = this.matDialog.open(EditResourcePopupComponent, dialogConf);
+    dialogRef.afterClosed().subscribe(
+      unixEvent => {
+        if (unixEvent) {
+        }
+      }
+    );
   }
 
   startSmartCarSession(code) {

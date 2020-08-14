@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {FormBuilder} from "@angular/forms";
@@ -19,17 +19,23 @@ export class EditResourcePopupComponent {
               public fb: FormBuilder,
               private authService: AuthService
   ) {
-    this.selectPolicy = this.policyForSelect[resource.policyId].name
+   // this.selectPolicy = this.policyForSelect[resource.policyId].name
   }
 
+  @ViewChild("pickerFrom", {static: false}) pickerFrom: ElementRef;
   policyForSelect: any = [
     {value: 0, name: 'green policy. (optimized to CO2 marginal emission)'},
     {value: 1, name: 'monetary policy (optimized to energy market pricing)'},
     {value: 2, name: 'simple policy (charge as fast as possible)'}
   ];
-
+  startAt = new Date(20, 30);
   useTos(){
+    console.log(this.pickerFrom)
     this.tosSwitcher = !this.tosSwitcher;
+  }
+  eventChange(qwe) {
+    console.log(qwe)
+
   }
 
   onChange(policyId) {

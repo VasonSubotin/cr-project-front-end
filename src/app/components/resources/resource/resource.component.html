@@ -1,6 +1,15 @@
 <style>
+  mat-tab-group {
+    width: 100%;
+  }
   .resource-page {
     padding: 16px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .resource-header-navigation {
+    width: 100%;
   }
 
   .schedule-container {
@@ -76,20 +85,40 @@
     align-items: center;
     color: #232729;
   }
+  .breadcramps-container {
+    display: flex;
+  }
+  .breadcramps-container a{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: #A7A9AA;
+    text-decoration: none;
+    height: 24px;
+  }
+  .breadcpm-arrow {
+
+  }
 </style>
+<app-header></app-header>
+
 <div class="resource-page">
-<!--
-  <app-header></app-header>
--->
+
+
   <div class="resource-header-navigation">
-    <div class="">
-      <a [routerLink]="['/resources']">Resources ></a>
+    <div class="breadcramps-container">
+      <a [routerLink]="['/resources']">Resources </a>
+      <div class="breadcpm-arrow">
+        <img src="../../../../assets/imgs/Right.png" height="24" width="24"/>
+      </div>
       <a>{{resource?.vendor}} {{resource?.model}} </a>
     </div>
   </div>
 
 
-  <mat-tab-group animationDuration="0ms">
+  <mat-tab-group animationDuration="0ms" (click)="loadChart()">
 
     <mat-tab label="Driving Schedule">
       <div class="schedule-container">
@@ -163,9 +192,9 @@
       </div>
 
     </mat-tab>
-    <mat-tab label="Charging Progress">
+    <mat-tab label="Charging Progress" >
       <div class="schedule-container">
-        <div class="visual-container">
+        <div class="visual-container" *ngIf="loadChartFlag">
           <app-schedule></app-schedule>
         </div>
         <div class="event-content">
