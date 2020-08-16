@@ -18,7 +18,7 @@ export class ScheduleComponent implements OnInit {
 
   intervals = [
     {
-      "start_time": "2014-05-01T05:00:00-",
+      "start_time": "2014-05-01T05:00:00",
       "location": "Location A",
       "cost_of_charging": 11.5,
       "price": 3.4,
