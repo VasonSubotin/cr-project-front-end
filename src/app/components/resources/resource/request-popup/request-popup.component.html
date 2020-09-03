@@ -153,6 +153,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #ffffff;
+    z-index: 2;
     height: 100px;
     box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
   }
@@ -178,7 +180,7 @@
       Charging station
     </div>
     <div class="legenda-item">
-      <img src="../../../../../assets/imgs/error_station.png" height="49" width="32"/>
+      <img src="../../../../../assets/imgs/error_station.png" height="40" width="32"/>
       Error charging station
     </div>
   </div>
@@ -190,7 +192,7 @@
       Using this method we will sink with your google callendar and find charging station near locations, which you
       suppose to visit
     </div>
-    <button class="modal-button sync-calendar-button" (click)="syncWidthCalendar()"><img
+    <button class="button-system modal-button sync-calendar-button" (click)="syncWidthCalendar()"><img
       src="../../../../../assets/imgs/Sync.png" height="24" width="24"/>SINK WITH CALLENDAR
     </button>
     <div class="divider"></div>
@@ -199,7 +201,7 @@
       You can add the location of your destination manual, and we will purpose a charging station. This text needs to be
       changed!
     </div>
-    <button class="modal-button geo-button" disabled><img src="../../../../../assets/imgs/Circle.png" height="24"
+    <button class="button-system modal-button geo-button" disabled><img src="../../../../../assets/imgs/Circle.png" height="24"
                                                           width="24"/>ADD MANUAL
     </button>
     <div class="divider"></div>
@@ -208,7 +210,7 @@
       You can add the location of your destination manual, and we will purpose a charging station. This text needs to be
       changed!
     </div>
-    <button class="modal-button geo-button" (click)="basedOnGeo()"><img src="../../../../../assets/imgs/Navigation1.png"
+    <button class="button-system modal-button geo-button" (click)="basedOnGeo()"><img src="../../../../../assets/imgs/Navigation1.png"
                                                                         height="24" width="24"/>BASED ON GEO
     </button>
 
@@ -255,8 +257,8 @@
 
 
         <div class="flex flex-block--space-between margin-top-25">
-          <button mat-raised-button color="primary" class="width-215"  >EDIT </button>
-          <button mat-raised-button color="primary" class="width-215"  >DELETE</button>
+          <button mat-raised-button color="primary" class="button-system width-215"  >EDIT </button>
+          <button mat-raised-button color="primary" class="button-system width-215"  >DELETE</button>
         </div>
       </div>
       <div class="divider margin-top-40"></div>
@@ -264,8 +266,8 @@
     </div>
     <div class="bottom-container">
 
-        <button mat-raised-button color="primary" class="width-450 margin-right-30"  >Add one more address</button>
-        <button mat-raised-button color="primary" class="width-450 blue-button" disabled >CREATE REQUEST</button>
+        <button mat-raised-button color="primary" class="button-system width-450 margin-right-30"  >Add one more address</button>
+        <button mat-raised-button color="primary" class="button-system width-450 blue-button" disabled >CREATE REQUEST</button>
     </div>
   </div>
 </ng-container>

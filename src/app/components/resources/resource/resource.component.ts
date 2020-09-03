@@ -152,6 +152,12 @@ export class ResourceComponent implements OnInit {
     this.authService.getScheduleById(this.idResource).subscribe(res => {
       console.log(res)
     })
+    this.authService.calculateGeo(this.idResource).subscribe(res => {
+      console.log(res)
+    })
+    this.authService.calculateCharing(this.idResource).subscribe(res => {
+      console.log(res)
+    })
   }
   loadChart() {
     if (!this.loadChartFlag) {

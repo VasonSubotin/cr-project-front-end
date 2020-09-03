@@ -32,6 +32,10 @@ import {GoogleMapsModule} from "@angular/google-maps";
 import {MatTabsModule} from "@angular/material/tabs";
 import {RequestPopupComponent} from "./components/resources/resource/request-popup/request-popup.component";
 import {ChartsModule} from "ng2-charts";
+import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {AmazingTimePickerModule} from "amazing-time-picker";
+import {setTimeStartComponent} from "./reusable-components/popups/edit-resource-popup/time-from.component/time-from.component";
+import {setTimeStopComponent} from "./reusable-components/popups/edit-resource-popup/time-to.component/time-to.component";
 
 @NgModule({
   declarations: [
@@ -47,7 +51,10 @@ import {ChartsModule} from "ng2-charts";
     RequestPopupComponent,
 
     EditResourcePopupComponent,
-    PageLoaderComponent
+    PageLoaderComponent,
+
+    setTimeStartComponent,
+    setTimeStopComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +77,9 @@ import {ChartsModule} from "ng2-charts";
     OwlNativeDateTimeModule,
     GoogleMapsModule,
     ChartsModule,
-    MatTabsModule
+    MatTabsModule,
+    Ng2SearchPipeModule,
+    AmazingTimePickerModule,
   ],
   entryComponents: [
     EditResourcePopupComponent

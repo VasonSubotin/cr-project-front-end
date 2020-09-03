@@ -14,7 +14,6 @@ export class RequestPopupComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public resource,
               private dialogRef: MatDialogRef<RequestPopupComponent>,
               private authService: AuthService) {
-    console.log(this.resource)
 
   }
 
@@ -24,7 +23,7 @@ export class RequestPopupComponent {
 
   syncWidthCalendar() {
     this.successSync = !this.successSync;
-    this.authService.calculateEvents(this.resource.idResource).subscribe(res => {
+    this.authService.getDrivingScheduleById(this.resource.idResource).subscribe(res => {
         if (res) {
 
         }

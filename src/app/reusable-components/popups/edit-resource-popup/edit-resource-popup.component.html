@@ -14,6 +14,11 @@
     align-items: end;
   }
 
+  .clock-icon {
+    position: absolute;
+    right: 12px;
+    top: 14px
+  }
 
   .footer-button {
     width: 450px !important;
@@ -22,10 +27,11 @@
 
   .checkbox-container {
     display: flex;
+    align-items: center;
   }
 
   .checkbox-container input {
-    padding-left: 20px;
+    margin-left: 10px;
   }
 
   .modal-title {
@@ -36,6 +42,10 @@
     display: flex;
     align-items: center;
     color: #232729;
+  }
+
+  .popup-header {
+    height: 110px;
   }
 
 </style>
@@ -61,21 +71,21 @@
       </div>
       <div class="checkbox-container">
         <div class="modal-title">Use as default</div>
-        <input (change)="useTos()"  [checked]="tosSwitcher" type="checkbox">
+        <input (change)="useTos()" [checked]="!tosSwitcher" type="checkbox">
       </div>
 
     </div>
 
     <div class="flex-block flex-block--space-between ">
-      <div class="input-container" *ngIf="!tosSwitcher">
+      <div class="input-container">
         <div class="input-label">From</div>
-        <input class="input-system"    [disabled]="tosSwitcher" (dateTimeChange)="eventChange(pickerFrom)" [owlDateTimeTrigger]="pickerFrom" [owlDateTime]="pickerFrom">
-        <owl-date-time [disabled]="tosSwitcher"  [startAt]="startAt"  [pickerType]="'timer'" #pickerFrom></owl-date-time>
+        <app-time-start [startAtInput]=startAtInput
+                        (startAtInputChanged)="startAtInputChanged($event)"></app-time-start>
+
       </div>
-      <div class="input-container" *ngIf="!tosSwitcher">
+      <div class="input-container">
         <div class="input-label">To</div>
-        <input class="input-system"  [owlDateTimeTrigger]="pickerTo" [owlDateTime]="pickerTo">
-        <owl-date-time [disabled]="tosSwitcher" [pickerType]="'timer'" #pickerTo></owl-date-time>
+        <app-time-stop [stopAtInput]=stopAtInput (stopAtInputChanged)="stopAtInputChanged($event)"></app-time-stop>
       </div>
     </div>
 
@@ -91,15 +101,19 @@
     <div class="flex-block flex-block--end">
       <div class="select-container width-215">
         <div class="input-label">Duration</div>
-        <input class="input-system" [owlDateTimeTrigger]="pickerDuration" [owlDateTime]="pickerDuration">
-        <owl-date-time [pickerType]="'timer'" #pickerDuration></owl-date-time>
+        <input class="input-system">
+        <!--
+                <owl-date-time [startAt]="startAt" [pickerType]="'timer'" #pickerDuration></owl-date-time>
+        -->
+        <img class="clock-icon" src="../../../../assets/imgs/clock_icon.png" height="24" width="24"/>
       </div>
     </div>
 
 
   </div>
   <div class="popup-footer padding-top-30">
-    <button mat-raised-button color="primary" class="big-button footer-button" (click)="onSubmit()">Save</button>
+    <button mat-raised-button color="primary" class="button-system big-button footer-button" (click)="onSubmit()">Save
+    </button>
   </div>
 
 </div>

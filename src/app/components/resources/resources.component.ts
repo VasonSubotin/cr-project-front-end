@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {POLICIES} from "../../constants/policies";
@@ -22,7 +22,8 @@ export class ResourcesComponent implements OnInit {
 
   policies: POLICIES;
   dataIsReady = false;
-  mockedData = [];
+  resourcesData = [];
+  searchText
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -40,8 +41,10 @@ export class ResourcesComponent implements OnInit {
       this.startSmartCarSession(localStorage.getItem('smartCarToken'))
     }
     this.getResourcesArray();
+  }
+  testEdit() {
     const dialogConf: any = {
-      data: [], panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
+      data: {}, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
     };
     const dialogRef = this.matDialog.open(EditResourcePopupComponent, dialogConf);
     dialogRef.afterClosed().subscribe(
@@ -53,17 +56,27 @@ export class ResourcesComponent implements OnInit {
   }
 
   startSmartCarSession(code) {
+
     this.authService.smartCarSession(code).pipe(tap((res: any) => {
+
       if (res.status === 200) {
 
       }
-    })).subscribe();
+    })).subscribe(res=> console.log(res),
+
+    error => {
+      if (error.status === 500) {
+      /*  localStorage.removeItem('token');
+        this.router.navigate(['/login'])*/
+      }
+
+    });
 
   }
 
   getResourcesArray() {
     this.authService.getResources().subscribe((res: any) => {
-      this.mockedData = res;
+      this.resourcesData = res;
       this.dataIsReady = true;
     });
 

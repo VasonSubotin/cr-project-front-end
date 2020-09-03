@@ -55,19 +55,19 @@
 <div class="search-container">
   <div class="title-font">Resources</div>
   <div class="search-input-container">
-    <input class="input-system search-input" placeholder="Search">
-    <button class="search-button">
+    <input class="input-system search-input"  [(ngModel)]="searchText" placeholder="Search">
+    <button class="button-system search-button">
       Search
     </button>
   </div>
-  <button>
+  <button class="button-system">
     <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
     Add Resource
   </button>
 </div>
-<ng-container *ngIf="mockedData.length else emptyResourceList">
+<ng-container *ngIf="resourcesData.length else emptyResourceList">
   <div class="resource-container">
-    <ng-container *ngFor="let resource of mockedData">
+    <ng-container *ngFor="let resource of resourcesData | filter: searchText">
       <div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
            >
         <div class="resource-card__content">
@@ -75,7 +75,7 @@
         </div>
         <div class="resource-card__content">
           <div class="title-font ">
-            <span  (click)="navigateByResource(resource.idResource)">{{resource.vendor}} / {{resource.model}}</span>
+            <span  (click)="navigateByResource(resource.smResource.idResource)">{{resource.smResource.vendor}} / {{resource.smResource.model}}</span>
             <app-drop-down [resourceData]="resource"></app-drop-down>
           </div>
           <div class="sub_container">
@@ -84,16 +84,16 @@
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">Policy:</div>
-            <div class="title-font sub_tittle sub_info"> {{resource.policyId}}</div>
+            <div class="title-font sub_tittle sub_info"> {{resource.smResource.policyId}}</div>
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">Battery:</div>
-            <div class="title-font sub_tittle sub_info"> {{resource?.capacity / 1000}} kWh</div>
+            <div class="title-font sub_tittle sub_info"> {{resource.smResource?.capacity / 1000}} kWh</div>
 
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">SOC:</div>
-            <div class="title-font sub_tittle sub_info"> {{resource?.capacity / 1000}} kWh</div>
+            <div class="title-font sub_tittle sub_info"> {{resource.smResource?.capacity / 1000}} kWh</div>
 
           </div>
         </div>
@@ -116,8 +116,10 @@
   <div class="resource-container">
 
     <div class="add__resource">
-      <div class="link-container">
+      <div class="link-container" (click)="testEdit()">
+<!--
         <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
+-->
         <div class="link_icon"></div>
         <div class="link_text">Add resource</div>
       </div>

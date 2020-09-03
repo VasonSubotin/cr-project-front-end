@@ -15,6 +15,7 @@ export class ScheduleComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private authService: AuthService) {
   }
+  @ViewChild(BaseChartDirective, {static: true}) chart: BaseChartDirective;
 
   intervals = [
     {
@@ -175,7 +176,6 @@ export class ScheduleComponent implements OnInit {
   public lineChartLegend = true;
   public lineChartType = 'line';
 
-  @ViewChild(BaseChartDirective, {static: true}) chart: BaseChartDirective;
 
 
   ngOnInit() {

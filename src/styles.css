@@ -141,7 +141,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-button {
+.button-system {
   position: relative;
   text-transform: capitalize;
   font-weight: bold;
@@ -236,6 +236,7 @@ button {
   align-items: center;
   justify-content: center;
   height: 56px;
+  padding: 0 24px;
 }
 .legenda-item img{
   margin-right: 12px;
@@ -245,6 +246,7 @@ button {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
+  min-width: 100px;
   line-height: 20px;
   display: flex;
   align-items: center;
@@ -357,6 +359,7 @@ button {
 .resource-card {
   width: 451px;
   height: 200px;
+  padding: 24px;
   background: #FFFFFF;
   border: 1px solid rgba(157, 165, 174, 0.2);
   box-sizing: border-box;
@@ -368,7 +371,6 @@ button {
 .resource-card__content {
   position: relative;
   flex: 1;
-  padding: 24px;
 }
 
 .search-container {
@@ -492,4 +494,7 @@ button {
 }
 .mat-tab-label:focus {
   color: #232729 !important;
+}
+.mat-raised-button {
+line-height: 32px !important;
 }

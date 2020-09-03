@@ -165,7 +165,7 @@
         <div class="event-content">
           <div class="event-container-header">
             <div class="title-font">LOCATIONS</div>
-            <button mat-raised-button color="primary" class="create-request-button" (click)="openRequestModal()">
+            <button mat-raised-button color="primary" class="button-system create-request-button" (click)="openRequestModal()">
               <img src="../../../../assets/imgs/power.png" height="22" width="16"/>
               Create Request
             </button>
@@ -183,7 +183,7 @@
                   <div class="event-title">
                     <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Duration:
                   </div>
-                  <div class="event-value">{{eventInterval.duration / 60 | number }} m</div>
+                  <div class="event-value">{{eventInterval.duration / 60 |  number:'1.0-0' }} m</div>
                 </div>
                 <div class="event-row">
                   <div class="event-title">
@@ -227,8 +227,9 @@
         <div class="event-content">
           <div class="event-container-header">
             <div class="title-font">INTERVALS</div>
-            <button mat-raised-button color="primary" class="create-request-button" (click)="openRequestModal()">Request
-              schedule
+            <button mat-raised-button color="primary" class="button-system create-request-button" (click)="openRequestModal()">
+              <img src="../../../../assets/imgs/power.png" height="22" width="16"/>
+              Create Request
             </button>
           </div>
           <div class="event-list">

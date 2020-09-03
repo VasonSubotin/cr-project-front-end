@@ -1,6 +1,6 @@
 <div class="flex-block flex-block--center">
   <div class="vertical-container max-width--600">
-    <button mat-raised-button color="primary" (click)="singupByGoogle()">Google</button>
+    <button mat-raised-button class="button-system" color="primary" (click)="singupByGoogle()">Google</button>
     <mat-card class="width-100 max-width--600">
       <form #UserLogin="ngForm" class="example-form flex-block flex-block--center flex-block--column"
             [formGroup]=myGroup (ngSubmit)="onSubmit()">
@@ -43,7 +43,7 @@
             Your password and confirmation password <strong>do not match is</strong>
           </mat-error>
         </mat-form-field>
-        <button mat-raised-button color="primary" [disabled]="!UserLogin.form.valid || checkPasswords()">Register
+        <button mat-raised-button color="primary" class="button-system" [disabled]="!UserLogin.form.valid || checkPasswords()">Register
         </button>
 
       </form>

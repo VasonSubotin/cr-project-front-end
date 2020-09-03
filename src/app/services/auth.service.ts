@@ -25,10 +25,10 @@ export class AuthService {
   }
 
   smartCarSession(code) {
-      const headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      }
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
     return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.smartCarSession}?code=${code}`,
       {},
       {headers, observe: 'response'})
@@ -41,7 +41,7 @@ export class AuthService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, _options);
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/stateInfo`, _options);
   }
 
   getResourceById(idResource) {
@@ -53,6 +53,7 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/resourceInfo`, _options);
   }
+
   acccInfo(idResource) {
     const _options = {
       headers: new HttpHeaders({
@@ -62,6 +63,7 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}accountInfo`, _options);
   }
+
   updateResourceById(idResource, body) {
     const _options = {
       headers: new HttpHeaders({
@@ -69,8 +71,9 @@ export class AuthService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, body, _options);
+    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}`, body, _options);
   }
+
   getScheduleById(idResource) {
     const _options = {
       headers: new HttpHeaders({
@@ -80,8 +83,17 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, _options);
   }
+  getDrivingScheduleById(idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/drivingSchedule`, _options);
+  }
 
-  calculateGeo(idResource){
+  calculateGeo(idResource) {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -91,7 +103,18 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateGeo`, _options);
 
   }
-  calculateEvents(idResource){
+  calculateCharing(idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/charingSchedule`, _options);
+
+  }
+
+  calculateEvents(idResource) {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -101,14 +124,44 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateEvents`, _options);
 
   }
-  timeOfUse (idResource) {
+
+  timeOfUse(idResource) {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tos`, _options);
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tou`, _options);
+  }
+
+  postTimeOfUse(idResource, periodFrom, periodTo) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    const body = {
+      resourceId: idResource,
+      start: periodFrom,
+      stop: periodTo
+    };
+    return this.http.post(`${this.apiConstants.apiUrl}tous`,body, _options);
+  }
+
+  putTimeOfUse(idResource, periodFrom, periodTo) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    const body = {
+      start: periodFrom,
+      stop: periodTo
+    };
+    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tou`,body, _options);
   }
 
 }

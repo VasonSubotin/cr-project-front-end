@@ -23,7 +23,7 @@ export class DropDownComponent {
 
   openEditResource() {
     const dialogConf: any = {
-      data: this.resourceData, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
+      data: this.resourceData.smResource, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
     };
     const dialogRef = this.matDialog.open(EditResourcePopupComponent, dialogConf);
     dialogRef.afterClosed().subscribe(
