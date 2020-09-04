@@ -1,32 +1,30 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {AmazingTimePickerService} from "amazing-time-picker";
+import {FunctionsService} from "../../../../services/functions.service";
 
 
   @Component({
     selector: 'app-time-start',
     template: ' <input class="input-system"  type="text" (click)="openInputFrom()"  [value]=startAtInput>',
   })
-export class setTimeStartComponent implements OnInit{
+export class setTimeStartComponent {
     @Input() startAtInput;
     @Output() startAtInputChanged = new EventEmitter<any>();
 
     constructor(
-      private atp: AmazingTimePickerService
+      private atp: AmazingTimePickerService,
+      private funcService: FunctionsService,
+
     ) {}
     openInputFrom() {
       const amazingTimePicker = this.atp.open({
-        time: `${this.startAtInput % 60 == 0}:${this.startAtInput % 60}`
+        time: this.startAtInput
       });
       amazingTimePicker.afterClose().subscribe(time => {
-        this.startAtInput = time;
         const a = time.split(":");
-        const stopTime = parseInt(a[0]) * 60 + parseInt(a[1]);
-        this.startAtInputChanged.emit(stopTime);
-        console.log(time)
+        const startTime = parseInt(a[0]) * 60 + parseInt(a[1]);
+        this.startAtInput =this.funcService.formattingTime(startTime);
+        this.startAtInputChanged.emit(startTime);
       });
     }
-  ngOnInit(): void {
-      console.log(this.startAtInput)
-    this.startAtInput = `${this.startAtInput / 60 }:${this.startAtInput % 60}`;
-  }
   }

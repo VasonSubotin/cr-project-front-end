@@ -36,6 +36,7 @@ import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {AmazingTimePickerModule} from "amazing-time-picker";
 import {setTimeStartComponent} from "./reusable-components/popups/edit-resource-popup/time-from.component/time-from.component";
 import {setTimeStopComponent} from "./reusable-components/popups/edit-resource-popup/time-to.component/time-to.component";
+import {FunctionsService} from "./services/functions.service";
 
 @NgModule({
   declarations: [
@@ -84,7 +85,7 @@ import {setTimeStopComponent} from "./reusable-components/popups/edit-resource-p
   entryComponents: [
     EditResourcePopupComponent
   ],
-  providers: [AuthService],
+  providers: [AuthService, FunctionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

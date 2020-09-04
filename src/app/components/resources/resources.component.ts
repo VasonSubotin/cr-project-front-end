@@ -42,7 +42,7 @@ export class ResourcesComponent implements OnInit {
     }
     this.getResourcesArray();
   }
-  testEdit() {
+/*  testEdit() {
     const dialogConf: any = {
       data: {}, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
     };
@@ -53,7 +53,7 @@ export class ResourcesComponent implements OnInit {
         }
       }
     );
-  }
+  }*/
 
   startSmartCarSession(code) {
 

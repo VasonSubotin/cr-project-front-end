@@ -4,6 +4,7 @@ import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../../../services/auth.service";
 import {AmazingTimePickerService} from "amazing-time-picker";
+import {FunctionsService} from "../../../services/functions.service";
 
 @Component({
   selector: 'app-edit-resource-popup',
@@ -18,7 +19,7 @@ export class EditResourcePopupComponent implements OnInit {
   periodTo = 0;
   isTous = false;
   defaultInputSwitcher = false;
-  startAtInput = 1080;
+  startAtInput = this.funcService.formattingTime(1080);
   stopAtInput = 1440;
   startAtInputMinutes = 0;
   stopAtInputMinutes = 0;
@@ -27,6 +28,7 @@ export class EditResourcePopupComponent implements OnInit {
               private dialogRef: MatDialogRef<EditResourcePopupComponent>,
               public fb: FormBuilder,
               private authService: AuthService,
+              private funcService: FunctionsService,
   ) {
     if(resource.policyId) {
       this.selectPolicy = this.policyForSelect[resource.policyId].name
@@ -53,8 +55,6 @@ export class EditResourcePopupComponent implements OnInit {
           //  this.startAtInput = 1080;
 
             this.stopAtInput = res.stop;
-            this.pickerFrom.nativeElement.target.value = res.start;
-            this.pickerFrom.nativeElement.target.value = res.stop;
           }
         }
       )
@@ -87,11 +87,11 @@ export class EditResourcePopupComponent implements OnInit {
 
   updateTOU() {
     if (this.isTous) {
-      this.authService.putTimeOfUse(this.resource.idResource, this.periodFrom, this.periodTo).subscribe((res) => {
+      this.authService.putTimeOfUse(this.resource.idResource, this.startAtInputMinutes, this.stopAtInputMinutes).subscribe((res) => {
         console.log(res)
       })
     } else {
-      this.authService.postTimeOfUse(this.resource.idResource, this.periodFrom, this.periodTo).subscribe((res) => {
+      this.authService.postTimeOfUse(this.resource.idResource, this.startAtInputMinutes, this.stopAtInputMinutes).subscribe((res) => {
         console.log(res)
       })
     }
@@ -104,14 +104,13 @@ export class EditResourcePopupComponent implements OnInit {
   }
 
   updateResource(policyId) {
-    console.log(this.startAtInput);
-    console.log(this.stopAtInput);
-/*    this.selectPolicy = this.policyForSelect[policyId || this.resource.policyId].name;
+
+   this.selectPolicy = this.policyForSelect[policyId || this.resource.policyId].name;
     this.resource.policyId = +policyId || this.resource.policyId;
     const body = this.resource;
     this.authService.updateResourceById(this.resource.idResource, body).subscribe((res: any) => {
       this.resource = res;
     });
-    this.closeEvent();*/
+    this.closeEvent();
   }
 }

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {AmazingTimePickerService} from "amazing-time-picker";
+import {FunctionsService} from "../../../../services/functions.service";
 
 
 @Component({
@@ -11,20 +12,21 @@ export class setTimeStopComponent {
   @Output() stopAtInputChanged = new EventEmitter<any>();
 
   constructor(
-    private atp: AmazingTimePickerService
+    private atp: AmazingTimePickerService,
+    private funcService: FunctionsService,
+
   ) {
   }
 
   openInputTimeTo() {
-    const amazingTimeToPicker = this.atp.open({
+    const amazingTimePicker = this.atp.open({
       time: this.stopAtInput
     });
-    amazingTimeToPicker.afterClose().subscribe(time => {
-      this.stopAtInput = time;
+    amazingTimePicker.afterClose().subscribe(time => {
       const a = time.split(":");
-      const stopTime = parseInt(a[0]) * 60 + parseInt(a[1]);
-      this.stopAtInputChanged.emit(stopTime);
-      console.log(stopTime)
+      const startTime = parseInt(a[0]) * 60 + parseInt(a[1]);
+      this.stopAtInput =this.funcService.formattingTime(startTime);
+      this.stopAtInputChanged.emit(startTime);
     });
   }
 }
