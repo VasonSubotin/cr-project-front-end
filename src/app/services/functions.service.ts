@@ -6,13 +6,20 @@ export class FunctionsService {
   constructor(private http: HttpClient,
   ) {
   }
+
   formattingTime(time) {
-    const hours = time / 60;
+    let hours = '00';
+    hours = `${Math.floor(time / 60)}`;
     const minutes = `${time % 60}`;
     let rminutes = '00';
     if (minutes.length < 1) {
-      rminutes =  minutes + '0'
+      rminutes = minutes + '0'
+    } else {
+      rminutes = minutes
     }
-    return`${hours}:${rminutes}`;
+    if (hours.length < 1) {
+      hours = '0' + hours
+    }
+    return `${hours}:${rminutes}`;
   }
 }

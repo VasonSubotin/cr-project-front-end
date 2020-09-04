@@ -19,8 +19,8 @@ export class EditResourcePopupComponent implements OnInit {
   periodTo = 0;
   isTous = false;
   defaultInputSwitcher = false;
-  startAtInput = this.funcService.formattingTime(1080);
-  stopAtInput = 1440;
+  startAtInput = this.funcService.formattingTime(746);
+  stopAtInput =  this.funcService.formattingTime(974);
   startAtInputMinutes = 0;
   stopAtInputMinutes = 0;
 
@@ -49,12 +49,9 @@ export class EditResourcePopupComponent implements OnInit {
     this.authService.timeOfUse(this.resource.idResource).subscribe(((res: any) => {
           if (res) {
             this.isTous = true;
-/*
-            this.startAtInput = res.start;
-*/
-          //  this.startAtInput = 1080;
 
-            this.stopAtInput = res.stop;
+            this.startAtInput = this.funcService.formattingTime(res.start);
+            this.stopAtInput =  this.funcService.formattingTime(res.stop);
           }
         }
       )
