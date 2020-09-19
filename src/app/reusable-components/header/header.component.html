@@ -45,6 +45,10 @@
     position: absolute;
     right: 20px;
   }
+  .header-menu__item:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 </style>
 <div class="header-container">
   <div class="img-container">
@@ -52,7 +56,7 @@
   </div>
   <div class="header-menu">
     <div class="header-menu__item" (click)="routeByLink('resources')">Resources</div>
-    <div class="header-menu__item">History</div>
+    <div class="header-menu__item" (click)="routeByLink('history')">History</div>
     <div class="header-menu__item">Statistic</div>
 
   </div>

@@ -20,86 +20,94 @@ export class ResourceComponent implements OnInit {
 
 
   }
+
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
 
-  intervals= [
-    {  "start_time": "2014-05-01T05:00:00-",
+  intervals = [
+    {
+      "start_time": "2014-05-01T05:00:00-",
       "location": "Location A",
       "cost_of_charging": 11.5,
       "price": 3.4,
-      "duration":60,
-      "energy":9.3,
+      "duration": 60,
+      "energy": 9.3,
       "power": 6.6,
       "interval_type": "CHR",
       "co2_impact": 0,
       "soc_achieved": 58
     },
-    {  "time_start": "2014-05-01T05:01:00",
+    {
+      "time_start": "2014-05-01T05:01:00",
       "location": 'NA',
       "cost_of_charging": 0,
       "price": 3.4,
-      "duration":3600,
-      "energy":0,
+      "duration": 3600,
+      "energy": 0,
       "power": 0,
       "interval_type": "NCRH",
       "economic_savings": 0,
       "co2_impact": 0,
       "soc_achieved": 48
     },
-    {  "time_start": "2014-05-01T05:01:00",
+    {
+      "time_start": "2014-05-01T05:01:00",
       "location": 'NA',
       "cost_of_charging": 0,
       "price": 3.4,
-      "duration":3600,
-      "energy":0,
+      "duration": 3600,
+      "energy": 0,
       "power": 0,
       "interval_type": "NCRH",
       "economic_savings": 0,
       "co2_impact": 0,
       "soc_achieved": 48
     },
-    {  "time_start": "2014-05-01T05:01:00",
+    {
+      "time_start": "2014-05-01T05:01:00",
       "location": 'NA',
       "cost_of_charging": 0,
       "price": 3.4,
-      "duration":3600,
-      "energy":0,
+      "duration": 3600,
+      "energy": 0,
       "power": 0,
       "interval_type": "NCRH",
       "economic_savings": 0,
       "co2_impact": 0,
       "soc_achieved": 48
     },
-    {  "time_start": "2014-05-01T05:01:00",
+    {
+      "time_start": "2014-05-01T05:01:00",
       "location": 'NA',
       "cost_of_charging": 0,
       "price": 3.4,
-      "duration":3600,
-      "energy":0,
+      "duration": 3600,
+      "energy": 0,
       "power": 0,
       "interval_type": "NCRH",
       "economic_savings": 0,
       "co2_impact": 0,
       "soc_achieved": 48
     },
-    {  "time_start": "2014-05-01T05:01:00",
+    {
+      "time_start": "2014-05-01T05:01:00",
       "location": 'NA',
       "cost_of_charging": 0,
       "price": 3.4,
-      "duration":3600,
-      "energy":0,
+      "duration": 3600,
+      "energy": 0,
       "power": 0,
       "interval_type": "NCRH",
       "economic_savings": 0,
       "co2_impact": 0,
       "soc_achieved": 48
     },
-    {  "time_start": "2014-05-01T06:01:00-",
+    {
+      "time_start": "2014-05-01T06:01:00-",
       "location": "Home",
       "cost_of_charging": 11.5,
       "price": 3.4,
-      "duration":8200,
-      "energy":9.3,
+      "duration": 8200,
+      "energy": 9.3,
       "power": 6.6,
       "interval_type": "CHR",
       "economic_savings": 0.25,
@@ -107,6 +115,13 @@ export class ResourceComponent implements OnInit {
       "soc_achieved": 64
     }
   ]
+  locations = [
+    ['Bondi Beach', -33.890542, 151.274856, 4],
+    ['Coogee Beach', -33.923036, 151.259052, 5],
+    ['Cronulla Beach', -34.028249, 151.157507, 3],
+    ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
+    ['Maroubra Beach', -33.950198, 151.259302, 1]
+  ];
 
   resource;
   idResource: number;
@@ -115,10 +130,18 @@ export class ResourceComponent implements OnInit {
   loadChartFlag: boolean;
   policyId = 1;
 
-  center = {lat: 24, lng: 12};
+  center = {lat: 38.74014171287381, lng: -122.42073208468675};
   markerOptions = {draggable: false};
-  markerPositions: google.maps.LatLngLiteral[] = [];
-  zoom = 4;
+  markerPositions: google.maps.LatLngLiteral[] = [
+    {
+      lat: 38.74014171287381,
+      lng: -122.42073208468675
+    },
+    {
+      lat: 35.9457525891473,
+      lng: -120.39924770968675
+    }]
+  zoom = 6;
   display?: google.maps.LatLngLiteral;
 
   move(event: google.maps.MouseEvent) {
@@ -132,6 +155,12 @@ export class ResourceComponent implements OnInit {
   removeLastMarker() {
     this.markerPositions.pop();
   }
+
+  addMarker(event: google.maps.MouseEvent) {
+    this.markerPositions.push(event.latLng.toJSON());
+    console.log(this.markerPositions)
+  }
+
   favoritePolices = [
     {name: 'Minimize CO2 emission', active: false},
     {name: 'Minimize costs', active: false},
@@ -152,13 +181,14 @@ export class ResourceComponent implements OnInit {
     this.authService.getScheduleById(this.idResource).subscribe(res => {
       console.log(res)
     })
-    this.authService.calculateGeo(this.idResource).subscribe(res => {
-      console.log(res)
+    this.authService.calculateGeo(this.idResource).subscribe((res: any) => {
+      this.intervals = res.intervals
     })
     this.authService.calculateCharing(this.idResource).subscribe(res => {
       console.log(res)
     })
   }
+
   loadChart() {
     if (!this.loadChartFlag) {
       this.loadChartFlag = !this.loadChartFlag;
@@ -191,6 +221,7 @@ export class ResourceComponent implements OnInit {
       }
     );
   }
+
   changePolicy(policyId) {
     this.updateResource(policyId);
   }

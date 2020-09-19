@@ -37,6 +37,7 @@ import {AmazingTimePickerModule} from "amazing-time-picker";
 import {setTimeStartComponent} from "./reusable-components/popups/edit-resource-popup/time-from.component/time-from.component";
 import {setTimeStopComponent} from "./reusable-components/popups/edit-resource-popup/time-to.component/time-to.component";
 import {FunctionsService} from "./services/functions.service";
+import {HistoryComponent} from "./components/history/history.component";
 
 @NgModule({
   declarations: [
@@ -53,8 +54,8 @@ import {FunctionsService} from "./services/functions.service";
 
     EditResourcePopupComponent,
     PageLoaderComponent,
-
     setTimeStartComponent,
+    HistoryComponent,
     setTimeStopComponent
   ],
   imports: [

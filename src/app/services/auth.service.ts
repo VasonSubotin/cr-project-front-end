@@ -24,6 +24,10 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.signupGoogle}`)
   }
 
+  public googleAuthenticate(code) {
+    return this.http.post(`${this.apiConstants.apiUrl}googleAuthenticate?code=${code}`, {})
+  }
+
   smartCarSession(code) {
     const headers = {
       'Content-Type': 'application/json',
@@ -41,6 +45,7 @@ export class AuthService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
+    //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/stateInfo`, _options);
   }
 
@@ -83,6 +88,7 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, _options);
   }
+
   getDrivingScheduleById(idResource) {
     const _options = {
       headers: new HttpHeaders({
@@ -103,6 +109,7 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateGeo`, _options);
 
   }
+
   calculateCharing(idResource) {
     const _options = {
       headers: new HttpHeaders({
@@ -110,19 +117,20 @@ export class AuthService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/charingSchedule`, _options);
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/chargingSchedule`, _options);
 
   }
 
-  calculateEvents(idResource) {
+
+  getHistory(idResource) {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
+
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateEvents`, _options);
-
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/scheduleHistory`, _options);
   }
 
   timeOfUse(idResource) {
@@ -147,7 +155,7 @@ export class AuthService {
       start: periodFrom,
       stop: periodTo
     };
-    return this.http.post(`${this.apiConstants.apiUrl}tous`,body, _options);
+    return this.http.post(`${this.apiConstants.apiUrl}tous`, body, _options);
   }
 
   putTimeOfUse(idResource, periodFrom, periodTo) {
@@ -161,7 +169,7 @@ export class AuthService {
       start: periodFrom,
       stop: periodTo
     };
-    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tou`,body, _options);
+    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tou`, body, _options);
   }
 
 }

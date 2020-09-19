@@ -5,6 +5,7 @@ import {RegistrationComponent} from "./components/registration/registration.comp
 import {ResourcesComponent} from "./components/resources/resources.component";
 import {ResourceComponent} from "./components/resources/resource/resource.component";
 import {ScheduleComponent} from "./components/schedule/schedule.component";
+import {HistoryComponent} from "./components/history/history.component";
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'resources', component: ResourcesComponent},
   {path: 'resource/:idResource', component: ResourceComponent},
   {path: 'resource/schedule/:idResource', component: ScheduleComponent},
+  {path: 'history', component: HistoryComponent},
 ];
 
 @NgModule({

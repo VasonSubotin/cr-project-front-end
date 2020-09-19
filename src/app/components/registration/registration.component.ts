@@ -49,7 +49,6 @@ export class RegistrationComponent implements OnDestroy {
     const request$ = this.authService.singUp(body).pipe(tap((res: any) => {
 
       if (res.status === 201) {
-        debugger
         localStorage.setItem('token', res.tpken);
 
         this.router.navigate(['/login'])};

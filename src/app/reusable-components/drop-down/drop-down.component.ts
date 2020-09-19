@@ -26,6 +26,7 @@ export class DropDownComponent {
       data: this.resourceData.smResource, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
     };
     const dialogRef = this.matDialog.open(EditResourcePopupComponent, dialogConf);
+    this.switchDropDownState();
     dialogRef.afterClosed().subscribe(
       unixEvent => {
         if (unixEvent) {

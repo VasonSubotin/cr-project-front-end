@@ -1,4 +1,4 @@
-import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {POLICIES} from "../../constants/policies";
@@ -16,7 +16,7 @@ import {MatDialog} from "@angular/material/dialog";
 export class ResourcesComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
-              private activatedRoute: ActivatedRoute ,
+              private activatedRoute: ActivatedRoute,
               private matDialog: MatDialog,) {
   }
 
@@ -30,19 +30,20 @@ export class ResourcesComponent implements OnInit {
       const code = params['code'];
       const type = params['type'];
       if (type === 'google') {
-        localStorage.setItem('token', params['code']);
-        window.location.href = 'http://localhost:8080/smartCarLogin';
+        this.getGoogleAuthenticate(params['code'])
+/*
+
+*/
       } else if (type === 'smartCar') {
         localStorage.setItem('smartCarToken', code);
-        this.startSmartCarSession(code)
       }
     });
-    if ( localStorage.getItem('smartCarToken')) {
+    if (localStorage.getItem('smartCarToken')) {
       this.startSmartCarSession(localStorage.getItem('smartCarToken'))
     }
-    this.getResourcesArray();
   }
-/*  testEdit() {
+
+  testEdit() {
     const dialogConf: any = {
       data: {}, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
     };
@@ -53,25 +54,36 @@ export class ResourcesComponent implements OnInit {
         }
       }
     );
-  }*/
+  }
+
+  getGoogleAuthenticate(code) {
+    this.authService.googleAuthenticate(code).subscribe((res: any) => {
+      debugger
+      localStorage.setItem('token', res.token);
+        window.location.href = 'http://142.93.166.32:8080/smartCarLogin';
+
+      }
+    )
+  }
 
   startSmartCarSession(code) {
-
     this.authService.smartCarSession(code).pipe(tap((res: any) => {
 
       if (res.status === 200) {
+        this.getResourcesArray();
 
+      } else {
       }
-    })).subscribe(res=> console.log(res),
+    })).subscribe(res => console.log(res),
 
-    error => {
-      if (error.status === 500) {
-      /*  localStorage.removeItem('token');
-        this.router.navigate(['/login'])*/
-      }
+      error => {
+        if (error.status === 500) {
+          /*  localStorage.removeItem('token');
+            this.router.navigate(['/login'])*/
+           this.getResourcesArray();
 
-    });
-
+        }
+      });
   }
 
   getResourcesArray() {

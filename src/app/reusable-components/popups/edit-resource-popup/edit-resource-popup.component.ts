@@ -16,7 +16,7 @@ export class EditResourcePopupComponent implements OnInit {
   selectPolicy;
   tosSwitcher = true;
   periodFrom = 0;
-  periodTo = 0;
+  duration = 0;
   isTous = false;
   defaultInputSwitcher = false;
   startAtInput = this.funcService.formattingTime(746);
@@ -29,6 +29,8 @@ export class EditResourcePopupComponent implements OnInit {
               public fb: FormBuilder,
               private authService: AuthService,
               private funcService: FunctionsService,
+              private atp: AmazingTimePickerService,
+
   ) {
     if(resource.policyId) {
       this.selectPolicy = this.policyForSelect[resource.policyId].name
@@ -58,6 +60,14 @@ export class EditResourcePopupComponent implements OnInit {
     )
 
   }
+  openDuration() {
+    const durationTimePicker = this.atp.open();
+    durationTimePicker.afterClose().subscribe(time => {
+      const a = time.split(":");
+      const startTime = parseInt(a[0]) * 60 + parseInt(a[1]);
+      this.duration = startTime;
+    });
+  }
 
   useTos() {
     this.tosSwitcher = !this.tosSwitcher;
@@ -71,11 +81,6 @@ export class EditResourcePopupComponent implements OnInit {
 
   onChange(policyId) {
     this.policyId = policyId;
-  }
-
-  changeDuration(data) {
-    let date = new Date(data.value);
-    this.resource.chargeby_time = (date.getHours() * 60) + date.getMinutes();
   }
 
   closeEvent() {
@@ -104,6 +109,7 @@ export class EditResourcePopupComponent implements OnInit {
 
    this.selectPolicy = this.policyForSelect[policyId || this.resource.policyId].name;
     this.resource.policyId = +policyId || this.resource.policyId;
+    this.resource.chargeby_time = +this.duration;
     const body = this.resource;
     this.authService.updateResourceById(this.resource.idResource, body).subscribe((res: any) => {
       this.resource = res;

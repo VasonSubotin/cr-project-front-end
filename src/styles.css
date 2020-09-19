@@ -6,9 +6,17 @@
   font-family: "Montserrat";
   src: url("../src/assets/font/Montserrat-Light.woff2") format("woff2"),
   url("../src/assets/font/Montserrat-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../src/assets/font/Montserrat-Medium.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
 }
+
 input:disabled {
   pointer-events: none;
 }
@@ -22,6 +30,14 @@ input:disabled {
   border: 1px solid #D3D4D4;
   box-sizing: border-box;
   border-radius: 4px;
+}
+
+.active-link {
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
+  color: #000000 !important;
 }
 
 .select-container {
@@ -56,13 +72,14 @@ input:disabled {
 }
 
 .select-system {
-   font-weight: 500;
-   font-size: 14px;
-   line-height: 20px;
-   display: flex;
-   align-items: center;
-   color: #4F5254;
- }
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: #4F5254;
+}
+
 .select-system:disabled {
 
 }
@@ -103,6 +120,10 @@ input:disabled {
   background: #4339F2 !important;
 }
 
+.create-request-button span {
+  margin-left: -8px;
+}
+
 .close {
   cursor: pointer;
   position: absolute;
@@ -129,13 +150,16 @@ _________________________reusabels_________________________
 .mat-tab-nav-bar, .mat-tab-header {
   border-bottom: none !important;
 }
+
 html, body {
-   height: 100%;
+  height: 100%;
   font-family: 'Montserrat' !important;
- }
+}
+
 * {
   font-family: 'Montserrat' !important;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -163,6 +187,7 @@ body {
   display: flex;
   width: 100%;
 }
+
 .flex-block {
   display: flex;
   justify-content: center;
@@ -198,6 +223,7 @@ body {
 .margin-top-25 {
   margin-top: 25px;
 }
+
 .margin-top-40 {
   margin-top: 40px;
 }
@@ -218,9 +244,11 @@ body {
 .width-100 {
   width: 100%;
 }
+
 .width-450 {
   width: 450px;
 }
+
 .width-215 {
   width: 215px;
 }
@@ -228,9 +256,11 @@ body {
 .height-239 {
   height: 239px;
 }
+
 .max-width--600 {
   max-width: 600px;
 }
+
 .legenda {
   display: flex;
   align-items: center;
@@ -238,9 +268,11 @@ body {
   height: 56px;
   padding: 0 24px;
 }
-.legenda-item img{
+
+.legenda-item img {
   margin-right: 12px;
 }
+
 .legenda-item {
   margin-right: 60px;
   font-style: normal;
@@ -252,10 +284,11 @@ body {
   align-items: center;
   color: #232729;
 }
+
 .title-font {
   position: relative;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 18px;
   line-height: 22px;
   display: flex;
@@ -263,9 +296,19 @@ body {
   color: #232729;
 }
 
-.title-font:hover {
-  text-decoration: underline;
+.mat-tab-label {
+  padding: 0 !important;
+  margin-right: 24px;
 }
+
+.mat-tam-header {
+  margin-top: 18px;
+
+}
+
+/*.title-font:hover {
+  text-decoration: underline;
+}*/
 
 .sub_container {
   display: flex;
@@ -414,12 +457,12 @@ body {
 .search-input {
   position: absolute;
   max-width: 100%;
-  background: #F4F4F4;
+  border: 1px solid #D3D4D4;
+  box-sizing: border-box;
+  border-radius: 6px;
   max-height: 100%;
   height: 100%;
-  width: calc(100% - 15px);
   padding-left: 15px;
-
 }
 
 .mat-raised-button {
@@ -474,27 +517,33 @@ body {
 .padding-top-30 {
   padding-top: 30px;
 }
+
 .padding-top-25 {
   padding-top: 30px;
 }
+
 .mat-tab-labels .mat-tab-label:first-child {
 }
+
 .mat-tab-label {
   font-weight: bold;
   font-size: 15px;
   line-height: 18px;
   display: flex;
-  opacity: 1!important;;
+  opacity: 1 !important;;
   align-items: center;
   text-transform: uppercase;
   color: #A7A9AA !important;
 }
+
 .mat-tab-label:focus {
   color: #232729 !important;
 }
+
 .mat-tab-label:focus {
   color: #232729 !important;
 }
+
 .mat-raised-button {
-line-height: 32px !important;
+  line-height: 32px !important;
 }

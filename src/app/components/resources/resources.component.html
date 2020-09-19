@@ -44,7 +44,26 @@
     line-height: 27px;
     text-align: center;
     color: #4339F2;
-
+  }
+  .charge-indicator {
+    position: relative;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    margin-left: 10px;
+    z-index: 2;
+  }
+  .charge-indicator__on{
+    background: #34B53A;
+  }
+  .charge-indicator__off{
+    background:#FF3A29
+  }
+  .charge-indicator__plugIn{
+    background: #ff8826
+  }
+  .search-input-container {
+    margin-right: 20px;
   }
 </style>
 <!--
@@ -55,13 +74,13 @@
 <div class="search-container">
   <div class="title-font">Resources</div>
   <div class="search-input-container">
-    <input class="input-system search-input"  [(ngModel)]="searchText" placeholder="Search">
+    <input class="input-system search-input" [(ngModel)]="searchText" placeholder="Type what you want to find">
     <button class="button-system search-button">
       Search
     </button>
   </div>
   <button class="button-system">
-    <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
+    <a class="link-button" href="http://142.93.166.32:8080/smartCarLogin"></a>
     Add Resource
   </button>
 </div>
@@ -69,18 +88,42 @@
   <div class="resource-container">
     <ng-container *ngFor="let resource of resourcesData | filter: searchText">
       <div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
-           >
+      >
         <div class="resource-card__content">
           <img src="../../../assets/imgs/cars.png" height="108" width="192"/>
         </div>
         <div class="resource-card__content">
           <div class="title-font ">
-            <span  (click)="navigateByResource(resource.smResource.idResource)">{{resource.smResource.vendor}} / {{resource.smResource.model}}</span>
+            <span (click)="navigateByResource(resource.smResource.idResource)">{{resource.smResource.vendor}}
+              / {{resource.smResource.model}}</span>
             <app-drop-down [resourceData]="resource"></app-drop-down>
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">Plugged:</div>
-            <div class="title-font sub_tittle sub_info"></div>
+            <ng-container *ngIf="resource.smartCarInfo else chargeOff">
+              <ng-container *ngIf="resource.smartCarInfo?.charge else chargeOff">
+                <ng-container *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state==='CHARGING'">
+                <div class="title-font sub_tittle sub_info">
+                  <div class="charge-indicator charge-indicator__on"></div>
+                  Charging
+                </div>
+              </ng-container>
+                <ng-container *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state !=='CHARGING'">
+                <div class="title-font sub_tittle sub_info">
+                  <div class="charge-indicator charge-indicator__plugIn"></div>
+                  Plugged In
+                </div>
+              </ng-container>
+              </ng-container>
+
+            </ng-container>
+
+            <ng-template #chargeOff>
+              <div class="title-font sub_tittle sub_info">
+                <div class="charge-indicator charge-indicator__off"></div>
+                Plugged Out
+              </div>
+            </ng-template>
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">Policy:</div>
@@ -103,7 +146,7 @@
 
     <div class="add__resource">
       <div class="link-container">
-        <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
+        <a class="link-button" href="http://142.93.166.32:8080/smartCarLogin"></a>
         <div class="link_icon"></div>
         <div class="link_text">Add resource</div>
       </div>
@@ -116,13 +159,12 @@
   <div class="resource-container">
 
     <div class="add__resource">
-<!--
-      <div class="link-container" (click)="testEdit()">
--->
-      <div class="link-container" >
-        <a class="link-button" href="http://localhost:8080/smartCarLogin"></a>
+      <div class="link-container">
+        <div class="link-container" >
+             <a class="link-button" href="http://142.93.166.32:8080/smartCarLogin"></a>
         <div class="link_icon"></div>
         <div class="link_text">Add resource</div>
+      </div>
       </div>
     </div>
   </div>

@@ -23,7 +23,7 @@ export class RequestPopupComponent {
 
   syncWidthCalendar() {
     this.successSync = !this.successSync;
-    this.authService.getDrivingScheduleById(this.resource.idResource).subscribe(res => {
+    this.authService.getDrivingScheduleById(21).subscribe(res => {
         if (res) {
 
         }
