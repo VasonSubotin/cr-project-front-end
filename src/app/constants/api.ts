@@ -1,5 +1,5 @@
 export const request = {
-  apiUrl: 'http://142.93.166.32:8080/',
+  apiUrl: 'https://chargeevnow.com:8080/',
   signupGoogle: 'googleLogin',
   googleAuthenticate: 'googleAuthenticate',
   signup: 'signup',

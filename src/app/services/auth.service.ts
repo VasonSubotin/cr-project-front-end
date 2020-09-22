@@ -33,7 +33,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
-    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.smartCarSession}?code=${code}`,
+    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.smartCarSession}?code=158e49d0-8524-4dca-810a-3f601b17fdd2`,
       {},
       {headers, observe: 'response'})
   }
