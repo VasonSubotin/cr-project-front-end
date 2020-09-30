@@ -47,9 +47,10 @@
   }
   .charge-indicator {
     position: relative;
-    width: 5px;
-    height: 5px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
+    padding-left: 10px;
     margin-left: 10px;
     z-index: 2;
   }
@@ -80,10 +81,11 @@
     </button>
   </div>
   <button class="button-system">
-    <a class="link-button" href="https://142.93.166.32:8080/smartCarLogin"></a>
+    <a class="link-button"  [href]="smartCarLogin"></a>
     Add Resource
   </button>
 </div>
+<ng-container *ngIf="loaderState">
 <ng-container *ngIf="resourcesData.length else emptyResourceList">
   <div class="resource-container">
     <ng-container *ngFor="let resource of resourcesData | filter: searchText">
@@ -94,7 +96,7 @@
         </div>
         <div class="resource-card__content">
           <div class="title-font ">
-            <span (click)="navigateByResource(resource.smResource.idResource)">{{resource.smResource.vendor}}
+            <span (click)="navigateByResource(resource.smResource.idResource, resource.smartCarInfo)">{{resource.smResource.vendor}}
               / {{resource.smResource.model}}</span>
             <app-drop-down [resourceData]="resource"></app-drop-down>
           </div>
@@ -104,14 +106,14 @@
               <ng-container *ngIf="resource.smartCarInfo?.charge else chargeOff">
                 <ng-container *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state==='CHARGING'">
                 <div class="title-font sub_tittle sub_info">
-                  <div class="charge-indicator charge-indicator__on"></div>
                   Charging
+                  <div class="charge-indicator charge-indicator__on"></div>
                 </div>
               </ng-container>
                 <ng-container *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state !=='CHARGING'">
                 <div class="title-font sub_tittle sub_info">
-                  <div class="charge-indicator charge-indicator__plugIn"></div>
                   Plugged In
+                  <div class="charge-indicator charge-indicator__plugIn"></div>
                 </div>
               </ng-container>
               </ng-container>
@@ -120,8 +122,8 @@
 
             <ng-template #chargeOff>
               <div class="title-font sub_tittle sub_info">
-                <div class="charge-indicator charge-indicator__off"></div>
                 Plugged Out
+                <div class="charge-indicator charge-indicator__off"></div>
               </div>
             </ng-template>
           </div>
@@ -146,7 +148,7 @@
 
     <div class="add__resource">
       <div class="link-container">
-        <a class="link-button" href="https://142.93.166.32:8080/smartCarLogin"></a>
+        <a class="link-button"  [href]="smartCarLogin"></a>
         <div class="link_icon"></div>
         <div class="link_text">Add resource</div>
       </div>
@@ -154,14 +156,14 @@
   </div>
 
 </ng-container>
-
+</ng-container>
 <ng-template #emptyResourceList>
   <div class="resource-container">
 
     <div class="add__resource">
       <div class="link-container">
         <div class="link-container" >
-             <a class="link-button" href="https://142.93.166.32:8080/smartCarLogin"></a>
+             <a class="link-button" [href]="smartCarLogin"></a>
         <div class="link_icon"></div>
         <div class="link_text">Add resource</div>
       </div>
@@ -170,3 +172,8 @@
   </div>
 </ng-template>
 
+<ng-container *ngIf="!loaderState">
+  <div class="empty-state--container">
+    <app-loader></app-loader>
+  </div>
+</ng-container>

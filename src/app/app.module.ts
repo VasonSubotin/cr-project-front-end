@@ -38,6 +38,7 @@ import {setTimeStartComponent} from "./reusable-components/popups/edit-resource-
 import {setTimeStopComponent} from "./reusable-components/popups/edit-resource-popup/time-to.component/time-to.component";
 import {FunctionsService} from "./services/functions.service";
 import {HistoryComponent} from "./components/history/history.component";
+import {LoaderComponent} from "./reusable-components/loader.component/loader.component";
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {HistoryComponent} from "./components/history/history.component";
     LogoutComponent,
     RegistrationComponent,
     ResourcesComponent,
+    LoaderComponent,
     ResourceComponent,
     HeaderComponent,
     ScheduleComponent,
@@ -68,7 +70,6 @@ import {HistoryComponent} from "./components/history/history.component";
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-    MatRadioModule,
     MatDatepickerModule,
     MatNativeDateModule,
     FormsModule,

@@ -13,6 +13,7 @@ export class LogoutComponent {
 
   logOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('smartCarToken');
     this.router.navigate(['/login'])
   }
 }

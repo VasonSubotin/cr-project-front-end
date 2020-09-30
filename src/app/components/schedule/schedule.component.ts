@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute} from "@angular/router";
 import {ChartDataSets, ChartOptions} from 'chart.js';
@@ -16,98 +16,8 @@ export class ScheduleComponent implements OnInit {
               private authService: AuthService) {
   }
   @ViewChild(BaseChartDirective, {static: true}) chart: BaseChartDirective;
-
+  @Input() battery:any;
   intervals = [
-    {
-      "start_time": "2014-05-01T05:00:00",
-      "location": "Location A",
-      "cost_of_charging": 11.5,
-      "price": 3.4,
-      "duration": 60,
-      "energy": 9.3,
-      "power": 6.6,
-      "interval_type": "CHR",
-      "co2_impact": 0,
-      "soc_achieved": 58
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T06:01:00-",
-      "location": "Home",
-      "cost_of_charging": 11.5,
-      "price": 3.4,
-      "duration": 8200,
-      "energy": 9.3,
-      "power": 6.6,
-      "interval_type": "CHR",
-      "economic_savings": 0.25,
-      "co2_impact": 0.4,
-      "soc_achieved": 64
-    }
   ]
 
   public lineChartData: ChartDataSets[] = [
@@ -179,6 +89,9 @@ export class ScheduleComponent implements OnInit {
 
 
   ngOnInit() {
+    this.intervals.unshift({
+      energy: this.battery
+    });
     this.generateCost();
   }
 
@@ -200,7 +113,7 @@ export class ScheduleComponent implements OnInit {
 
   generateSOC() {
     const costSoc = [];
-    this.intervals.filter(item => costSoc.push(item.energy / 800 *100));
+    this.intervals.filter(item => costSoc.push(item.energy / 800 * 100));
     console.log(costSoc);
     return costSoc
   }

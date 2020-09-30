@@ -12,6 +12,9 @@
 
   .resource-header-navigation {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .schedule-container {
@@ -107,12 +110,75 @@
     text-decoration: none;
     height: 24px;
   }
-.margin-right--11 {
-  margin-right: 11px;
-}
-  .breadcpm-arrow {
 
+  .margin-right--11 {
+    margin-right: 11px;
   }
+
+  .charge-state {
+    position: relative;
+    width: 395px;
+    height: 40px;
+    background: #F5F5FE;
+    border: 1px solid #D9D7FC;
+    box-sizing: border-box;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .charge-state__text {
+    font-size: 10px;
+    color: #4F5254;
+    margin: 0 10px;
+    z-index: 1;
+  }
+
+  .charge-state__info {
+    z-index: 1;
+  }
+
+  .progress-bar {
+    position: absolute;
+    height: 100%;
+    width: 60%;
+    border-radius: 8px;
+    z-index: 1;
+    background: #54cb46d6;
+  }
+  .active-charge {
+    background: linear-gradient(271deg, rgba(39, 131, 253, 0.96), #f7f7f7, rgba(39, 131, 253, 0.96));
+    background-size: 600% 600%;
+    -webkit-animation: AnimationName 5s ease infinite;
+    -moz-animation: AnimationName 5s ease infinite;
+    -o-animation: AnimationName 5s ease infinite;
+    animation: AnimationName 5s ease infinite;
+  }
+
+  @-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+  }
+  @-moz-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+  }
+  @-o-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+  }
+  @keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 51%}
+    100%{background-position:0% 50%}
+  }
+
+
+
 </style>
 <app-header></app-header>
 
@@ -127,161 +193,194 @@
       </div>
       <a class="active-link">{{resource?.vendor}} {{resource?.model}} </a>
     </div>
+    <div class="charge-state">
+      <div class="progress-bar" #progressBar></div>
+      <div class="charge-state__text">State of charge:</div>
+      <div class="charge-state__info">
+        <ng-container *ngIf="selectedTab !== 1">(Plugged out)</ng-container>
+        <ng-container *ngIf="selectedTab === 1">% {{resourceSmartCar?.battery?.percentRemaining}} {{resourceSmartCar?.charge?.data.state}}</ng-container>
+        <ng-container *ngIf="selectedTab === 1 && !resourceSmartCar?.charge">(Plugged out)</ng-container>
+      </div>
+    </div>
   </div>
 
 
-  <mat-tab-group animationDuration="0ms" (click)="loadChart()">
+  <mat-tab-group animationDuration="0ms" (click)="loadChart()"
+                 [(selectedIndex)]="selectedTab">
+    <ng-template #emptyState>
+      <div class="empty-state--container">
+        <div class="empty-state--img">
+          <img src="../../../../assets/imgs/empty_charge.png" height="214" width="268"/></div>
+        <h1>No charging schedule avaliable - the car is pluged out</h1>
+        <h3>You will see the charging schedule and statistic when <br> you put your car on charging</h3>
+      </div>
+    </ng-template>
 
     <mat-tab label="Driving Schedule">
-      <div class="schedule-container">
-        <div class="visual-container">
-          <google-map height="603px"
-                      width="100%"
-                      [center]="center"
-                      [zoom]="zoom"
-                      (mapClick)="addMarker($event)">
-            <map-marker #marker="mapMarker"
-                        *ngFor="let markerPosition of markerPositions"
-                        [position]="markerPosition"
-                        [options]="markerOptions"
-                        (mapClick)="openInfoWindow(marker)"></map-marker>
-          </google-map>
-          <div class="legenda">
-            <div class="legenda-item">
-              <img src="../../../../assets/imgs/my_car.png" height="34" width="30"/>
-              My car
-            </div>
-            <div class="legenda-item">
-              <img src="../../../../assets/imgs/address_of_visiting.png" height="32" width="32"/>
-              Charging station
-            </div>
-            <div class="legenda-item">
-              <img src="../../../../assets/imgs/charging_station.png" height="40" width="32"/>
-              Address of visiting
-            </div>
-            <div class="legenda-item">
-              <img src="../../../../assets/imgs/error_station.png" height="40" width="32"/>
-              Error charging station
-            </div>
-          </div>
+      <ng-container *ngIf="loaderState">
+        <div class="empty-state--container">
+          <app-loader></app-loader>
         </div>
-        <div class="event-content">
-          <div class="event-container-header">
-            <div class="title-font">LOCATIONS</div>
-            <button mat-raised-button color="primary" class="button-system create-request-button " (click)="openRequestModal()">
-              <img src="../../../../assets/imgs/power.png"  height="22" width="16"/>
-              Create Request
-            </button>
-          </div>
-          <div class="event-list">
-            <div class="event-container" *ngFor="let eventInterval of intervals">
-              <div class="event-title-container">
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Start time:
-                  </div>
-                  <div class="event-value">{{eventInterval.time_start| date:'h:mm a'}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Duration:
-                  </div>
-                  <div class="event-value">{{eventInterval.duration / 60 |  number:'1.0-0' }} m</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Bulb.png" height="16" width="16"/> Policy:
-                  </div>
-                  <div class="event-value">{{eventInterval.duration}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/On.png" height="16" width="16"/> Energy needed:
-                  </div>
-                  <div class="event-value">{{eventInterval.energy}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Compass.png" height="16" width="16"/> Location:
-                  </div>
-                  <div class="event-value">{{eventInterval.location}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Pin.png" height="16" width="16"/>Stations address:
-                  </div>
-                  <div class="event-value">{{eventInterval.location}}</div>
-                </div>
-
-
+      </ng-container>
+      <ng-container *ngIf="!loaderState">
+        <div class="schedule-container">
+          <div class="visual-container">
+            <google-map height="603px"
+                        width="100%"
+                        [center]="center"
+                        [zoom]="zoom"
+                        (mapClick)="addMarker($event)">
+              <map-marker #marker="mapMarker"
+                          *ngFor="let markerPosition of markerPositions"
+                          [position]="markerPosition"
+                          [options]="markerOptions"
+                          (mapClick)="openInfoWindow(marker)"></map-marker>
+            </google-map>
+            <div class="legenda">
+              <div class="legenda-item">
+                <img src="../../../../assets/imgs/my_car.png" height="34" width="30"/>
+                My car
+              </div>
+              <div class="legenda-item">
+                <img src="../../../../assets/imgs/address_of_visiting.png" height="32" width="32"/>
+                Charging station
+              </div>
+              <div class="legenda-item">
+                <img src="../../../../assets/imgs/charging_station.png" height="40" width="32"/>
+                Address of visiting
+              </div>
+              <div class="legenda-item">
+                <img src="../../../../assets/imgs/error_station.png" height="40" width="32"/>
+                Error charging station
               </div>
             </div>
           </div>
+          <div class="event-content">
+            <div class="event-container-header">
+              <div class="title-font">LOCATIONS</div>
+              <button mat-raised-button color="primary" class="button-system create-request-button "
+                      (click)="openRequestModal()">
+                <img src="../../../../assets/imgs/power.png" height="22" width="16"/>
+                Create Request
+              </button>
+            </div>
+            <div class="event-list">
+              <div class="event-container" *ngFor="let eventInterval of intervals">
+                <div class="event-title-container">
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Start time:
+                    </div>
+                    <div class="event-value">{{eventInterval.time_start| date:'h:mm a'}}</div>
+                  </div>
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Duration:
+                    </div>
+                    <div class="event-value">{{eventInterval.duration / 60 |  number:'1.0-0' }} m</div>
+                  </div>
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Bulb.png" height="16" width="16"/> Policy:
+                    </div>
+                    <div class="event-value">{{eventInterval.duration}}</div>
+                  </div>
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/On.png" height="16" width="16"/> Energy needed:
+                    </div>
+                    <div class="event-value">{{eventInterval.energy}}</div>
+                  </div>
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Compass.png" height="16" width="16"/> Location:
+                    </div>
+                    <div class="event-value">{{eventInterval.location}}</div>
+                  </div>
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Pin.png" height="16" width="16"/>Stations address:
+                    </div>
+                    <div class="event-value">{{eventInterval.location}}</div>
+                  </div>
 
+
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-      </div>
-
+      </ng-container>
     </mat-tab>
     <mat-tab label="Charging Progress">
-      <div class="schedule-container">
-        <div class="visual-container" *ngIf="loadChartFlag">
-          <app-schedule></app-schedule>
+      <ng-container *ngIf="loaderState">
+        <div class="empty-state--container">
+          <app-loader></app-loader>
         </div>
-        <div class="event-content">
-          <div class="event-container-header">
-            <div class="title-font">INTERVALS</div>
-            <button mat-raised-button color="primary" class="button-system create-request-button" (click)="openRequestModal()">
-              <img src="../../../../assets/imgs/power.png" height="22" width="16"/>
-              Create Request
-            </button>
+      </ng-container>
+      <ng-container *ngIf="!loaderState">
+        <div class="schedule-container" *ngIf="selectedTab !== 1 else emptyState">
+          <div class="visual-container" *ngIf="intervals.length">
+            <app-schedule [battery]="resourceSmartCar?.charge?.data.state"></app-schedule>
           </div>
-          <div class="event-list">
-            <div class="event-container" *ngFor="let eventInterval of intervals">
-              <div class="event-title-container">
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Start time:
+          <div class="event-content" *ngIf="intervals.length else emptyState">
+            <div class="event-container-header">
+              <div class="title-font">INTERVALS</div>
+              <button mat-raised-button color="primary" class="button-system create-request-button"
+                      (click)="loadChargeSchedule()">
+                <img src="../../../../assets/imgs/power.png" height="22" width="16"/>
+                Create Request
+              </button>
+            </div>
+            <div class="event-list">
+              <div class="event-container" *ngFor="let eventInterval of intervals">
+                <div class="event-title-container">
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Start time:
+                    </div>
+                    <div class="event-value">{{eventInterval.time_start| date:'h:mm a'}}</div>
                   </div>
-                  <div class="event-value">{{eventInterval.time_start| date:'h:mm a'}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Duration:
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Duration:
+                    </div>
+                    <div class="event-value">{{eventInterval.duration / 60 | number }} m</div>
                   </div>
-                  <div class="event-value">{{eventInterval.duration / 60 | number }} m</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Bulb.png" height="16" width="16"/> Policy:
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Bulb.png" height="16" width="16"/> Policy:
+                    </div>
+                    <div class="event-value">{{eventInterval.duration}}</div>
                   </div>
-                  <div class="event-value">{{eventInterval.duration}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/On.png" height="16" width="16"/> Energy needed:
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/On.png" height="16" width="16"/> Energy needed:
+                    </div>
+                    <div class="event-value">{{eventInterval.energy}}</div>
                   </div>
-                  <div class="event-value">{{eventInterval.energy}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Compass.png" height="16" width="16"/> Location:
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Compass.png" height="16" width="16"/> Location:
+                    </div>
+                    <div class="event-value">{{eventInterval.location}}</div>
                   </div>
-                  <div class="event-value">{{eventInterval.location}}</div>
-                </div>
-                <div class="event-row">
-                  <div class="event-title">
-                    <img src="../../../../assets/imgs/Pin.png" height="16" width="16"/> Address:
+                  <div class="event-row">
+                    <div class="event-title">
+                      <img src="../../../../assets/imgs/Pin.png" height="16" width="16"/> Address:
+                    </div>
+                    <div class="event-value">{{eventInterval.location}}</div>
                   </div>
-                  <div class="event-value">{{eventInterval.location}}</div>
-                </div>
 
 
+                </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
-      </div>
+      </ng-container>
     </mat-tab>
   </mat-tab-group>
 

@@ -1,6 +1,7 @@
-import {Component, Inject} from "@angular/core";
+import {Component, Inject, OnInit} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {AuthService} from "../../../../services/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-request-popup',
@@ -8,12 +9,18 @@ import {AuthService} from "../../../../services/auth.service";
 })
 
 
-export class RequestPopupComponent {
+export class RequestPopupComponent implements OnInit{
   successSync = false;
+  idResource;
   policyForSelect = [];
   constructor(@Inject(MAT_DIALOG_DATA) public resource,
               private dialogRef: MatDialogRef<RequestPopupComponent>,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
+  }
+  ngOnInit() {
+    this.idResource = this.router.url.split("/")[2];
 
   }
 
@@ -23,7 +30,7 @@ export class RequestPopupComponent {
 
   syncWidthCalendar() {
     this.successSync = !this.successSync;
-    this.authService.getDrivingScheduleById(21).subscribe(res => {
+    this.authService.getDrivingScheduleById(this.idResource).subscribe(res => {
         if (res) {
 
         }
@@ -34,7 +41,7 @@ export class RequestPopupComponent {
 
   }
   basedOnGeo() {
-    this.authService.calculateGeo(this.resource.idResource).subscribe()
+    this.authService.calculateGeo(this.idResource).subscribe()
     this.closeEvent()
   }
 }

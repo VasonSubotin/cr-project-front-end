@@ -1,9 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {MapInfoWindow, MapMarker} from "@angular/google-maps";
 import {RequestPopupComponent} from "./request-popup/request-popup.component";
 import {MatDialog} from "@angular/material/dialog";
+import {catchError, tap} from "rxjs/operators";
+import {throwError} from "rxjs";
 
 
 @Component({
@@ -18,102 +20,25 @@ export class ResourceComponent implements OnInit {
               private authService: AuthService,
               private matDialog: MatDialog) {
 
-
   }
 
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
-
+  @ViewChild('progressBar') progressBar: ElementRef;
+  loaderState = true;
+  selectedTab = 2;
   intervals = [
-    {
-      "start_time": "2014-05-01T05:00:00-",
-      "location": "Location A",
-      "cost_of_charging": 11.5,
-      "price": 3.4,
-      "duration": 60,
-      "energy": 9.3,
-      "power": 6.6,
-      "interval_type": "CHR",
-      "co2_impact": 0,
-      "soc_achieved": 58
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T05:01:00",
-      "location": 'NA',
-      "cost_of_charging": 0,
-      "price": 3.4,
-      "duration": 3600,
-      "energy": 0,
-      "power": 0,
-      "interval_type": "NCRH",
-      "economic_savings": 0,
-      "co2_impact": 0,
-      "soc_achieved": 48
-    },
-    {
-      "time_start": "2014-05-01T06:01:00-",
-      "location": "Home",
-      "cost_of_charging": 11.5,
-      "price": 3.4,
-      "duration": 8200,
-      "energy": 9.3,
-      "power": 6.6,
-      "interval_type": "CHR",
-      "economic_savings": 0.25,
-      "co2_impact": 0.4,
-      "soc_achieved": 64
-    }
+    /*   {
+         "start_time": "2014-05-01T05:00:00-",
+         "location": "Location A",
+         "cost_of_charging": 11.5,
+         "price": 3.4,
+         "duration": 60,
+         "energy": 9.3,
+         "power": 6.6,
+         "interval_type": "CHR",
+         "co2_impact": 0,
+         "soc_achieved": 58
+       },*/
   ]
   locations = [
     ['Bondi Beach', -33.890542, 151.274856, 4],
@@ -124,6 +49,7 @@ export class ResourceComponent implements OnInit {
   ];
 
   resource;
+  resourceSmartCar;
   idResource: number;
   favoritePolice;
   useCalendarFlag: boolean;
@@ -132,15 +58,7 @@ export class ResourceComponent implements OnInit {
 
   center = {lat: 38.74014171287381, lng: -122.42073208468675};
   markerOptions = {draggable: false};
-  markerPositions: google.maps.LatLngLiteral[] = [
-    {
-      lat: 38.74014171287381,
-      lng: -122.42073208468675
-    },
-    {
-      lat: 35.9457525891473,
-      lng: -120.39924770968675
-    }]
+  markerPositions: google.maps.LatLngLiteral[] = [];
   zoom = 6;
   display?: google.maps.LatLngLiteral;
 
@@ -152,9 +70,6 @@ export class ResourceComponent implements OnInit {
     this.infoWindow.open(marker);
   }
 
-  removeLastMarker() {
-    this.markerPositions.pop();
-  }
 
   addMarker(event: google.maps.MouseEvent) {
     this.markerPositions.push(event.latLng.toJSON());
@@ -168,24 +83,71 @@ export class ResourceComponent implements OnInit {
     {name: 'Charge car as fast as possible', active: false}];
 
   ngOnInit(): void {
+
     this.activatedRoute.paramMap.subscribe(res => {
       this.idResource = +res.get('idResource');
-      this.authService.getResourceById(this.idResource).subscribe((res: any) => {
-        this.resource = res;
-        this.favoritePolices[res.policyId - 1].active = true
-      })
-      this.authService.acccInfo(this.idResource).subscribe((res: any) => {
+      this.authService.getResourceSmartById(this.idResource).pipe((catchError(err => {
+          this.loaderState = false;
+          return throwError(err);
+        }))
+      ).subscribe((res: any) => {
 
-      })
+        this.loaderState = false;
+        if (res) {
+          this.resourceSmartCar = res.smartCarInfo;
+          this.resource = res.smResource;
+          this.favoritePolices[this.resource.policyId - 1].active = true;
+          this.selectedTab = res.smartCarInfo.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
+          this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
+          this.markerPositions.push({
+            lat: this.resourceSmartCar.location.data.latitude,
+            lng: this.resourceSmartCar.location.data.longitude
+          })
+          this.progressBar.nativeElement.style.width = this.resourceSmartCar.battery.percentRemaining + '%';
+          if (this.selectedTab === 1) this.progressBar.nativeElement.classList.add('active-charge');
+          //this.progressBar.nativeElement.style.width < 50 ? this.progressBar.nativeElement.style.background = '#CD3E22' : this.progressBar.nativeElement.style.background = '#54cb46d6';
+        }
+      });
     });
-    this.authService.getScheduleById(this.idResource).subscribe(res => {
-      console.log(res)
+
+
+  }
+
+  loadChargeSchedule() {
+    this.authService.calculateCharing(this.idResource).pipe(tap((res: any) => {
+      if (res.status === 500) {
+        this.loaderState = false;
+        this.authService.getScheduleById(this.idResource).subscribe((res: any) => {
+          this.intervals = res.intervals;
+          this.loaderState = false;
+        })
+      }
+    })).subscribe(res => {
+      this.loaderState = false;
     })
-    this.authService.calculateGeo(this.idResource).subscribe((res: any) => {
+  }
+
+  loadDrivingSchedule() {
+    this.authService.getScheduleById(this.idResource).pipe
+    (tap((res: any) => {
+        if (!res) {
+          this.loadCalcGeo();
+        }
+      }),
+      (catchError(err => {
+        this.loadCalcGeo();
+        return throwError(err);
+      }))).subscribe((res: any) => {
+      this.loaderState = false;
       this.intervals = res.intervals
     })
-    this.authService.calculateCharing(this.idResource).subscribe(res => {
-      console.log(res)
+  }
+
+  loadCalcGeo() {
+    this.loaderState = false;
+    this.authService.calculateGeo(this.idResource).subscribe((res: any) => {
+      this.loaderState = false;
+      this.intervals = res.intervals
     })
   }
 
@@ -195,9 +157,6 @@ export class ResourceComponent implements OnInit {
     }
   }
 
-  openSchedule() {
-    this.router.navigate([`/resource/schedule/${this.idResource}`])
-  }
 
   updateResource(policyId) {
     this.resource.policyId = policyId;
@@ -209,7 +168,10 @@ export class ResourceComponent implements OnInit {
   }
 
   openRequestModal() {
-    console.log(this.resource)
+    if (this.selectedTab === 1) {
+      this.selectedTab = 1;
+      return
+    }
     const dialogConf: any = {
       data: this.resource, panelClass: 'create-request-dialog', closeOnNavigation: true, autoFocus: false
     };

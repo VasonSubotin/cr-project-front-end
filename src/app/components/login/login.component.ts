@@ -4,6 +4,7 @@ import {ErrorStateMatcher} from "@angular/material/core";
 import {tap} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {request} from "../../constants/api";
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -19,6 +20,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class LoginComponent implements OnInit, OnDestroy {
   private subscriptions$ = [];
+  googleLogin = request.apiUrl+ 'googleLogin';
 
   constructor(private authService: AuthService,
               private router: Router

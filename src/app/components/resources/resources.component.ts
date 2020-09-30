@@ -2,9 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {POLICIES} from "../../constants/policies";
-import {tap} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 import {EditResourcePopupComponent} from "../../reusable-components/popups/edit-resource-popup/edit-resource-popup.component";
 import {MatDialog} from "@angular/material/dialog";
+import {request} from "../../constants/api";
+import {throwError} from "rxjs";
 
 
 @Component({
@@ -17,13 +19,15 @@ export class ResourcesComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              private matDialog: MatDialog,) {
+              private matDialog: MatDialog) {
   }
 
   policies: POLICIES;
   dataIsReady = false;
+  loaderState = false;
   resourcesData = [];
-  searchText
+  searchText;
+  smartCarLogin = request.apiUrl+ 'smartCarLogin';
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -60,7 +64,7 @@ export class ResourcesComponent implements OnInit {
     this.authService.googleAuthenticate(code).subscribe((res: any) => {
       debugger
       localStorage.setItem('token', res.token);
-        window.location.href = 'http://142.93.166.32:8080/smartCarLogin';
+        window.location.href = this.smartCarLogin;
 
       }
     )
@@ -72,7 +76,6 @@ export class ResourcesComponent implements OnInit {
       if (res.status === 200) {
         this.getResourcesArray();
 
-      } else {
       }
     })).subscribe(res => console.log(res),
 
@@ -87,14 +90,19 @@ export class ResourcesComponent implements OnInit {
   }
 
   getResourcesArray() {
-    this.authService.getResources().subscribe((res: any) => {
+    this.authService.getResources().pipe(catchError(err => {
+      this.loaderState = true;
+      return throwError(err);
+    })).subscribe((res: any) => {
+      this.loaderState = true;
       this.resourcesData = res;
       this.dataIsReady = true;
     });
 
   }
 
-  navigateByResource(idResource) {
-    this.router.navigate([`/resource/${idResource}`])
+  navigateByResource(idResource, smResource) {
+
+    this.router.navigate([`/resource/${idResource}`],)
   }
 }

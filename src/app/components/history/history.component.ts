@@ -17,7 +17,7 @@ export class HistoryComponent implements OnInit {
   constructor(private authService: AuthService) {
   }
   ngOnInit(): void {
-    this.authService.getHistory(21).subscribe((res: any) => {
+    this.authService.getHistory(20).subscribe((res: any) => {
    console.log(res)
     });
   }

@@ -1,43 +1,27 @@
-<div class="flex-block flex-block--center">
-  <div class="vertical-container max-width--600">
-    <button mat-raised-button class="button-system" color="primary" >
-      <a class="link-button" href="https://142.93.166.32:8080/googleLogin"></a>
+<div class="flex-block flex-block--column flex-block--center ">
+    <h1>Wellcome</h1>
+    Service for organizing your electric car driving experience
+    <form #form class="example-form flex-block flex-block--center flex-block--column"
+          [formGroup]=myGroup (ngSubmit)="onSubmit()">
+
+
+
+    <input matInput formControlName="login" class="input-login"
+           placeholder="login">
+
+    <input matInput formControlName="password" class="input-login"
+           placeholder="Password">
+
+      <button color="primary"  class="button-system button-system--login margin-top-60" [disabled]="form.valid">
+
+        Login</button>
+    </form>
+    <p class="margin-top-25 margin-bottom-25"> or </p>
+
+    <button  class="button-system button-system--login" color="primary" >
+      <a class="link-button" [href]="googleLogin"></a>
       Google</button>
-    <mat-card class="width-100 max-width--600">
-      <form #UserLogin="ngForm" class="example-form flex-block flex-block--center flex-block--column"
-            [formGroup]=myGroup (ngSubmit)="onSubmit()">
 
-        <mat-form-field class="input-element margin-top-25">
-          <mat-label>Login</mat-label>
-          <input matInput formControlName="login" [errorStateMatcher]="matcher"
-                 placeholder="login">
-          <mat-hint>Errors appear instantly!</mat-hint>
-          <mat-error *ngIf="myGroup.controls['login'].invalid && myGroup.controls['login'].touched">
-            Please enter a valid email address
-          </mat-error>
-          <mat-error *ngIf="myGroup.controls['login'].hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="input-element margin-top-25">
-          <mat-label>Password</mat-label>
-          <input matInput formControlName="password" [errorStateMatcher]="matcher"
-                 placeholder="******">
-          <mat-hint>Errors appear instantly!</mat-hint>
-          <mat-error *ngIf="myGroup.controls['password'].touched">
-            Please enter a valid password
-          </mat-error>
-          <mat-error *ngIf="myGroup.controls['password'].hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="primary"  class="button-system" [disabled]="!UserLogin.form.valid">
-
-          Login</button>
-
-      </form>
-    </mat-card>
-    <a routerLink="/registration">Registration</a>
-  </div>
+    <a routerLink="/registration"> Don’t have account?
+       Register</a>
 </div>
