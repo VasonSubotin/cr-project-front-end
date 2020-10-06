@@ -4,7 +4,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {ResourcesComponent} from "./components/resources/resources.component";
 import {ResourceComponent} from "./components/resources/resource/resource.component";
-import {ScheduleComponent} from "./components/schedule/schedule.component";
+import {ScheduleComponent} from "./components/resources/resource/schedule/schedule.component";
 import {HistoryComponent} from "./components/history/history.component";
 
 

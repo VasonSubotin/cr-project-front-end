@@ -1,0 +1,19 @@
+<style>
+  .canvas-container {
+    max-height: 667px;
+    width: 100%;
+  }
+  .canvas-container canvas {
+  }
+</style>
+<div  class="canvas-container" style="display: block;">
+  <canvas baseChart  width="973px" height="667px"
+          [datasets]="lineChartData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+</div>

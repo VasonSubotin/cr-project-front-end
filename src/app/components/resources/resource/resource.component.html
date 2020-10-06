@@ -225,6 +225,7 @@
       <ng-container *ngIf="!loaderState">
         <div class="schedule-container">
           <div class="visual-container">
+<!--
             <google-map height="603px"
                         width="100%"
                         [center]="center"
@@ -236,6 +237,9 @@
                           [options]="markerOptions"
                           (mapClick)="openInfoWindow(marker)"></map-marker>
             </google-map>
+-->
+
+            <app-map-geo></app-map-geo>
             <div class="legenda">
               <div class="legenda-item">
                 <img src="../../../../assets/imgs/my_car.png" height="34" width="30"/>

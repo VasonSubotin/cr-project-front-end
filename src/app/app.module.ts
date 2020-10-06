@@ -17,7 +17,7 @@ import {ResourcesComponent} from "./components/resources/resources.component";
 import {ResourceComponent} from "./components/resources/resource/resource.component";
 import {LogoutComponent} from "./reusable-components/logout.component/logout.component";
 import {HeaderComponent} from "./reusable-components/header/header.component";
-import {ScheduleComponent} from "./components/schedule/schedule.component";
+import {ScheduleComponent} from "./components/resources/resource/schedule/schedule.component";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -39,6 +39,8 @@ import {setTimeStopComponent} from "./reusable-components/popups/edit-resource-p
 import {FunctionsService} from "./services/functions.service";
 import {HistoryComponent} from "./components/history/history.component";
 import {LoaderComponent} from "./reusable-components/loader.component/loader.component";
+import {MapGeoComponent} from "./components/resources/resource/map-geo/map-geo.component";
+import {AppleMapsModule} from "ngx-apple-maps";
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import {LoaderComponent} from "./reusable-components/loader.component/loader.com
     ScheduleComponent,
     DropDownComponent,
     RequestPopupComponent,
+    MapGeoComponent,
 
     EditResourcePopupComponent,
     PageLoaderComponent,
@@ -83,6 +86,7 @@ import {LoaderComponent} from "./reusable-components/loader.component/loader.com
     MatTabsModule,
     Ng2SearchPipeModule,
     AmazingTimePickerModule,
+    AppleMapsModule,
   ],
   entryComponents: [
     EditResourcePopupComponent

@@ -27,7 +27,7 @@ export class ResourcesComponent implements OnInit {
   loaderState = false;
   resourcesData = [];
   searchText;
-  smartCarLogin = request.apiUrl+ 'smartCarLogin';
+  smartCarLogin = request.apiUrl + 'smartCarLogin';
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -44,6 +44,8 @@ export class ResourcesComponent implements OnInit {
     });
     if (localStorage.getItem('smartCarToken')) {
       this.startSmartCarSession(localStorage.getItem('smartCarToken'))
+    } else {
+      this.loaderState = true;
     }
   }
 
@@ -62,7 +64,6 @@ export class ResourcesComponent implements OnInit {
 
   getGoogleAuthenticate(code) {
     this.authService.googleAuthenticate(code).subscribe((res: any) => {
-      debugger
       localStorage.setItem('token', res.token);
         window.location.href = this.smartCarLogin;
 
@@ -72,7 +73,6 @@ export class ResourcesComponent implements OnInit {
 
   startSmartCarSession(code) {
     this.authService.smartCarSession(code).pipe(tap((res: any) => {
-
       if (res.status === 200) {
         this.getResourcesArray();
 

@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 
 
-export class RequestPopupComponent implements OnInit{
+export class RequestPopupComponent implements OnInit {
   successSync = false;
   idResource;
   policyForSelect = [];

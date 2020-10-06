@@ -26,6 +26,9 @@ export class ResourceComponent implements OnInit {
   @ViewChild('progressBar') progressBar: ElementRef;
   loaderState = true;
   selectedTab = 2;
+  /*Name:m
+  Key ID:F56BZ5WVSG
+  Services:MapKit JS*/
   intervals = [
     /*   {
          "start_time": "2014-05-01T05:00:00-",
@@ -97,7 +100,7 @@ export class ResourceComponent implements OnInit {
           this.resourceSmartCar = res.smartCarInfo;
           this.resource = res.smResource;
           this.favoritePolices[this.resource.policyId - 1].active = true;
-          this.selectedTab = res.smartCarInfo.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
+          this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
           this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
           this.markerPositions.push({
             lat: this.resourceSmartCar.location.data.latitude,
