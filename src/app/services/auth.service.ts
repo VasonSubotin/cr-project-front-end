@@ -23,6 +23,7 @@ export class AuthService {
   googleLogin() {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.signupGoogle}`)
   }
+
   authrized(code) {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.authrized}?code=${code}`)
   }
@@ -51,6 +52,17 @@ export class AuthService {
     //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/stateInfo`, _options);
   }
+
+  deleteResourcesById(idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.delete(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}`, _options);
+  }
+
   getResourceSmartById(idResource) {
     const _options = {
       headers: new HttpHeaders({
@@ -101,7 +113,7 @@ export class AuthService {
         'observe': 'response'
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`,  headers);
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, headers);
   }
 
   getDrivingScheduleById(idResource) {

@@ -100,7 +100,9 @@ export class ResourcesComponent implements OnInit {
     });
 
   }
-
+  resourceDelete(index) {
+    this.resourcesData.splice(index, 1)
+  }
   navigateByResource(idResource, smResource) {
 
     this.router.navigate([`/resource/${idResource}`],)

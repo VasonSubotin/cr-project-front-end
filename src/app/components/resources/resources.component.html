@@ -86,7 +86,7 @@
   </button>
 </div>
 <ng-container *ngIf="loaderState">
-<ng-container *ngIf="resourcesData.length else emptyResourceList">
+<ng-container *ngIf="resourcesData.length else emptyResourceList; index as i">
   <div class="resource-container">
     <ng-container *ngFor="let resource of resourcesData | filter: searchText">
       <div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
@@ -98,7 +98,7 @@
           <div class="title-font ">
             <span (click)="navigateByResource(resource.smResource.idResource, resource.smartCarInfo)">{{resource.smResource.vendor}}
               / {{resource.smResource.model}}</span>
-            <app-drop-down [resourceData]="resource"></app-drop-down>
+            <app-drop-down [resourceData]="resource" (resourceDelete)="resourceDelete(i)"></app-drop-down>
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">Plugged:</div>
@@ -159,7 +159,6 @@
 </ng-container>
 <ng-template #emptyResourceList>
   <div class="resource-container">
-
     <div class="add__resource">
       <div class="link-container">
         <div class="link-container" >

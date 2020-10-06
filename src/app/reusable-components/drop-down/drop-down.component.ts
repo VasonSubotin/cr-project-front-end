@@ -1,7 +1,9 @@
-import {Component, Input} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {Router} from "@angular/router";
 import {EditResourcePopupComponent} from "../popups/edit-resource-popup/edit-resource-popup.component";
 import {MatDialog} from "@angular/material/dialog";
+import {catchError} from "rxjs/operators";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-drop-down',
@@ -12,8 +14,10 @@ import {MatDialog} from "@angular/material/dialog";
 export class DropDownComponent {
   dropDownOpen = false;
   @Input() resourceData;
+  @Output() resourceDelete = new EventEmitter<any>();;
   constructor(private router: Router,
               private matDialog: MatDialog,
+              private authService: AuthService
   ) {
   }
 
@@ -34,5 +38,12 @@ export class DropDownComponent {
       }
     );
   }
+  deleteResource() {
+    this.switchDropDownState();
+    this.resourceDelete.emit();
+    this.authService.deleteResourcesById(this.resourceData.smResource.idResource).subscribe(res=> {
+
+    })
+    }
 }
 
