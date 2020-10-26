@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     const request$ = this.authService.authenticate(body).pipe(tap((res: any) => {
       if (res.status === 200) {
+        localStorage.removeItem('token');
         localStorage.setItem('token', res.body.token);
         this.authService.auth_token =  res.body.token;
         this.router.navigate(['/resources'])

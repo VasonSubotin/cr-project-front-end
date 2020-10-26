@@ -16,7 +16,6 @@
     width: 0px;
     height: 30px;
     margin: 0 auto;
-
   }
 
   .link_icon:after {
@@ -138,7 +137,7 @@
           </div>
           <div class="sub_container">
             <div class="title-font sub_tittle">SOC:</div>
-            <div class="title-font sub_tittle sub_info"> {{resource.smResource?.capacity / 1000}} kWh</div>
+            <div class="title-font sub_tittle sub_info"> {{resource.smartCarInfo?.battery?.percentRemaining}} %</div>
 
           </div>
         </div>
@@ -176,6 +175,4 @@
     <app-loader></app-loader>
   </div>
 </ng-container>
-<!--
-<app-map-geo></app-map-geo>
--->
+

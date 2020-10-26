@@ -45,6 +45,8 @@ export class ResourcesComponent implements OnInit {
     if (localStorage.getItem('smartCarToken')) {
       this.startSmartCarSession(localStorage.getItem('smartCarToken'))
     } else {
+      this.startSmartCarSession(localStorage.getItem('smartCarToken'))
+
       this.loaderState = true;
     }
   }

@@ -24,35 +24,16 @@ export class ResourceComponent implements OnInit {
 
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
   @ViewChild('progressBar') progressBar: ElementRef;
-  loaderState = true;
-  selectedTab = 2;
-  /*Name:m
-  Key ID:F56BZ5WVSG
-  Services:MapKit JS*/
-  intervals = [
-    /*   {
-         "start_time": "2014-05-01T05:00:00-",
-         "location": "Location A",
-         "cost_of_charging": 11.5,
-         "price": 3.4,
-         "duration": 60,
-         "energy": 9.3,
-         "power": 6.6,
-         "interval_type": "CHR",
-         "co2_impact": 0,
-         "soc_achieved": 58
-       },*/
-  ]
-  locations = [
-    ['Bondi Beach', -33.890542, 151.274856, 4],
-    ['Coogee Beach', -33.923036, 151.259052, 5],
-    ['Cronulla Beach', -34.028249, 151.157507, 3],
-    ['Manly Beach', -33.80010128657071, 151.28747820854187, 2],
-    ['Maroubra Beach', -33.950198, 151.259302, 1]
-  ];
+  loaderState = false;
+  loaderStateGeo = false;
+  selectedTab = 0;
+
 
   resource;
-  resourceSmartCar;
+  station_locations = JSON.parse(localStorage.getItem('station_locations')) || <any>[];
+  resourceSmartCar = JSON.parse(localStorage.getItem('smartCarInfo')) || <any>{};
+  intervals = JSON.parse(localStorage.getItem('intervals')) || [];
+
   idResource: number;
   favoritePolice;
   useCalendarFlag: boolean;
@@ -86,7 +67,6 @@ export class ResourceComponent implements OnInit {
     {name: 'Charge car as fast as possible', active: false}];
 
   ngOnInit(): void {
-
     this.activatedRoute.paramMap.subscribe(res => {
       this.idResource = +res.get('idResource');
       this.authService.getResourceSmartById(this.idResource).pipe((catchError(err => {
@@ -97,6 +77,7 @@ export class ResourceComponent implements OnInit {
 
         this.loaderState = false;
         if (res) {
+          localStorage.setItem('smartCarInfo', JSON.stringify(res.smartCarInfo));
           this.resourceSmartCar = res.smartCarInfo;
           this.resource = res.smResource;
           this.favoritePolices[this.resource.policyId - 1].active = true;
@@ -106,23 +87,30 @@ export class ResourceComponent implements OnInit {
             lat: this.resourceSmartCar.location.data.latitude,
             lng: this.resourceSmartCar.location.data.longitude
           })
-          this.progressBar.nativeElement.style.width = this.resourceSmartCar.battery.percentRemaining + '%';
+          this.progressBar.nativeElement.style.width = (this.resourceSmartCar.battery.percentRemaining * 100) + '%';
           if (this.selectedTab === 1) this.progressBar.nativeElement.classList.add('active-charge');
           //this.progressBar.nativeElement.style.width < 50 ? this.progressBar.nativeElement.style.background = '#CD3E22' : this.progressBar.nativeElement.style.background = '#54cb46d6';
         }
       });
+      this.authService.getResourceDataById(this.idResource).subscribe((res: any) => {
+        localStorage.setItem('resourceInfo', JSON.stringify(res.resourceInfo))
+      })
     });
 
-
+    this.authService.getJwtToken().subscribe(res=> {
+      console.log(res)
+    })
   }
 
   loadChargeSchedule() {
     this.authService.calculateCharing(this.idResource).pipe(tap((res: any) => {
       if (res.status === 500) {
         this.loaderState = false;
-        this.authService.getScheduleById(this.idResource).subscribe((res: any) => {
-          this.intervals = res.intervals;
-          this.loaderState = false;
+        this.authService.getScheduleById(this.idResource, 'CHR').subscribe((res: any) => {
+          if (res) {
+            this.intervals = res.intervals;
+            this.loaderState = false;
+          }
         })
       }
     })).subscribe(res => {
@@ -131,7 +119,7 @@ export class ResourceComponent implements OnInit {
   }
 
   loadDrivingSchedule() {
-    this.authService.getScheduleById(this.idResource).pipe
+    this.authService.getScheduleById(this.idResource, 'DRV').pipe
     (tap((res: any) => {
         if (!res) {
           this.loadCalcGeo();
@@ -141,16 +129,22 @@ export class ResourceComponent implements OnInit {
         this.loadCalcGeo();
         return throwError(err);
       }))).subscribe((res: any) => {
-      this.loaderState = false;
-      this.intervals = res.intervals
+      if (res) {
+        localStorage.setItem('schedule', JSON.stringify(res.intervals));
+        this.loaderState = false;
+        this.intervals = res.intervals
+      }
     })
   }
 
   loadCalcGeo() {
     this.loaderState = false;
     this.authService.calculateGeo(this.idResource).subscribe((res: any) => {
-      this.loaderState = false;
-      this.intervals = res.intervals
+      this.loaderStateGeo = false;
+      this.intervals = res.intervals;
+      this.station_locations = res.intervals[0].station_locations;
+      localStorage.setItem('station_locations', JSON.stringify(this.station_locations));
+      localStorage.setItem('intervals', JSON.stringify(this.intervals));
     })
   }
 

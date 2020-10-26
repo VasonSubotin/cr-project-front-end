@@ -12,7 +12,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class RequestPopupComponent implements OnInit {
   successSync = false;
   idResource;
-  policyForSelect = [];
+  policyForSelect: any = [
+    {value: 0, name: 'green policy. (optimized to CO2 marginal emission)'},
+    {value: 1, name: 'monetary policy (optimized to energy market pricing)'},
+    {value: 2, name: 'CO2 - Minimize CO2 emission'}
+  ];
+  driveSchedule = JSON.parse(localStorage.getItem('schedule')) || [];
   constructor(@Inject(MAT_DIALOG_DATA) public resource,
               private dialogRef: MatDialogRef<RequestPopupComponent>,
               private authService: AuthService,
@@ -21,7 +26,7 @@ export class RequestPopupComponent implements OnInit {
   }
   ngOnInit() {
     this.idResource = this.router.url.split("/")[2];
-
+console.log(this.driveSchedule)
   }
 
   closeEvent() {
@@ -32,13 +37,24 @@ export class RequestPopupComponent implements OnInit {
     this.successSync = !this.successSync;
     this.authService.getDrivingScheduleById(this.idResource).subscribe(res => {
         if (res) {
-
+          this.driveSchedule = res;
+          localStorage.setItem('schedule', JSON.stringify(res));
+          localStorage.setItem('driveSchedule', JSON.stringify(res));
         }
       }
     )
   }
-  onChange(){
-
+  addNewInterval(){
+    this.driveSchedule.intervals.push({})
+  }
+  deleteInterval (index) {
+    this.driveSchedule.intervals.splice(index,1)
+  }
+  createRequest() {
+    this.authService.putScheduleById(this.idResource ,this.driveSchedule).subscribe((res)=> {
+      console.log(res)
+    });
+  this.closeEvent();
   }
   basedOnGeo() {
     this.authService.calculateGeo(this.idResource).subscribe()

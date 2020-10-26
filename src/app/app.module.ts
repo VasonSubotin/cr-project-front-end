@@ -55,13 +55,13 @@ import {AppleMapsModule} from "ngx-apple-maps";
     ScheduleComponent,
     DropDownComponent,
     RequestPopupComponent,
-    MapGeoComponent,
 
     EditResourcePopupComponent,
     PageLoaderComponent,
     setTimeStartComponent,
     HistoryComponent,
-    setTimeStopComponent
+    setTimeStopComponent,
+    MapGeoComponent
   ],
   imports: [
     BrowserModule,
@@ -88,6 +88,7 @@ import {AppleMapsModule} from "ngx-apple-maps";
     AmazingTimePickerModule,
     AppleMapsModule,
   ],
+
   entryComponents: [
     EditResourcePopupComponent
   ],

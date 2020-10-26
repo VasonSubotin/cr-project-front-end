@@ -1,5 +1,4 @@
-import {Component, OnInit} from "@angular/core";
-import {AppleMapsService} from "ngx-apple-maps";
+import {Component, Input, OnInit} from "@angular/core";
 import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/declarations";
 
 @Component({
@@ -9,71 +8,85 @@ import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/decla
 
 
 export class MapGeoComponent implements OnInit {
-
+  @Input() mapData: any;
   latitude: 1;
   longitude: 1;
 
-  constructor(private appleMapsService: AppleMapsService) {
-  }
+  constructor() {
+  };
 
+  // @ts-ignore
   options: MapKitInitOptions = {
-    JWT: "/MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgpKVoGYwpAjz48yek1R60dgCjJJBqaTng7wFjnRbwQnygCgYIKoZIzj0DAQehRANCAAS9CSHA9CNURciA9NAt8v60rGWza7N3CdBljaExVbyyaKXTC1kVth/ykUt++vf9bt/XyiNJEBWZrvZ7ufP0l9in",
-    language: 'en',
+    // tslint:disable-next-line:max-line-length
+    JWT: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkY1NkJaNVdWU0cifQ.eyJpc3MiOiI4V1o5QkgzQVIzIiwiaWF0IjoxNjAyMTY4OTIwLCJleHAiOjE2MzY5ODgxMjB9.0TvY-zhIH_GJSwg7pjMlZlo8I1D9zai9gD9Qx-SweUJ68jmyuy2AXjP-mrF-Q4Is03IyqAdPTcjmo9Wf_dPK2w',
     callback: (data) => {
       console.log('data ', data);
       // console.log('data ', data);
     }
-  }
-  customAnnotation = {
-    latitude: 37.8083396,
-    longitude: -122.415727,
-    options: {
-      title: 'Custom marker callout',
-      subtitle: 'subtitle 2',
-      color: '#000',
-      selected: false,
-      glyphText: ''
-    }
   };
-  annotations = [
-    {
-      latitude: 37.8023553,
-      longitude: -122.405742,
-      options: {
-        title: 'test 2',
-        subtitle: 'subtitle 3',
-        color: '#000',
-        selected: false,
-        glyphText: ''
-      }
-    },
-    {
-      latitude: 37.779267,
-      longitude: -122.419269,
-      options: {
-        title: 'test 2',
-        subtitle: 'subtitle 3',
-        color: '#FF0000',
-        selected: false,
-        glyphText: '',
-        calloutEnabled: true
-      }
-    }
-  ];
+  customAnnotation = [];
+
   settings: MapConstructorOptions = {
+    region: {
+      center: {
+        latitude: 0,
+        longitude: 0
+      },
+      span: {
+        from: 0,
+        to: 1,
+      },
+    },
+
     isZoomEnabled: true,
     showsZoomControl: true,
     showsUserLocationControl: true,
     showsMapTypeControl: true,
     showsUserLocation: false,
     tracksUserLocation: false,
+    mapType: 'standard',
+    colorScheme: 'dark',
     center: {
       latitude: 37.779267,
       longitude: -122.419269,
     }
   };
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    this.settings.region.center = {
+      latitude: this.mapData[0].latitude,
+      longitude: this.mapData[0].longitude
+    };
+    const mapDataOptions = this.mapDataPrepareData(this.mapData);
+    this.customAnnotation.push(...mapDataOptions)
+    const locationData = JSON.parse(localStorage.getItem('smartCarInfo')).location.data;
+    this.customAnnotation.push({
+      latitude: locationData.latitude % 10000,
+      longitude: locationData.longitude % 10000,
+      options: {
+        title: 'My car',
+        glyphText: `My car`
+      }
+    });
+    this.settings.center = {
+      latitude: this.mapData[0].latitude,
+      longitude: this.mapData[0].longitude
+    };
+    console.log(this.customAnnotation)
+  }
+
+  mapDataPrepareData(mapData) {
+    return mapData.map((item, index) => {
+      return {
+        ...item,
+        options: {
+          title: item.name,
+          animates: true,
+          selected: index === 0,
+          glyphText: `${index + 1}`,
+        }
+      }
+    })
   }
 
 }

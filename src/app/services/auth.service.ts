@@ -68,7 +68,8 @@ export class AuthService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'observe': 'response'
+        'observe': 'response',
+
       })
     };
     //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
@@ -105,22 +106,35 @@ export class AuthService {
     return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}`, body, _options);
   }
 
-  getScheduleById(idResource) {
+  getScheduleById(idResource, type) {
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'observe': 'response'
+        'observe': 'response',
+
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, headers);
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule?type=${type}`, headers);
+  }
+  putScheduleById(idResource,schedule) {
+    const headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'observe': 'response',
+
+      })
+    };
+    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, idResource, headers);
   }
 
   getDrivingScheduleById(idResource) {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+
       })
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/drivingSchedule`, _options);
@@ -130,7 +144,7 @@ export class AuthService {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       })
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/calculateGeo`, _options);
@@ -142,7 +156,8 @@ export class AuthService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'observe': 'response'
+        'observe': 'response',
+
       })
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/chargingSchedule`, _options);
@@ -200,4 +215,18 @@ export class AuthService {
     return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tou`, body, _options);
   }
 
+  getJwtToken(){
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+   /* const body = {
+      start: periodFrom,
+      stop: periodTo
+    };*/
+    return this.http.post(`${this.apiConstants.apiUrl}getJwtToken`,{}, _options);
+
+  }
 }

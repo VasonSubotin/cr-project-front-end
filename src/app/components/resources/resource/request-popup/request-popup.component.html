@@ -77,10 +77,13 @@
     flex-direction: column;
     width: 100%;
     align-items: center;
+    height: 70vh;
+    overflow: scroll;
   }
 
   .event-item {
     position: relative;
+    padding-top: 40px;
     padding-bottom: 40px;
     box-sizing: content-box;
     display: flex;
@@ -138,6 +141,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: content-box;
+    width: 40%;
     text-align: center;
     color: #4339F2;
     box-shadow: none;
@@ -158,6 +163,15 @@
     height: 100px;
     box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25);
   }
+  .map-container {
+    justify-content: end;
+  }
+  .map {
+    margin-top: 7px;
+  }
+ .map-container .margin-top-25 {
+   margin-top: 15px;
+ }
 </style>
 <div class="close" (click)="closeEvent()">
   <img src="../../../../../assets/imgs/Close.png" height="40" width="40"/>
@@ -220,54 +234,59 @@
 <ng-container *ngIf="successSync">
 
   <div class="event-list">
-    <div class="event-item">
-      <div class="flex-block flex-block--column width-450">
+    <ng-container *ngFor="let driveItem of driveSchedule.intervals; let i = index">
+      <div class="event-item">
+        <div class="flex-block flex-block--column width-450">
 
-        <div class="input-container width-450">
-          <div class="input-label">Destination address</div>
-          <input class="input-system" placeholder="Khreshatic street 48, 2342387">
-        </div>
-        <div class="select-container margin-top-25">
-          <div class="input-label">Policy</div>
-          <select class="input-system" disabled >
-            <option *ngFor="let policy of policyForSelect"> {{policy.name}}</option>
-          </select>
-        </div>
-        <div class="flex flex-block--space-between width-100 ">
-          <div class="input-container margin-top-25">
-            <div class="input-label">From</div>
-            <input class="input-system" placeholder="11:30 am" disabled>
+          <div class="input-container width-450">
+            <div class="input-label">Destination address</div>
+            <input class="input-system" [placeholder]="driveItem?.calendar_location?.address">
           </div>
-          <div class="input-container margin-top-25">
-            <div class="input-label" >To</div>
-            <input class="input-system" disabled placeholder="02:15 pm">
+          <div class="select-container margin-top-25">
+            <div class="input-label">Policy</div>
+            <select class="input-system" disabled >
+              <option *ngFor="let policy of policyForSelect"> {{driveSchedule?.policy_id}}</option>
+            </select>
+          </div>
+          <div class="flex flex-block--space-between width-100 ">
+            <div class="input-container margin-top-25">
+              <div class="input-label">From</div>
+              <input class="input-system" [placeholder]="driveItem?.time_start |  date:'shortTime'" disabled>
+            </div>
+            <div class="input-container margin-top-25">
+              <div class="input-label" >To</div>
+              <input class="input-system" [placeholder]="driveItem?.time_start |  date:'shortTime'" disabled>
+            </div>
+          </div>
+
+          <div class="charg-station margin-top-22">
+            <div class="charg-station-title">Charging Station: </div>
+            <div class="charg-station-value">{{driveItem?.station_locations[i].address}}</div>
           </div>
         </div>
+        <div class="flex-block flex-block--column width-450 map-container">
 
-        <div class="charg-station margin-top-22">
-          <div class="charg-station-title">Charging Station: </div>
-          <div class="charg-station-value">ALTD LTD Big ECO, LA 1238486</div>
+          <div class="width-450 height-239 map">
+
+            <app-map-geo [mapData]="driveItem?.station_locations"></app-map-geo>
+
+          </div>
+
+
+          <div class="flex flex-block--space-between margin-top-25">
+            <button mat-raised-button color="primary" class="button-system width-215"  >EDIT </button>
+            <button mat-raised-button color="primary" class="button-system width-215" (click)="deleteInterval(i)" >DELETE</button>
+          </div>
         </div>
+        <div class="divider margin-top-40"></div>
+
       </div>
-      <div class="flex-block flex-block--column width-450">
 
-        <div class="width-450 height-239">
+    </ng-container>
 
-        </div>
-
-
-        <div class="flex flex-block--space-between margin-top-25">
-          <button mat-raised-button color="primary" class="button-system width-215"  >EDIT </button>
-          <button mat-raised-button color="primary" class="button-system width-215"  >DELETE</button>
-        </div>
-      </div>
-      <div class="divider margin-top-40"></div>
-
-    </div>
     <div class="bottom-container">
-
-        <button mat-raised-button color="primary" class="button-system width-450 margin-right-30"  >Add one more address</button>
-        <button mat-raised-button color="primary" class="button-system width-450 blue-button" disabled >CREATE REQUEST</button>
+        <button mat-raised-button color="primary" class="button-system width-450 margin-right-30" (click)="addNewInterval()" >Add one more address</button>
+        <button mat-raised-button color="primary" class="button-system width-450 blue-button" (click)="createRequest()"  >CREATE REQUEST</button>
     </div>
   </div>
 </ng-container>
