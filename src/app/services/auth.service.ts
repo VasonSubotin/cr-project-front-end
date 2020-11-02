@@ -52,6 +52,16 @@ export class AuthService {
     //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/stateInfo`, _options);
   }
+  getResourcesFast() {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, _options);
+  }
 
   deleteResourcesById(idResource) {
     const _options = {
@@ -117,7 +127,7 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule?type=${type}`, headers);
   }
-  putScheduleById(idResource,schedule) {
+  putScheduleById(idResource, schedule) {
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -126,7 +136,7 @@ export class AuthService {
 
       })
     };
-    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, idResource, headers);
+    return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/schedule`, schedule, headers);
   }
 
   getDrivingScheduleById(idResource) {

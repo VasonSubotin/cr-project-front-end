@@ -58,6 +58,7 @@ export class MapGeoComponent implements OnInit {
       longitude: this.mapData[0].longitude
     };
     const mapDataOptions = this.mapDataPrepareData(this.mapData);
+    mapDataOptions[0].options.color = '#02A0FC'
     this.customAnnotation.push(...mapDataOptions)
     const locationData = JSON.parse(localStorage.getItem('smartCarInfo')).location.data;
     this.customAnnotation.push({
@@ -65,7 +66,8 @@ export class MapGeoComponent implements OnInit {
       longitude: locationData.longitude % 10000,
       options: {
         title: 'My car',
-        glyphText: `My car`
+        glyphText: `My car`,
+        color: "#4339F2",
       }
     });
     this.settings.center = {
@@ -84,6 +86,7 @@ export class MapGeoComponent implements OnInit {
           animates: true,
           selected: index === 0,
           glyphText: `${index + 1}`,
+          color: '#D3D4D4'
         }
       }
     })

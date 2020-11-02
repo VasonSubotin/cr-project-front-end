@@ -49,6 +49,7 @@ export class ResourcesComponent implements OnInit {
 
       this.loaderState = true;
     }
+
   }
 
   testEdit() {
@@ -67,10 +68,24 @@ export class ResourcesComponent implements OnInit {
   getGoogleAuthenticate(code) {
     this.authService.googleAuthenticate(code).subscribe((res: any) => {
       localStorage.setItem('token', res.token);
-        window.location.href = this.smartCarLogin;
+        //window.location.href = this.smartCarLogin;
+        this.getResourcesFast();
 
       }
     )
+  }
+  getResourcesFast () {
+    let resourcesArray = [];
+    this.authService.getResourcesFast().subscribe( (res: any) => {
+      res.map((item, index) => {
+        resourcesArray[index] = {};
+        resourcesArray[index].smResource = res[index];
+      })
+      console.log(resourcesArray)
+      this.resourcesData = resourcesArray;
+      this.loaderState = true;
+
+    })
   }
 
   startSmartCarSession(code) {
@@ -86,7 +101,7 @@ export class ResourcesComponent implements OnInit {
           /*  localStorage.removeItem('token');
             this.router.navigate(['/login'])*/
            this.getResourcesArray();
-
+           this.getResourcesFast();
         }
       });
   }
@@ -97,8 +112,9 @@ export class ResourcesComponent implements OnInit {
       return throwError(err);
     })).subscribe((res: any) => {
       this.loaderState = true;
-      this.resourcesData = res;
       this.dataIsReady = true;
+
+      this.resourcesData = res;
     });
 
   }

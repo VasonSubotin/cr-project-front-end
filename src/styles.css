@@ -388,9 +388,8 @@ body {
 
 .resource-container {
   padding: 50px 10px 110px 10px;
-  justify-content: space-between;
   display: flex;
-  flex-flow: row wrap;
+  flex-wrap: wrap;
   min-height: 60vh;
 }
 
@@ -432,6 +431,7 @@ body {
   width: 451px;
   height: 200px;
   padding: 24px;
+  margin: 10px;
   background: #FFFFFF;
   border: 1px solid rgba(157, 165, 174, 0.2);
   box-sizing: border-box;
@@ -514,7 +514,7 @@ body {
   height: 250px;
   border: 2px dashed #4339F2;
   border-radius: 20px;
-  margin-bottom: 20px;
+  margin: 10px;
   box-sizing: border-box;
 }
 

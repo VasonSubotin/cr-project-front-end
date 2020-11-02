@@ -51,6 +51,7 @@ console.log(this.driveSchedule)
     this.driveSchedule.intervals.splice(index,1)
   }
   createRequest() {
+    debugger
     this.authService.putScheduleById(this.idResource ,this.driveSchedule).subscribe((res)=> {
       console.log(res)
     });
