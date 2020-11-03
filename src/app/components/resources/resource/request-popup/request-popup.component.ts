@@ -18,15 +18,17 @@ export class RequestPopupComponent implements OnInit {
     {value: 2, name: 'CO2 - Minimize CO2 emission'}
   ];
   driveSchedule = JSON.parse(localStorage.getItem('schedule')) || [];
+
   constructor(@Inject(MAT_DIALOG_DATA) public resource,
               private dialogRef: MatDialogRef<RequestPopupComponent>,
               private authService: AuthService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
   }
+
   ngOnInit() {
     this.idResource = this.router.url.split("/")[2];
-console.log(this.driveSchedule)
+    console.log(this.driveSchedule)
   }
 
   closeEvent() {
@@ -44,19 +46,22 @@ console.log(this.driveSchedule)
       }
     )
   }
-  addNewInterval(){
+
+  addNewInterval() {
     this.driveSchedule.intervals.push({})
   }
-  deleteInterval (index) {
-    this.driveSchedule.intervals.splice(index,1)
+
+  deleteInterval(index) {
+    this.driveSchedule.intervals.splice(index, 1)
   }
+
   createRequest() {
-    debugger
-    this.authService.putScheduleById(this.idResource ,this.driveSchedule).subscribe((res)=> {
+    this.authService.putScheduleById(this.idResource, this.driveSchedule).subscribe((res) => {
       console.log(res)
     });
-  this.closeEvent();
+    this.closeEvent();
   }
+
   basedOnGeo() {
     this.authService.calculateGeo(this.idResource).subscribe()
     this.closeEvent()

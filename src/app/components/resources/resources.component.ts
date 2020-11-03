@@ -34,21 +34,37 @@ export class ResourcesComponent implements OnInit {
       const code = params['code'];
       const type = params['type'];
       if (type === 'google') {
-        this.getGoogleAuthenticate(params['code'])
-/*
-
-*/
+        this.getGoogleAuthenticate(params['code']);
       } else if (type === 'smartCar') {
         localStorage.setItem('smartCarToken', code);
+        if (localStorage.getItem('smartCarToken')) {
+          this.startSmartCarSession(localStorage.getItem('smartCarToken'))
+        } else {
+          this.startSmartCarSession(localStorage.getItem('smartCarToken'));
+          this.loaderState = true;
+        }
+      } else {
+        this.checkSmartCarToken();
+
       }
     });
-    if (localStorage.getItem('smartCarToken')) {
-      this.startSmartCarSession(localStorage.getItem('smartCarToken'))
-    } else {
-      this.startSmartCarSession(localStorage.getItem('smartCarToken'))
 
-      this.loaderState = true;
-    }
+
+  }
+  checkSmartCarToken(){
+    this.authService.needInitSmartCarSession().pipe(
+      catchError((err: any) => {
+        return window.location.href = this.smartCarLogin;
+      })
+    ).subscribe((res:any)=> {
+      if (res.body.needInit) {
+        window.location.href = this.smartCarLogin;
+
+      } else {
+        this.getResourcesArray();
+        this.getResourcesFast();
+      }
+    })
 
   }
 
@@ -66,13 +82,17 @@ export class ResourcesComponent implements OnInit {
   }
 
   getGoogleAuthenticate(code) {
-    this.authService.googleAuthenticate(code).subscribe((res: any) => {
-      localStorage.setItem('token', res.token);
-        //window.location.href = this.smartCarLogin;
-        this.getResourcesFast();
+    this.authService.googleAuthenticate(code)
+      .subscribe((res: any) => {
+        debugger
+      localStorage.setItem('token', res.body.token);
+      this.checkSmartCarToken();
+      },
+        error => {
+          if (error.status === 500) {
+            this.checkSmartCarToken();
+          }})
 
-      }
-    )
   }
   getResourcesFast () {
     let resourcesArray = [];
@@ -88,10 +108,12 @@ export class ResourcesComponent implements OnInit {
     })
   }
 
+
   startSmartCarSession(code) {
     this.authService.smartCarSession(code).pipe(tap((res: any) => {
       if (res.status === 200) {
         this.getResourcesArray();
+        this.getResourcesFast();
 
       }
     })).subscribe(res => console.log(res),

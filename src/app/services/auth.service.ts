@@ -11,6 +11,17 @@ export class AuthService {
   public apiConstants = request;
   public auth_token;
 
+  needInitSmartCarSession() {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      })
+    };
+
+
+    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.needInitSmartCarSession}`,{}, _options)
+  }
 
   singUp(body) {
     return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.signup}`, body, {observe: 'response'})
@@ -29,7 +40,7 @@ export class AuthService {
   }
 
   public googleAuthenticate(code) {
-    return this.http.post(`${this.apiConstants.apiUrl}googleAuthenticate?code=${code}`, {})
+    return this.http.post(`${this.apiConstants.apiUrl}googleAuthenticate?code=${code}`, {}, {observe: 'response'})
   }
 
   smartCarSession(code) {
