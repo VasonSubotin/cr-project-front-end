@@ -41,6 +41,8 @@ import {HistoryComponent} from "./components/history/history.component";
 import {LoaderComponent} from "./reusable-components/loader.component/loader.component";
 import {MapGeoComponent} from "./components/resources/resource/map-geo/map-geo.component";
 import {AppleMapsModule} from "ngx-apple-maps";
+import {ChartsService} from "./services/charts.service";
+import {LineChartComponent} from "./components/resources/resource/schedule/line-chart/line-chart.component";
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import {AppleMapsModule} from "ngx-apple-maps";
     setTimeStartComponent,
     HistoryComponent,
     setTimeStopComponent,
-    MapGeoComponent
+    MapGeoComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +95,11 @@ import {AppleMapsModule} from "ngx-apple-maps";
   entryComponents: [
     EditResourcePopupComponent
   ],
-  providers: [AuthService, FunctionsService],
+  providers: [
+    AuthService,
+    FunctionsService,
+    ChartsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
