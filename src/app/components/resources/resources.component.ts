@@ -105,7 +105,7 @@ export class ResourcesComponent implements OnInit {
         this.resourcesData = resourcesArray;
 
       } else {
-        window.location.href = this.smartCarLogin;
+      //  window.location.href = this.smartCarLogin;
 
       }
 
