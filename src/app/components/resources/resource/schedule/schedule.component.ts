@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import {AuthService} from '../../../../services/auth.service';
 import {LineConfigModel, LineValuesModel} from './line-chart/charts.model';
 import {COLORS_MAP, HOUR_IN_MILLISECONDS} from './line-chart/line-chart.config';
+import { CHARGE_SCHEDULE } from './line-chart-data';
 
 @Component({
   selector: 'app-schedule',
@@ -50,7 +51,7 @@ export class ScheduleComponent implements OnInit {
 
   public convertData(): number[] {
     const arrayMinutes = [];
-    for (let mSecond = this.intervals.moers.start; mSecond < this.intervals.moers.stop; mSecond = mSecond + HOUR_IN_MILLISECONDS) {
+    for (let mSecond = CHARGE_SCHEDULE.moers.start; mSecond < CHARGE_SCHEDULE.moers.stop; mSecond = mSecond + HOUR_IN_MILLISECONDS) {
       arrayMinutes.push(moment(mSecond).format('LT'));
     }
     return arrayMinutes;
@@ -58,7 +59,7 @@ export class ScheduleComponent implements OnInit {
 
   public generatePower(): number[][] {
     const powerArray = [];
-    this.intervals.intervals.map(item => {
+    CHARGE_SCHEDULE.intervals.map(item => {
       powerArray.push([+new Date(item.time_start), null]);
       powerArray.push([+new Date(item.time_start), 0]);
       powerArray.push([+new Date(item.time_start), item.power]);
@@ -71,12 +72,12 @@ export class ScheduleComponent implements OnInit {
 
   public generateSOC(): number[][] {
     const costSoc = [];
-    this.intervals.intervals[0].energy = this.intervals.intervals[0].energy + (this.intervals.initial_energy);
-    this.intervals.intervals.map((item, index, array): any => {
+    CHARGE_SCHEDULE.intervals[0].energy = CHARGE_SCHEDULE.intervals[0].energy + (CHARGE_SCHEDULE.initial_energy);
+    CHARGE_SCHEDULE.intervals.map((item, index, array): any => {
       if (index !== 0) {
         item.energy = item.energy + array[index - 1].energy;
       }
-      costSoc.push([+new Date(item.time_start), (item.energy / this.intervals.capacity) * 100]);
+      costSoc.push([+new Date(item.time_start), (item.energy / CHARGE_SCHEDULE.capacity) * 100]);
     });
     return costSoc;
   }  }

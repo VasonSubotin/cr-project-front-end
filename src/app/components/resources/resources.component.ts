@@ -6,7 +6,7 @@ import {catchError, tap} from "rxjs/operators";
 import {EditResourcePopupComponent} from "../../reusable-components/popups/edit-resource-popup/edit-resource-popup.component";
 import {MatDialog} from "@angular/material/dialog";
 import {request} from "../../constants/api";
-import {throwError} from "rxjs";
+import {Observable, throwError} from "rxjs";
 
 
 @Component({
@@ -52,12 +52,13 @@ export class ResourcesComponent implements OnInit {
 
   checkSmartCarToken() {
     this.authService.needInitSmartCarSession().pipe(
-      catchError((err: any) => {
-        return window.location.href = this.smartCarLogin;
+      catchError((error) => {
+        this.loaderState = true;
+        return error;
       })
     ).subscribe((res: any) => {
       if (res.body.needInit) {
-        window.location.href = this.smartCarLogin;
+        this.loaderState = true;
       } else {
         this.getResourcesArray();
       }
