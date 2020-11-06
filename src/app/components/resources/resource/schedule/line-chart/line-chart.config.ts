@@ -1,0 +1,156 @@
+import { Options } from 'highcharts';
+
+/** `Highcharts` options for the graph of 'line' type. */
+export const LINE_CHART_CONFIG: Options = {
+  chart: {},
+  time: {
+    useUTC: false
+  },
+  data: {},
+  title: {
+    text: '',
+    style: {
+      color: '#000000',
+      fontSize: '18px',
+      fontWeight: '700',
+    },
+    margin: 35,
+    align: 'center'
+  },
+  exporting: {
+    enabled: false
+  },
+  credits: {
+    enabled: false
+  },
+  xAxis: {
+    type: 'datetime',
+    startOnTick: true,
+    tickInterval: 3600 * 1000,
+    tickAmount: 6,
+    crosshair: true,
+    plotBands: [{
+      id: 'first',
+      from: null,
+      to: null,
+      color: 'rgba(68, 170, 213, 0.1)',
+    }, {
+      id: 'second',
+      from: null,
+      to: null,
+      color: 'rgba(68, 170, 213, 0.1)',
+    }, {
+      id: 'third',
+      from: null,
+      to: null,
+      color: 'rgba(68, 170, 213, 0.1)',
+    }, {
+      id: 'last',
+      from: null,
+      to: null,
+      color: 'rgba(68, 170, 213, 0.1)',
+    }]
+  },
+  yAxis: [
+    {
+      title: {
+        text: '',
+        align: 'high',
+        style: {
+          color: '#000000',
+          fontSize: '14px',
+          fontWeight: '700'
+        },
+        rotation: 360,
+        textAlign: 'left',
+        margin: 0,
+        y: -20
+      },
+      labels: {},
+      alignTicks: false
+    }
+  ],
+  legend: {
+    align: 'center',
+    verticalAlign: 'bottom',
+    borderWidth: 0,
+  },
+  tooltip: {
+    shared: true,
+    outside: true,
+    headerFormat: '{point.key}<br>',
+    style: {
+      fontSize: '14px'
+    }
+  },
+  plotOptions: {
+    series: {
+      cursor: 'pointer',
+      lineWidth: 2,
+      states: {
+        hover: {
+          lineWidth: 3
+        }
+      },
+      marker: {
+        enabled: false
+      },
+      pointInterval: 3600000
+    },
+    area: {
+      fillOpacity: 0.3,
+      lineWidth: 4,
+    }
+  },
+  series: []
+};
+
+/** `Highcharts` options for secondary axis of graph of 'line' type. */
+export const SECONDARY_AXIS_CONFIG = {
+  gridLineWidth: 0,
+  title: {
+    text: '',
+    align: 'high',
+    rotation: 0,
+    style: {
+      color: '#000000',
+      fontSize: '14px',
+      fontWeight: '700'
+    },
+    textAlign: 'right',
+    margin: 0,
+    y: -20
+  },
+  labels: {
+    format: '{value}',
+  },
+  zIndex: 0,
+  marker: {
+    enabled: false
+  },
+  opposite: true
+};
+
+/** List of default page colors. */
+export const COLORS_MAP: MapType<string, string> = {
+  VIOLET: '#82a5d7',
+  CYAN: '#59c1d1',
+  ORANGE: '#f26b37',
+  LIGHT_ORANGE: 'rgba(245,105,54,.75)',
+  GREEN: '#1fc084',
+  LIGHT_GREEN: 'rgba(33, 203, 139, 0.5)',
+  BROWN: '#4c4743',
+  BLUE: '#00a9e1',
+  YELLOW: '#ff9f00',
+  LIGHT_BROWN: '#b0854f',
+  DARK_GREY: '#525f85',
+  RED: '#ff0000',
+  GREY: '#d1cfcf'
+};
+/** The number of milliseconds in one Hour. */
+export const HOUR_IN_MILLISECONDS: number = 3600 * 1000;
+
+/** Custom `Map` type. */
+export type MapType<TKey extends keyof any, TValue> = {
+  [K in TKey]: TValue;
+};

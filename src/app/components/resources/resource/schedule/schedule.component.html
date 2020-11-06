@@ -1,17 +1,15 @@
 <style>
-  .canvas-container {
-    max-height: 667px;
-    width: 100%;
+  .schedule-chart {
+
   }
-  .canvas-container canvas {
+  .schedule-chart .app-line-chart {
+
   }
 </style>
-<div  class="canvas-container" style="display: block;">
-  <canvas baseChart  width="973px" height="667px"
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          ></canvas>
+<div class="schedule-chart">
+  <app-line-chart label="Treatment Performance"
+                  [values]="schedulePerformanceValues"
+                  [configs]="schedulePerformanceConfigs"
+                  class="app-line-chart">
+  </app-line-chart>
 </div>
