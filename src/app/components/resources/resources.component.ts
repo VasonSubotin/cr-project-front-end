@@ -27,42 +27,39 @@ export class ResourcesComponent implements OnInit {
   loaderState = false;
   resourcesData = [];
   searchText;
+  smartCarToken;
   smartCarLogin = request.apiUrl + 'smartCarLogin';
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      const code = params['code'];
+      this.smartCarToken = params['code'];
       const type = params['type'];
       if (type === 'google') {
         this.getGoogleAuthenticate(params['code']);
       } else if (type === 'smartCar') {
-        localStorage.setItem('smartCarToken', code);
+        localStorage.setItem('smartCarToken', this.smartCarToken);
         if (localStorage.getItem('smartCarToken')) {
-          this.startSmartCarSession(localStorage.getItem('smartCarToken'))
-        } else {
           this.startSmartCarSession(localStorage.getItem('smartCarToken'));
           this.loaderState = true;
         }
       } else {
-        this.checkSmartCarToken();
-
+        this.getResourcesFast();
       }
     });
 
 
   }
-  checkSmartCarToken(){
+
+  checkSmartCarToken() {
     this.authService.needInitSmartCarSession().pipe(
       catchError((err: any) => {
         return window.location.href = this.smartCarLogin;
       })
-    ).subscribe((res:any)=> {
+    ).subscribe((res: any) => {
       if (res.body.needInit) {
         window.location.href = this.smartCarLogin;
-
       } else {
         this.getResourcesArray();
-        this.getResourcesFast();
       }
     })
 
@@ -84,26 +81,47 @@ export class ResourcesComponent implements OnInit {
   getGoogleAuthenticate(code) {
     this.authService.googleAuthenticate(code)
       .subscribe((res: any) => {
-        debugger
-      localStorage.setItem('token', res.body.token);
-      this.checkSmartCarToken();
-      },
+          localStorage.setItem('token', res.body.token);
+          this.getResourcesFast();
+        },
         error => {
           if (error.status === 500) {
-            this.checkSmartCarToken();
-          }})
+            this.getResourcesFast();
+          }
+        })
 
   }
-  getResourcesFast () {
+
+  getResourcesFast() {
     let resourcesArray = [];
-    this.authService.getResourcesFast().subscribe( (res: any) => {
-      res.map((item, index) => {
-        resourcesArray[index] = {};
-        resourcesArray[index].smResource = res[index];
-      })
-      console.log(resourcesArray)
-      this.resourcesData = resourcesArray;
+    this.authService.getResourcesFast().subscribe((res: any) => {
+      if (res.length) {
+        res.map((item, index) => {
+          resourcesArray[index] = {};
+          resourcesArray[index].smResource = res[index];
+
+          this.checkSmartCarToken();
+        })
+        this.resourcesData = resourcesArray;
+
+      } else {
+        window.location.href = this.smartCarLogin;
+
+      }
+
+
+      /*else if (type === 'smartCar') {
+        localStorage.setItem('smartCarToken', code);
+        if (localStorage.getItem('smartCarToken')) {
+          this.startSmartCarSession(localStorage.getItem('smartCarToken'))
+        } else {
+          this.startSmartCarSession(localStorage.getItem('smartCarToken'));
+          this.loaderState = true;
+        }
+      } */
+
       this.loaderState = true;
+
 
     })
   }
@@ -122,8 +140,8 @@ export class ResourcesComponent implements OnInit {
         if (error.status === 500) {
           /*  localStorage.removeItem('token');
             this.router.navigate(['/login'])*/
-           this.getResourcesArray();
-           this.getResourcesFast();
+          this.getResourcesArray();
+          this.getResourcesFast();
         }
       });
   }
@@ -140,9 +158,11 @@ export class ResourcesComponent implements OnInit {
     });
 
   }
+
   resourceDelete(index) {
     this.resourcesData.splice(index, 1)
   }
+
   navigateByResource(idResource, smResource) {
 
     this.router.navigate([`/resource/${idResource}`],)
