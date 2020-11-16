@@ -40,6 +40,7 @@
     color: #232729;
   }
   .profile-container {
+    cursor: pointer;
     display: flex;
     align-items: center;
     position: absolute;
@@ -60,11 +61,11 @@
     <div class="header-menu__item">Statistic</div>
 
   </div>
-  <div class="profile-container">
+  <div class="profile-container" (click)="switchLogout()">
     <div class="user-name">Yevhenii Khudolii</div>
     <img src="../../../assets/imgs/Photo.png" height="44" width="44"/>
   </div>
-
+<ng-container *ngIf="!logoutShow">
   <app-logout></app-logout>
-
+</ng-container>
 </div>

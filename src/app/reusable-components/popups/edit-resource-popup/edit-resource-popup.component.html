@@ -94,7 +94,7 @@
       <div class="select-container ">
         <div class="input-label">Default Policy</div>
         <select class="input-system select-system" (change)="onChange($event.target.selectedIndex)">
-          <option *ngFor="let policy of policyForSelect"> {{policy.name}}</option>
+          <option *ngFor="let policy of policiesService?.policies"> {{policy.name}}</option>
         </select>
       </div>
     </div>

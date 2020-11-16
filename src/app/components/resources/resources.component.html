@@ -155,7 +155,10 @@
             </div>
             <div class="sub_container">
               <div class="title-font sub_tittle">Policy:</div>
-              <div class="title-font sub_tittle sub_info"> {{policiesService?.policies[resource.smResource.policyId]?.name}}</div>
+              <ng-container *ngIf="policiesService?.policies">
+                <div class="title-font sub_tittle sub_info"> {{policiesService?.policies[resource.smResource.policyId]?.name}}</div>
+
+              </ng-container>
             </div>
             <div class="sub_container">
               <div class="title-font sub_tittle">Battery:</div>

@@ -245,7 +245,7 @@
           <div class="select-container margin-top-25">
             <div class="input-label">Policy</div>
             <select class="input-system" disabled >
-              <option *ngFor="let policy of policyForSelect"> {{driveSchedule?.policy_id}}</option>
+              <option *ngFor="let policy of  policiesService?.policies"> {{policy?.name}}</option>
             </select>
           </div>
           <div class="flex flex-block--space-between width-100 ">
@@ -268,7 +268,7 @@
 
           <div class="width-450 height-239 map">
 
-            <app-map-geo [mapData]="driveItem?.station_locations"></app-map-geo>
+            <app-map-geo [mapData]="driveItem.station_locations"></app-map-geo>
 
           </div>
 
@@ -290,3 +290,4 @@
     </div>
   </div>
 </ng-container>
+

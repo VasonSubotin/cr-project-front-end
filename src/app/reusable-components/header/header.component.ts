@@ -8,9 +8,13 @@ import {Router} from "@angular/router";
 
 
 export class HeaderComponent {
+  logoutShow = true;
   constructor(private router: Router) {
   }
   routeByLink (link){
     this.router.navigate([`/${link}`])
+  }
+  switchLogout() {
+    this.logoutShow = !this.logoutShow;
   }
 }

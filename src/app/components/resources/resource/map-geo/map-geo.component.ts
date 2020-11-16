@@ -11,19 +11,6 @@ export class MapGeoComponent implements OnInit {
   @Input() mapData: any;
   latitude: 1;
   longitude: 1;
-
-  constructor() {
-  };
-
-  // @ts-ignore
-  options: MapKitInitOptions = {
-    // tslint:disable-next-line:max-line-length
-    JWT: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkY1NkJaNVdWU0cifQ.eyJpc3MiOiI4V1o5QkgzQVIzIiwiaWF0IjoxNjAyMTY4OTIwLCJleHAiOjE2MzY5ODgxMjB9.0TvY-zhIH_GJSwg7pjMlZlo8I1D9zai9gD9Qx-SweUJ68jmyuy2AXjP-mrF-Q4Is03IyqAdPTcjmo9Wf_dPK2w',
-    callback: (data) => {
-      console.log('data ', data);
-      // console.log('data ', data);
-    }
-  };
   customAnnotation = [];
 
   settings: MapConstructorOptions = {
@@ -51,8 +38,26 @@ export class MapGeoComponent implements OnInit {
       longitude: -122.419269,
     }
   };
+  // @ts-ignore
+  options: MapKitInitOptions = {
+    // tslint:disable-next-line:max-line-length
+    JWT: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkY1NkJaNVdWU0cifQ.eyJpc3MiOiI4V1o5QkgzQVIzIiwiaWF0IjoxNjAyMTY4OTIwLCJleHAiOjE2MzY5ODgxMjB9.0TvY-zhIH_GJSwg7pjMlZlo8I1D9zai9gD9Qx-SweUJ68jmyuy2AXjP-mrF-Q4Is03IyqAdPTcjmo9Wf_dPK2w',
+    callback: (data) => {
+      console.log('data ', data);
+      // console.log('data ', data);
+    }
+  };
+
+  constructor() {
+    console.log('s')
+    console.log(this.settings)
+    console.log(this.mapData)
+  };
+
+
 
   ngOnInit(): void {
+    console.log(this.settings)
     this.settings.region.center = {
       latitude: this.mapData[0].latitude,
       longitude: this.mapData[0].longitude
@@ -85,7 +90,7 @@ export class MapGeoComponent implements OnInit {
           title: item.name,
           animates: true,
           selected: index === 0,
-          glyphText: `${index + 1}`,
+         // glyphText: `${index + 1}`,
           color: '#D3D4D4'
         }
       }

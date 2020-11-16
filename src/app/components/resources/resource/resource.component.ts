@@ -6,6 +6,7 @@ import {RequestPopupComponent} from "./request-popup/request-popup.component";
 import {MatDialog} from "@angular/material/dialog";
 import {catchError, tap} from "rxjs/operators";
 import {throwError} from "rxjs";
+import {PoliciesService} from "../../../services/policies.service";
 
 
 @Component({
@@ -18,7 +19,8 @@ export class ResourceComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
               private authService: AuthService,
-              private matDialog: MatDialog) {
+              private matDialog: MatDialog,
+              private policiesService: PoliciesService) {
 
   }
 
@@ -67,6 +69,8 @@ export class ResourceComponent implements OnInit {
     {name: 'Charge car as fast as possible', active: false}];
 
   ngOnInit(): void {
+    this.policiesService.getPoliciesList();
+
     this.activatedRoute.paramMap.subscribe(res => {
       this.idResource = +res.get('idResource');
       this.authService.getResourceSmartById(this.idResource).pipe((catchError(err => {

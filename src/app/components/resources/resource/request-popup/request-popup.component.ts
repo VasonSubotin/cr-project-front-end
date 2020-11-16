@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {AuthService} from "../../../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {PoliciesService} from "../../../../services/policies.service";
 
 @Component({
   selector: 'app-request-popup',
@@ -17,18 +18,18 @@ export class RequestPopupComponent implements OnInit {
     {value: 1, name: 'monetary policy (optimized to energy market pricing)'},
     {value: 2, name: 'CO2 - Minimize CO2 emission'}
   ];
-  driveSchedule = JSON.parse(localStorage.getItem('schedule')) || [];
+  driveSchedule = JSON.parse(localStorage.getItem('driveSchedule')) || [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public resource,
               private dialogRef: MatDialogRef<RequestPopupComponent>,
               private authService: AuthService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              public policiesService: PoliciesService) {
   }
 
   ngOnInit() {
     this.idResource = this.router.url.split("/")[2];
-    console.log(this.driveSchedule)
   }
 
   closeEvent() {
@@ -40,6 +41,8 @@ export class RequestPopupComponent implements OnInit {
     this.authService.getDrivingScheduleById(this.idResource).subscribe(res => {
         if (res) {
           this.driveSchedule = res;
+          console.log(this.driveSchedule)
+
           localStorage.setItem('schedule', JSON.stringify(res));
           localStorage.setItem('driveSchedule', JSON.stringify(res));
         }

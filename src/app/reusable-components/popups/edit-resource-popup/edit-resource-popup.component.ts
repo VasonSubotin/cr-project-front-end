@@ -5,6 +5,7 @@ import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../../../services/auth.service";
 import {AmazingTimePickerService} from "amazing-time-picker";
 import {FunctionsService} from "../../../services/functions.service";
+import {PoliciesService} from "../../../services/policies.service";
 
 @Component({
   selector: 'app-edit-resource-popup',
@@ -30,6 +31,7 @@ export class EditResourcePopupComponent implements OnInit {
               private authService: AuthService,
               private funcService: FunctionsService,
               private atp: AmazingTimePickerService,
+              public policiesService: PoliciesService
 
   ) {
     if(resource.policyId) {

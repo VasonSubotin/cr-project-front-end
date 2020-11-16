@@ -135,9 +135,7 @@ input:disabled {
   background: #4339F2 !important;
 }
 
-.create-request-button span {
-  margin-left: -8px;
-}
+
 
 .close {
   cursor: pointer;
@@ -450,7 +448,12 @@ body {
   justify-content: space-between;
   padding: 0 16px;
 }
-
+.button-name_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -8px;
+}
 
 .search-input-container {
   position: relative;
