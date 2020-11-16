@@ -1,26 +1,15 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Input,
-  EventEmitter,
-  OnDestroy, Output,
-  ViewChild
-} from '@angular/core';
-import {
-  Chart,
-  Options,
-  SeriesLineOptions,
-  SeriesOptions,
-  XAxisOptions,
-  YAxisOptions
-} from 'highcharts';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import {Chart, Options, SeriesLineOptions, SeriesOptions, YAxisOptions} from 'highcharts';
 
-import { ChartEventModel, LineConfigModel, LineValuesModel, Ticks } from './charts.model';
-import { HOUR_IN_MILLISECONDS, LINE_CHART_CONFIG, SECONDARY_AXIS_CONFIG } from './line-chart.config';
-import { ChartsService } from '../../../../../services/charts.service';
-import { CHARGE_SCHEDULE } from '../line-chart-data';
-import * as moment from "moment";
+import {ChartEventModel, LineConfigModel, LineValuesModel} from './charts.model';
+import {
+  HOUR_IN_MILLISECONDS,
+  LINE_CHART_CONFIG,
+  OPPOSITE_SECONDARY_AXIS_CONFIG,
+  SECONDARY_AXIS_CONFIG
+} from './line-chart.config';
+import {ChartsService} from '../../../../../services/charts.service';
+import {CHARGE_SCHEDULE} from '../line-chart-data';
 
 @Component({
   selector: 'app-line-chart',
@@ -44,6 +33,15 @@ export class LineChartComponent implements AfterViewInit, OnDestroy {
   /** Sets line chart options. Creates `Chart` instance. */
   ngAfterViewInit() {
     const lineChartOptions: Options = JSON.parse(JSON.stringify(LINE_CHART_CONFIG));
+    lineChartOptions.yAxis[0].min = this.configs.primaryMin || null;
+    lineChartOptions.yAxis[0].max = this.configs.primaryMax || null;
+    lineChartOptions.yAxis[0].title.text = this.configs.primaryYaxisTitle || '';
+    lineChartOptions.title.text = this.configs.chartTitle || '';
+    lineChartOptions.yAxis[0].tickPositioner = this.tickPositioner;
+    if (this.configs.primaryPostfix) {
+      lineChartOptions.yAxis[0].labels = { format: `{value}${this.configs.primaryPostfix}` };
+    }
+
     if (this.configs.showSecondary) {
       const secondaryAxisOptions = JSON.parse(JSON.stringify(SECONDARY_AXIS_CONFIG));
       secondaryAxisOptions.min = this.configs.secondaryMin || null;
@@ -53,40 +51,24 @@ export class LineChartComponent implements AfterViewInit, OnDestroy {
       }
       (lineChartOptions.yAxis as YAxisOptions[]).push(secondaryAxisOptions);
       lineChartOptions.yAxis[1].title.text = this.configs.secondaryYaxisTitle || '';
-      lineChartOptions.yAxis[1].tickPositioner = this.tickPositioner;
     }
-    lineChartOptions.yAxis[0].min = this.configs.primaryMin || null;
-    lineChartOptions.yAxis[0].max = this.configs.primaryMax || null;
-    lineChartOptions.yAxis[0].title.text = this.configs.primaryYaxisTitle || '';
-    lineChartOptions.title.text = this.configs.chartTitle || '';
-    if (this.configs.primaryPostfix) {
-      lineChartOptions.yAxis[0].labels = { format: `{value}${this.configs.primaryPostfix}` };
+
+    if (this.configs.showOppositeSecondary) {
+      const oppositeSecondaryAxisOptions = JSON.parse(JSON.stringify(OPPOSITE_SECONDARY_AXIS_CONFIG));
+      oppositeSecondaryAxisOptions.min = this.configs.oppositeSecondaryMin || null;
+      oppositeSecondaryAxisOptions.max = this.configs.oppositeSecondaryMax || null;
+      if (this.configs.oppositeSecondaryPostfix) {
+        oppositeSecondaryAxisOptions.labels = { format: `{value}${this.configs.oppositeSecondaryPostfix}` };
+      }
+      (lineChartOptions.yAxis as YAxisOptions[]).push(oppositeSecondaryAxisOptions);
+      lineChartOptions.yAxis[2].title.text = this.configs.oppositeSecondaryYaxisTitle || '';
+      lineChartOptions.yAxis[2].tickPositioner = this.tickPositioner;
     }
-    if ('plotBands' in lineChartOptions.xAxis) {
-      lineChartOptions.xAxis.plotBands.forEach(item => {
-        const eightPart = (this.values[0].data[this.values[0].data.length - 1][0] - this.values[0].data[0][0]) / 8;
-        const part = (this.values[0].data[this.values[0].data.length - 1][0] - this.values[0].data[0][0]) / 2;
-        if (item.id === 'first') {
-          item.from = this.values[0].data[0][0];
-          item.to = this.values[0].data[0][0] + eightPart;
-        }
-        if (item.id === 'second') {
-          item.from = this.values[0].data[0][0] + eightPart * 2;
-          item.to = this.values[0].data[0][0] + (eightPart * 2) + eightPart;
-        }
-        if (item.id === 'third') {
-          item.from = this.values[0].data[0][0] + part;
-          item.to = this.values[0].data[0][0] + part + eightPart;
-        }
-        if (item.id === 'last') {
-          item.from = this.values[0].data[this.values[0].data.length - 1][0] - eightPart * 2;
-          item.to = this.values[0].data[this.values[0].data.length - 1][0] - eightPart;
-        }
-      });
-    }
+
     // (lineChartOptions.xAxis as XAxisOptions).tickPositioner = this.xAxisTickPositioner;
     this.chart = this.chartsService.Highcharts.chart(this.lineChartContainer.nativeElement, lineChartOptions);
     this.setSeries(this.mapDataToSeries());
+    this.setPlotBands();
   }
 
   /** Destroys line chart. */
@@ -96,19 +78,26 @@ export class LineChartComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  public setPlotBands(): void {
+    let id = 1;
+    this.chart.xAxis[0].tickPositions.forEach( (date, index) => {
+      if (index % 2 === 0) {
+        this.chart.xAxis[0].addPlotBand({
+          from: date,
+          to: date + HOUR_IN_MILLISECONDS,
+          color: 'rgba(68, 170, 213, 0.1)',
+          id: `plot-${id}`
+        });
+        id += 1;
+      }
+    });
+  }
+
   /** Sets interval for Y-axis ticks. */
   public tickPositioner(min: number, max: number): number[] {
     const tickPosCor = [];
     const numOfTicks = 5;
-    let maxDataYaxis = 0;
-    CHARGE_SCHEDULE.intervals.forEach( item => {
-      if (item.power > maxDataYaxis) {
-        maxDataYaxis = item.power;
-      }
-    });
-    if (max !== maxDataYaxis) {
-      max = maxDataYaxis;
-    }
+    min = 0;
     const tik = (max - min) / numOfTicks;
     let k = 0;
     if (tik <= 0) {

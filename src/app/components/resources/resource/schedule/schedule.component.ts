@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import {AuthService} from '../../../../services/auth.service';
 import {LineConfigModel, LineValuesModel} from './line-chart/charts.model';
 import {COLORS_MAP, HOUR_IN_MILLISECONDS} from './line-chart/line-chart.config';
-import { CHARGE_SCHEDULE } from './line-chart-data';
+import {CHARGE_SCHEDULE} from './line-chart-data';
 
 @Component({
   selector: 'app-schedule',
@@ -18,11 +18,14 @@ export class ScheduleComponent implements OnInit {
   /** Schedule Performance line chart configuration. */
   public schedulePerformanceConfigs: LineConfigModel = {
     showSecondary: true,
-    primaryPostfix: '%',
-    primaryMax: 100,
+    showOppositeSecondary: true,
+    secondaryPostfix: '%',
+    secondaryMax: 100,
+    oppositeSecondaryMax: 10000,
     chartTitle: 'First line chart',
-    primaryYaxisTitle: 'SOC, %',
-    secondaryYaxisTitle: 'Charging Power, kW'
+    primaryYaxisTitle: 'CO2, kg/kWh',
+    secondaryYaxisTitle: 'SOC, %',
+    oppositeSecondaryYaxisTitle: 'Charging Power, kW'
   };
   @Input() battery: any;
   @Input() intervals: any;
@@ -35,17 +38,23 @@ export class ScheduleComponent implements OnInit {
     const data = this.convertData();
 
     this.schedulePerformanceValues = [{
+      label: 'CO2 emission',
+      color: COLORS_MAP.ORANGE,
+      type: 'line',
+      data: this.generateMoers().sort((a, b) => a[0] - b[0]),
+      axis: 0
+    }, {
       label: 'SOC',
       color: COLORS_MAP.BLUE,
       type: 'line',
       data: this.generateSOC().sort((a, b) => a[0] - b[0]),
-      axis: 0
+      axis: 1
     }, {
       label: 'Power',
       type: 'area',
       color: COLORS_MAP.YELLOW,
       data: this.generatePower(),
-      axis: 1
+      axis: 2
     }];
   }
 
@@ -80,20 +89,25 @@ export class ScheduleComponent implements OnInit {
       costSoc.push([+new Date(item.time_start), (item.energy / CHARGE_SCHEDULE.capacity) * 100]);
     });
     return costSoc;
-  }  }
+  }
 
-  // generateCost() {
-  //   const costArray = [];
-  //   CHARGE_SCHEDULE.intervals.map(item => costArray.push(item.price));
-  //   console.log('generateCost: ' + costArray);
-  //   return costArray;
-  // }
+  public generateMoers(): number[][] {
+    let moers = [];
+    let date =  CHARGE_SCHEDULE.moers.start;
+    CHARGE_SCHEDULE.moers.values.forEach( value => {
+      moers.push([date, value / 1000]);
+      date = date + (1000 * 60 * 5);
+    });
+    return moers;
+  }
+}
 
-  // generateMoers() {
-  //   let moers = [];
-  //   moers = CHARGE_SCHEDULE.moers.values;
-  //   console.log('generateMoers: ' + moers);
-  //   return moers;
-  // }
+// generateCost() {
+//   const costArray = [];
+//   CHARGE_SCHEDULE.intervals.map(item => costArray.push(item.price));
+//   console.log('generateCost: ' + costArray);
+//   return costArray;
+// }
+
 
 

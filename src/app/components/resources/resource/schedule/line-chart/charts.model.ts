@@ -22,16 +22,26 @@ export interface LineConfigModel {
   secondaryMin?: number;
   /** Secondary Y-axis maximum value. */
   secondaryMax?: number;
+  /** Variable that is responsible for showing opposite secondary Y-axis. */
+  showOppositeSecondary?: boolean;
+  /** Opposite secondary Y-axis minimum value. */
+  oppositeSecondaryMin?: number;
+  /** Opposite secondary Y-axis maximum value. */
+  oppositeSecondaryMax?: number;
   /** Primary Y-axis postfix. */
   primaryPostfix?: string;
   /** Secondary Y-axis postfix. */
   secondaryPostfix?: string;
+  /** Opposite secondary Y-axis postfix. */
+  oppositeSecondaryPostfix?: string;
   /** Line chart title. */
   chartTitle?: string;
   /** Primary Yaxis chart title. */
   primaryYaxisTitle?: string;
   /** Secondary Yaxis chart title. */
   secondaryYaxisTitle?: string;
+  /** Opposite secondary Yaxis chart title. */
+  oppositeSecondaryYaxisTitle?: string;
   /** Tick positioner function. */
   tickPositioner?: AxisTickPositionerCallbackFunction;
 }

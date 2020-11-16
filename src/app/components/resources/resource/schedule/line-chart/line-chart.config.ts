@@ -29,27 +29,7 @@ export const LINE_CHART_CONFIG: Options = {
     tickInterval: 3600 * 1000,
     tickAmount: 6,
     crosshair: true,
-    plotBands: [{
-      id: 'first',
-      from: null,
-      to: null,
-      color: 'rgba(68, 170, 213, 0.1)',
-    }, {
-      id: 'second',
-      from: null,
-      to: null,
-      color: 'rgba(68, 170, 213, 0.1)',
-    }, {
-      id: 'third',
-      from: null,
-      to: null,
-      color: 'rgba(68, 170, 213, 0.1)',
-    }, {
-      id: 'last',
-      from: null,
-      to: null,
-      color: 'rgba(68, 170, 213, 0.1)',
-    }]
+    plotBands: [{}]
   },
   yAxis: [
     {
@@ -105,8 +85,28 @@ export const LINE_CHART_CONFIG: Options = {
   series: []
 };
 
-/** `Highcharts` options for secondary axis of graph of 'line' type. */
+/** `Highcharts` options for opposite secondary axis of graph of 'line' type. */
 export const SECONDARY_AXIS_CONFIG = {
+  title: {
+    text: '',
+    align: 'high',
+    style: {
+      color: '#000000',
+      fontSize: '14px',
+      fontWeight: '700'
+    },
+    rotation: 360,
+    textAlign: 'left',
+    margin: 0,
+    y: -20
+  },
+  margin: -80,
+  labels: {},
+  alignTicks: false
+};
+
+/** `Highcharts` options for opposite secondary axis of graph of 'line' type. */
+export const OPPOSITE_SECONDARY_AXIS_CONFIG = {
   gridLineWidth: 0,
   title: {
     text: '',
