@@ -43,6 +43,7 @@ import {MapGeoComponent} from "./components/resources/resource/map-geo/map-geo.c
 import {AppleMapsModule} from "ngx-apple-maps";
 import {ChartsService} from "./services/charts.service";
 import {LineChartComponent} from "./components/resources/resource/schedule/line-chart/line-chart.component";
+import {PoliciesService} from "./services/policies.service";
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import {LineChartComponent} from "./components/resources/resource/schedule/line-
   ],
   providers: [
     AuthService,
+    PoliciesService,
     FunctionsService,
     ChartsService
   ],

@@ -352,7 +352,7 @@ body {
 }
 
 .sub_info {
-  width: 70px;
+  width: 112px;
   color: #232729;
 }
 
@@ -430,7 +430,7 @@ body {
 .resource-card {
   width: 451px;
   height: 200px;
-  padding: 24px;
+  padding: 34px 24px 24px 24px;
   margin: 10px;
   background: #FFFFFF;
   border: 1px solid rgba(157, 165, 174, 0.2);

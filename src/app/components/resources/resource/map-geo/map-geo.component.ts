@@ -58,8 +58,8 @@ export class MapGeoComponent implements OnInit {
       longitude: this.mapData[0].longitude
     };
     const mapDataOptions = this.mapDataPrepareData(this.mapData);
-    mapDataOptions[0].options.color = '#02A0FC'
-    this.customAnnotation.push(...mapDataOptions)
+    mapDataOptions[0].options.color = '#02A0FC';
+    this.customAnnotation.push(...mapDataOptions);
     const locationData = JSON.parse(localStorage.getItem('smartCarInfo')).location.data;
     this.customAnnotation.push({
       latitude: locationData.latitude % 10000,

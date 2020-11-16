@@ -7,6 +7,7 @@ import {EditResourcePopupComponent} from "../../reusable-components/popups/edit-
 import {MatDialog} from "@angular/material/dialog";
 import {request} from "../../constants/api";
 import {Observable, throwError} from "rxjs";
+import {PoliciesService} from "../../services/policies.service";
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ResourcesComponent implements OnInit {
   constructor(private authService: AuthService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              private matDialog: MatDialog) {
+              private matDialog: MatDialog,
+              public policiesService: PoliciesService) {
   }
 
   policies: POLICIES;
@@ -47,17 +49,18 @@ export class ResourcesComponent implements OnInit {
       }
     });
 
-
+    this.policiesService.getPoliciesList();
   }
 
   checkSmartCarToken() {
     this.authService.needInitSmartCarSession().pipe(
       catchError((error) => {
         this.loaderState = true;
+        this.getResourcesArray();
         return error;
       })
     ).subscribe((res: any) => {
-      if (res.body.needInit) {
+      if (res.needInit) {
         this.loaderState = true;
       } else {
         this.getResourcesArray();
@@ -106,7 +109,7 @@ export class ResourcesComponent implements OnInit {
         this.resourcesData = resourcesArray;
 
       } else {
-      //  window.location.href = this.smartCarLogin;
+        //  window.location.href = this.smartCarLogin;
 
       }
 
@@ -156,6 +159,7 @@ export class ResourcesComponent implements OnInit {
       this.dataIsReady = true;
 
       this.resourcesData = res;
+      console.log(this.resourcesData)
     });
 
   }
