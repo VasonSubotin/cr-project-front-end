@@ -55,7 +55,7 @@
 </style>
 <div class="flex-block flex-block-login flex-block--column flex-block--center ">
   <img src="../../../assets/imgs/logoLogin.png" height="180" width="180"/>
-  <h1>Wellcome</h1>
+  <h1>Welcome</h1>
   Service for organizing your electric car driving experience
   <form #form class="login-form flex-block flex-block--center  flex-block--column"
         [formGroup]=myGroup (ngSubmit)="onSubmit()">
@@ -64,7 +64,7 @@
     <input matInput formControlName="login" class="input-login login-input"
            placeholder="login">
 
-    <input matInput formControlName="password" class="input-login"
+    <input matInput type="password" formControlName="password" class="input-login"
            placeholder="Password">
 
     <button color="primary" class="button-system button-system--login margin-top-60" [disabled]="form.valid">

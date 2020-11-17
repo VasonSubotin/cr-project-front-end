@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "smart-charge"
+  "defaultProject": "smart-charge",
+  "cli": {
+    "analytics": false
+  }
 }
