@@ -1,6 +1,5 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {FormBuilder} from "@angular/forms";
 import {AuthService} from "../../../services/auth.service";
 import {AmazingTimePickerService} from "amazing-time-picker";
@@ -13,7 +12,7 @@ import {PoliciesService} from "../../../services/policies.service";
 })
 export class EditResourcePopupComponent implements OnInit {
   idResource;
-  policyId;
+  policyId: string;
   selectPolicy;
   tosSwitcher = true;
   periodFrom = 0;

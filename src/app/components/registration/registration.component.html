@@ -1,169 +1,86 @@
-<style>
-  h1 {
-    font-weight: 500;
-    font-size: 40px;
-    line-height: 49px;
-    color: #000000;
-    margin-top: 32px;
-    margin-bottom: 20px;
-  }
 
-  .flex-block-login {
-    padding: 59px;
-  }
-
-  .login-form {
-    height: unset;
-  }
-
-  .login-input {
-    margin: 35px 0px 40px 0;
-  }
-  .password-input {
-    margin-bottom:  40px;
-  }
-
-  .button-system--login--google {
-    background: #ffffff;
-    border: 1px solid #7B7D7F;
-    box-sizing: border-box;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000000;
-    height: 56px;
-    margin-bottom: 50px;
-    line-height: 56px;
-    width: 450px !important;
-  }
-  .button-system--login--google img {
-    margin-right: 8px;
-  }
-
-  span {
-    font-weight: 600;
-  }
-
-  .button-system--login {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 22px;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-
-.signup-error{
-  font-size: 12px;
-  padding-left: 4px;
-  padding-top: 4px;
-  position: absolute;
-}
-.input-block {
-  position: relative;
-}
-</style>
-<div class="flex-block flex-block-login flex-block--column flex-block--center ">
-  <img src="../../../assets/imgs/logoLogin.png" height="180" width="180"/>
+<div class="flex-block flex-block-login flex-block--column flex-block--center">
+  <img src="../../../assets/imgs/logoLogin.png" height="180" width="180" />
   <h1>Welcome</h1>
   Service for organizing your electric car driving experience
-  <form #UserLogin="ngForm" class="login-form flex-block flex-block--center  flex-block--column"
-        [formGroup]=myGroup (ngSubmit)="onSubmit()">
-
-        <div class="login-input input-block">
-    <input matInput type="email" formControlName="login" class="input-login" [errorStateMatcher]="matcher"
-           placeholder="Email">
-    <mat-error class="signup-error" *ngIf="myGroup.controls['login'].invalid && myGroup.controls['login'].touched">
-            Please enter a valid email address
-    </mat-error>
-        </div>
-
-    <div class="password-input input-block">
-      <input matInput type="password" formControlName="password" class="input-login"
-      placeholder="Password" [errorStateMatcher]="matcher">
-      <mat-error   class="signup-error" *ngIf="myGroup.controls['password'].hasError('required')">
-       Password is <strong>required</strong>
-     </mat-error>
+  <form
+    #UserLogin="ngForm"
+    class="login-form flex-block flex-block--center flex-block--column"
+    [formGroup]="myGroup"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="login-input input-block">
+      <input
+        matInput
+        type="email"
+        formControlName="login"
+        class="input-login"
+        [errorStateMatcher]="matcher"
+        placeholder="Email"
+      />
+      <mat-error
+        class="signup-error"
+        *ngIf="
+          myGroup.controls['login'].invalid && myGroup.controls['login'].touched
+        "
+      >
+        Please enter a valid email address
+      </mat-error>
     </div>
 
-    <div class="input-block">   <input matInput  class="input-login" formControlName="confirmPass" [errorStateMatcher]="matcher"
-      placeholder="Confirm Password" type="password">
-     <mat-error  class="signup-error" *ngIf="checkPasswords()">
-       Your password and confirmation password <strong>do not match is</strong>
-     </mat-error></div>
+    <div class="password-input input-block">
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        class="input-login"
+        placeholder="Password"
+        [errorStateMatcher]="matcher"
+      />
+      <mat-error
+        class="signup-error"
+        *ngIf="myGroup.controls['password'].hasError('required')"
+      >
+        Password is <strong>required</strong>
+      </mat-error>
+    </div>
 
- 
-        
-    <button color="primary" class="button-system button-system--login margin-top-60"  [disabled]="!UserLogin.form.valid || checkPasswords()">
+    <div class="input-block">
+      <input
+        matInput
+        class="input-login"
+        formControlName="confirmPass"
+        [errorStateMatcher]="matcher"
+        placeholder="Confirm Password"
+        type="password"
+      />
+      <mat-error class="signup-error" *ngIf="checkPasswords()">
+        Your password and confirmation password <strong>do not match is</strong>
+      </mat-error>
+    </div>
 
+    <button
+      color="primary"
+      class="button-system button-system--login margin-top-60"
+      [disabled]="!UserLogin.form.valid || checkPasswords()"
+    >
       Register
     </button>
   </form>
-  <p class="margin-top-25 margin-bottom-25"> or </p>
+  <p class="margin-top-25 margin-bottom-25">or</p>
 
-  <button class="button-system  button-system--login--google" color="primary" (click)="singupByGoogle()">
-  
-
-    <img src="../../../assets/imgs/flat-color-icons_google.png" height="24" width="24"/>
+  <button
+    class="button-system button-system--login--google"
+    color="primary"
+    (click)="singupByGoogle()"
+  >
+    <img
+      src="../../../assets/imgs/flat-color-icons_google.png"
+      height="24"
+      width="24"
+    />
     Sign up with google
   </button>
 
   <span>Have account?<a routerLink="/login"> Login</a> </span>
 </div>
-
-<!--<div class="flex-block flex-block--center">
-  <div class="vertical-container max-width--600">
-    <button mat-raised-button class="button-system" color="primary" (click)="singupByGoogle()">Google</button>
-    <mat-card class="width-100 max-width--600">
-      <form #UserLogin="ngForm" class="example-form flex-block flex-block--center flex-block--column"
-            [formGroup]=myGroup (ngSubmit)="onSubmit()">
-
-        <mat-form-field class="input-element margin-top-25">
-          <mat-label>login</mat-label>
-          <input matInput formControlName="login" [errorStateMatcher]="matcher"
-                 placeholder="Ex. pat@example.com">
-          <mat-hint>Errors appear instantly!</mat-hint>
-          <mat-error *ngIf="myGroup.controls['login'].invalid && myGroup.controls['login'].touched">
-            Please enter a valid email address
-          </mat-error>
-          <mat-error *ngIf="myGroup.controls['login'].hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="input-element margin-top-25">
-          <mat-label>Password</mat-label>
-          <input matInput formControlName="password" [errorStateMatcher]="matcher"
-                 placeholder="******">
-          <mat-hint>Errors appear instantly!</mat-hint>
-          <mat-error *ngIf="myGroup.controls['password'].touched">
-            Please enter a valid password
-          </mat-error>
-          <mat-error *ngIf="myGroup.controls['password'].hasError('required')">
-            Password is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="input-element margin-top-25">
-          <mat-label>Password</mat-label>
-          <input matInput formControlName="confirmPass" [errorStateMatcher]="matcher"
-                 placeholder="******">
-          <mat-hint>Errors appear instantly!</mat-hint>
-          <mat-error *ngIf="myGroup.controls['confirmPass'].touched">
-            Please enter a valid password
-          </mat-error>
-          <mat-error *ngIf="checkPasswords()">
-            Your password and confirmation password <strong>do not match is</strong>
-          </mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="primary" class="button-system" [disabled]="!UserLogin.form.valid || checkPasswords()">Register
-        </button>
-
-      </form>
-    </mat-card>
-  </div>
-</div>
--->

@@ -12,7 +12,8 @@ import {PoliciesService} from "../../services/policies.service";
 
 @Component({
   selector: 'app-resources',
-  templateUrl: './resources.component.html'
+  templateUrl: './resources.component.html',
+  styleUrls: ['./resources.component.scss'],
 })
 
 
