@@ -15,7 +15,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 @Component({
   selector: 'app-registration',
-  templateUrl: './registration.component.html'
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.scss'],
 })
 
 

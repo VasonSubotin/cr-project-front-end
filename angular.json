@@ -126,5 +126,10 @@
   "defaultProject": "smart-charge",
   "cli": {
     "analytics": false
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
   }
 }

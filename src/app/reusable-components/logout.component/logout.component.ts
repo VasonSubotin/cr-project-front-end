@@ -3,9 +3,9 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-logout',
-  templateUrl: './logout.component.html'
+  templateUrl: './logout.component.html',
+  styleUrls: ['./logout.component.scss'],
 })
-
 
 export class LogoutComponent {
   constructor(private router: Router) {
@@ -13,7 +13,7 @@ export class LogoutComponent {
 
   logOut() {
     localStorage.removeItem('token');
-    //localStorage.removeItem('smartCarToken');
+    //localStorage.removeItem('smartCarToken');  TODO check  logout functions
     this.router.navigate(['/login'])
   }
 }

@@ -1,0 +1,51 @@
+.history-page {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .history-container {
+    width: 100%;
+  }
+
+  .history-item {
+    height: 92px;
+    width: 100%;
+    border: 1px solid #d5d3f7;
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    justify-content: space-between;
+  }
+
+  .history-label {
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 15px;
+    color: #000000;
+    mix-blend-mode: normal;
+    opacity: 0.4;
+    margin-top: 9px;
+  }
+
+  .history-info {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000000;
+  }
+
+  .margin-right-60 {
+    margin-right: 60px !important;
+  }
+
+  .item-container {
+    margin-right: 15px;
+  }
+  .search-input-container {
+    margin-bottom: 40px;
+  }

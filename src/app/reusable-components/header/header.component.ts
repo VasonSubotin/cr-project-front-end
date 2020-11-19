@@ -1,19 +1,20 @@
-import {Component} from "@angular/core";
-import {Router} from "@angular/router";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
-
-
 export class HeaderComponent {
   logoutShow = true;
-  constructor(private router: Router) {
+
+  constructor(private router: Router) {}
+
+  routeByLink(link: string) {
+    this.router.navigate([`/${link}`]);
   }
-  routeByLink (link){
-    this.router.navigate([`/${link}`])
-  }
+  
   switchLogout() {
     this.logoutShow = !this.logoutShow;
   }
