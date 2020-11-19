@@ -1,8 +1,0 @@
-2020-09-07 17:08:46.609  [SpringContextShutdownHook] DEBUG o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@233c0b17, started on Tue Sep 01 19:30:00 EEST 2020 
-2020-09-07 17:08:46.805  [SpringContextShutdownHook] DEBUG o.s.c.s.DefaultLifecycleProcessor - Stopping beans in phase 2147483647 
-2020-09-07 17:08:46.820  [SpringContextShutdownHook] DEBUG o.s.c.s.DefaultLifecycleProcessor - Bean 'documentationPluginsBootstrapper' completed its stop procedure 
-2020-09-07 17:08:46.831  [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor' 
-2020-09-07 17:08:46.868  [SpringContextShutdownHook] DEBUG o.h.internal.SessionFactoryImpl - HHH000031: Closing 
-2020-09-07 17:08:46.885  [SpringContextShutdownHook] DEBUG o.h.t.spi.TypeConfiguration$Scope - Un-scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration$Scope@706f2fc1] from SessionFactory [org.hibernate.internal.SessionFactoryImpl@2eae8e6e] 
-2020-09-07 17:08:46.910  [SpringContextShutdownHook] DEBUG o.h.s.i.AbstractServiceRegistryImpl - Implicitly destroying ServiceRegistry on de-registration of all child ServiceRegistries 
-2020-09-07 17:08:46.911  [SpringContextShutdownHook] DEBUG o.h.b.r.i.BootstrapServiceRegistryImpl - Implicitly destroying Boot-strap registry on de-registration of all child ServiceRegistries 

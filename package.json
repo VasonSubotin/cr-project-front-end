@@ -7,7 +7,9 @@
     "build": "smart-charge/node_modules/.bin/ng build",
     "test": "smart-charge/node_modules/.bin/ng test",
     "lint": "smart-charge/node_modules/.bin/ng lint",
-    "e2e": "smart-charge/node_modules/.bin/ng e2e"
+    "e2e": "smart-charge/node_modules/.bin/ng e2e",
+    "prettier-msg": "echo 'Running prettier...' && exit 0",
+    "pretty-quick": "pretty-quick --staged"
   },
   "private": true,
   "dependencies": {
@@ -56,6 +58,11 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "4.0.3"
-  }
+    "typescript": "4.0.3",
+    "prettier": "^2.0.4"
+  },
+  "pre-commit": [
+    "precommit-msg",
+    "prettier-msg"
+  ]
 }
