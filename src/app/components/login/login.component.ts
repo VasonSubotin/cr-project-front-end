@@ -8,7 +8,8 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { request } from '../../constants/api';
 
@@ -54,17 +55,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     const request$ = this.authService
       .authenticate(body)
       .pipe(
-        tap((res: any) => {
+        tap((res: {status: number, body: any}) => {
           if (res.status === 200) {
             localStorage.removeItem('token');
             localStorage.setItem('token', res.body.token);
             this.authService.auth_token = res.body.token;
             this.router.navigate(['/resources']);
           }
-        })
-      )
-      .subscribe();
-    this.subscriptions$.push(request$);
+        }),
+        catchError((err: any) => {
+          console.log(err);
+          return of('no more requests!!!')})
+      
+      ).subscribe();
+      this.subscriptions$.push(request$);
+
   }
   ngOnDestroy(): void {
     this.subscriptions$.forEach((s$) => {

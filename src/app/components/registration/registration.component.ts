@@ -22,8 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class RegistrationComponent implements OnDestroy {
   constructor(private authService: AuthService,
-              private router: Router) {
-  }
+              private router: Router) {}
 
   private subscriptions$ = [];
 
