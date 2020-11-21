@@ -13,10 +13,10 @@ export class MySnackbarService {
       panelClass: [className],
     });
   }
-  openErrorSnackBar(message: string, action: string | "close") {
+  openErrorSnackBar(message: string, action?: string) {
     this.openSnackBar(message, action, "my-snack-bar-error");
   }
-  openSuccessSnackBar(message: string, action: string | "close") {
+  openSuccessSnackBar(message: string, action?: string) {
     this.openSnackBar(message, action, "my-snack-bar-success");
   }
 }

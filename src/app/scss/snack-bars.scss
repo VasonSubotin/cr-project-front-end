@@ -1,10 +1,12 @@
 @import "./constants.scss";
 
 .my-snack-bar-error {
-    background-color: $error;
+    background-color: $error-80;
     color: $white;
+    box-shadow: none;
 }
 .my-snack-bar-success{
-    background-color: $success;
+    background-color: $success-80;
     color: $white;
+    box-shadow: none;
 }

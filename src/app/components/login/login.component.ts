@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }),
         catchError(({error}: HttpErrorResponse) => {
-          this.snackBar.openErrorSnackBar(error.message, 'close');
+          this.snackBar.openErrorSnackBar(error.message);
 
           return of(error.message)})
       

@@ -27,3 +27,25 @@
     align-items: center !important;
   }
   
+
+  .button-system--login--google {
+    background: $white;
+    border: 1px solid $black-60;
+    box-sizing: border-box;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $black;
+    height: 56px;
+    margin-bottom: 50px;
+    line-height: 56px;
+    width: 450px !important;
+    &:hover {
+      background: $white;
+      border: 1px solid $blue;
+    }
+  }
+  .button-system--login--google img {
+    margin-right: 8px;
+  }
