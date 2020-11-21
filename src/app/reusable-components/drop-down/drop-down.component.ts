@@ -25,6 +25,11 @@ export class DropDownComponent {
     this.dropDownOpen = !this.dropDownOpen;
   }
 
+  clickDropDownState($event: Event) {
+    $event.stopPropagation();
+    this.switchDropDownState();
+  }
+
   openEditResource() {
     const dialogConf: any = {
       data: this.resourceData.smResource, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false

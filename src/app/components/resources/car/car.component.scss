@@ -1,3 +1,4 @@
+@import "../../../scss/constants.scss";
 
   .charge-indicator {
     position: relative;
@@ -9,13 +10,12 @@
     z-index: 2;
   }
 
-
   .charge-indicator__on {
-    background: #34B53A;
+    background: $success;
   }
 
   .charge-indicator__off {
-    background: #FF3A29
+    background: $error;
   }
 
   .charge-indicator__plugIn {
@@ -23,7 +23,6 @@
   }
 
   
-
   .vendor {
     position: absolute;
     top: 10px

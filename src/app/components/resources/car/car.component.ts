@@ -18,6 +18,7 @@ export class CarComponent {
     public policiesService: PoliciesService) {}
  
   navigateByResource(idResource: string) {
+
     this.router.navigate([`/resource/${idResource}`]);
   }
 
