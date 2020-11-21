@@ -182,11 +182,12 @@ export class ResourcesComponent implements OnInit {
       });
   }
 
-  resourceDelete(index) {
+  resourceDelete(index) { // todo
+    console.log(index);
     this.resourcesData.splice(index, 1);
   }
 
-  navigateByResource(idResource, smResource) {
+  navigateByResource(idResource) { // todo
     this.router.navigate([`/resource/${idResource}`]);
   }
 }

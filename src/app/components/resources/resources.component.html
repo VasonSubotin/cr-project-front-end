@@ -21,11 +21,12 @@
   <ng-container *ngIf="resourcesData.length else emptyResourceList; index as i">
     <div class="resource-container">
       <ng-container *ngFor="let resource of resourcesData | filter: searchText">
-        <div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
+      <!--<car [resource]="resource" (resourceDelete)="resourceDelete(i)" [index]="i"></car> --> 
+       <div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
         >
           <div class="title-font vendor">
             <span
-              (click)="navigateByResource(resource.smResource.idResource, resource.smartCarInfo)">{{resource.smResource.vendor}}
+              (click)="navigateByResource(resource.smResource.idResource)">{{resource.smResource.vendor}}
               / {{resource.smResource.model}}</span>
           </div>
           <div class="vendor-settings">

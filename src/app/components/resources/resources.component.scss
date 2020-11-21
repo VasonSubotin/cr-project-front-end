@@ -45,7 +45,11 @@
     text-align: center;
     color: $blue;
   }
+  .search-input-container {
+    margin-right: 20px;
+  }
 
+  // todo
   .charge-indicator {
     position: relative;
     width: 10px;
@@ -55,6 +59,7 @@
     margin-left: 10px;
     z-index: 2;
   }
+
 
   .charge-indicator__on {
     background: #34B53A;
@@ -68,9 +73,7 @@
     background: #ff8826
   }
 
-  .search-input-container {
-    margin-right: 20px;
-  }
+  
 
   .vendor {
     position: absolute;
