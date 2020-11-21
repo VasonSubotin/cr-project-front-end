@@ -3,6 +3,7 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "./app/scss/snack-bars.scss";
 @import "./app/scss/constants.scss";
+@import "./app/scss/buttons.scss";
 
 @font-face {
   font-family: "Montserrat";
@@ -178,29 +179,6 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.button-system {
-  position: relative;
-  text-transform: capitalize;
-  font-weight: bold;
-  font-size: 14px;
-  line-height: 15px;
-  /* identical to box height, or 107% */
-  border: none;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  text-align: center;
-  outline: none;
-  color: $white;
-  background: $primary;
-  border-radius: 4px;
-}
-.button-system--login {
-  width: 450px !important;
-  height: 56px !important;
-  align-items: center !important;
 }
 
 .flex {
