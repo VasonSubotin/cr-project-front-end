@@ -1,0 +1,43 @@
+@import "../../scss/constants.scss";
+
+.settings_icon {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    padding: 16px;
+
+  }
+  .settings_content {
+    position: absolute;
+    z-index: 3;
+    width: 209px;
+    background: $white;
+    border: 1px solid rgba(157, 165, 174, 0.2);
+    box-sizing: border-box;
+    padding: 12px 0;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    border-radius: $radius;
+    right: 0;
+    top: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+  }
+  .settings_item {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: $black;
+    height: 48px;
+    vertical-align: middle;
+    padding: 0 12px;
+    &:hover {
+        background-color: $black-0;
+    }
+  }
+  .remove {
+    color: $error;
+  }
