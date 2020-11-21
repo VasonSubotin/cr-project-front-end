@@ -1,67 +1,79 @@
-<div class="resource-card "
-(click)="navigateByResource(resource.smResource.idResource)">
-
-<div class="car-title">
+<div
+  (click)="navigateByResource(resource.smResource.idResource)"
+  class="resource-card"
+>
+  <div class="car-title">
     <div class="vendor-image"></div>
-    <h5 class="vendor" >
-        {{resource.smResource.vendor}} {{resource.smResource.model}}
+    <h5 class="vendor">
+      {{ resource.smResource.vendor }} {{ resource.smResource.model }}
     </h5>
-      <div class="vendor-settings">
-        <app-drop-down [resourceData]="resource" (resourceDelete)="onDelete()" ></app-drop-down>
-      </div>
-</div>
-     
-<div class="car-content">
-    <div class="resource-card__content car-image">
-        <img src="../../../assets/imgs/cars.png" height="108" width="192"/>
-      </div>
-      <div class="resource-card__content car-info">
-
-
-        <div class="info-block">
-          <h6>Plugged:</h6>
-          <ng-container
-            *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state==='CHARGING' else chargeOff">
-            <div class="info-text ">
-              Charging
-              <span class="charge-indicator charge-indicator__on"></span>
-            </div>
-          </ng-container>
-          <ng-container
-            *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state !=='CHARGING' ">
-            <div class="info-text ">
-              Plugged In
-              <span class="charge-indicator charge-indicator__plugIn"></span>
-            </div>
-          </ng-container>
-
-          <ng-template #chargeOff>
-            <div class="info-text ">
-              Plugged Out
-              <span class="charge-indicator charge-indicator__off"></span>
-            </div>
-          </ng-template>
-        </div>
-
-        <div class="info-block">
-          <h6>Policy:</h6>
-          <ng-container *ngIf="policiesService?.policies">
-            <div class="info-text "> {{policiesService?.policies[resource.smResource.policyId]?.name}}</div>
-
-          </ng-container>
-        </div>
-        <div class="info-block">
-          <h6>Battery:</h6>
-          <div class="info-text "> {{resource.smResource?.capacity / 1000}} kWh</div>
-
-        </div>
-        <div class="info-block">
-          <h6>SOC:</h6>
-          <div class="info-text "> {{resource.smartCarInfo?.battery?.percentRemaining * 100}} %</div>
-
-        </div>
-      </div>
-</div>
-     
-
+    <div class="vendor-settings">
+      <app-drop-down
+        [resourceData]="resource"
+        (resourceDelete)="onDelete()"
+      ></app-drop-down>
     </div>
+  </div>
+
+  <div class="car-content">
+    <div class="resource-card__content car-image">
+      <img src="../../../assets/imgs/cars.png" height="108" width="192" />
+    </div>
+    <div class="resource-card__content car-info">
+      <div class="info-block">
+        <h6>Plugged:</h6>
+        <ng-container
+          *ngIf="
+            resource.smartCarInfo?.charge?.data.isPluggedIn &&
+              resource.smartCarInfo?.charge?.data.state === 'CHARGING';
+            else chargeOff
+          "
+        >
+          <div class="info-text">
+            Charging
+            <span class="charge-indicator charge-indicator__on"></span>
+          </div>
+        </ng-container>
+        <ng-container
+          *ngIf="
+            resource.smartCarInfo?.charge?.data.isPluggedIn &&
+            resource.smartCarInfo?.charge?.data.state !== 'CHARGING'
+          "
+        >
+          <div class="info-text">
+            Plugged In
+            <span class="charge-indicator charge-indicator__plugIn"></span>
+          </div>
+        </ng-container>
+
+        <ng-template #chargeOff>
+          <div class="info-text">
+            Plugged Out
+            <span class="charge-indicator charge-indicator__off"></span>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="info-block">
+        <h6>Policy:</h6>
+        <ng-container *ngIf="policiesService?.policies">
+          <div class="info-text">
+            {{ policiesService?.policies[resource.smResource.policyId]?.name }}
+          </div>
+        </ng-container>
+      </div>
+      <div class="info-block">
+        <h6>Battery:</h6>
+        <div class="info-text">
+          {{ resource.smResource?.capacity / 1000 }} kWh
+        </div>
+      </div>
+      <div class="info-block">
+        <h6>SOC:</h6>
+        <div class="info-text">
+          {{ resource.smartCarInfo?.battery?.percentRemaining * 100 }} %
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
