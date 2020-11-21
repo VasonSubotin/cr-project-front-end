@@ -1,0 +1,39 @@
+@import "../../../scss/constants.scss";
+
+  .charge-indicator {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    padding-left: 10px;
+    margin-left: 10px;
+    z-index: 2;
+  }
+
+  .charge-indicator__on {
+    background: $success;
+  }
+
+  .charge-indicator__off {
+    background: $error;
+  }
+
+  .charge-indicator__plugIn {
+    background: #ff8826
+  }
+
+  
+  .vendor {
+    position: absolute;
+    top: 10px
+  }
+
+  .resource-content {
+    position: relative;
+  }
+  .vendor-settings {
+    position: absolute;
+    right: 24px;
+    top: 10px
+
+  }

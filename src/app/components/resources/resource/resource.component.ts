@@ -11,25 +11,22 @@ import {PoliciesService} from "../../../services/policies.service";
 
 @Component({
   selector: 'app-resource',
-  templateUrl: './resource.component.html'
+  templateUrl: './resource.component.html',
+  styleUrls: ['./resource.component.scss'],
 })
 
 
 export class ResourceComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
-              private router: Router,
               private authService: AuthService,
               private matDialog: MatDialog,
-              private policiesService: PoliciesService) {
-
-  }
+              private policiesService: PoliciesService) {}
 
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
   @ViewChild('progressBar') progressBar: ElementRef;
   loaderState = false;
   loaderStateGeo = false;
   selectedTab = 0;
-
 
   resource;
   station_locations = JSON.parse(localStorage.getItem('station_locations')) || <any>[];

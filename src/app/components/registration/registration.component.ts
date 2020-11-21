@@ -1,10 +1,13 @@
 import {Component, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
 import {ErrorStateMatcher} from "@angular/material/core";
+
 import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
-import {tap} from 'rxjs/operators';
-
+import {catchError, tap} from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { of } from 'rxjs/internal/observable/of';
+import { MySnackbarService } from 'src/app/services/snackbar.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -22,8 +25,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 export class RegistrationComponent implements OnDestroy {
   constructor(private authService: AuthService,
-              private router: Router) {
-  }
+              private router: Router,
+              private snackBar: MySnackbarService) {}
 
   private subscriptions$ = [];
 
@@ -47,13 +50,19 @@ export class RegistrationComponent implements OnDestroy {
       login: this.myGroup.controls['login'].value,
       password: this.myGroup.controls['password'].value,
     };
-    const request$ = this.authService.singUp(body).pipe(tap((res: any) => {
+    const request$ = this.authService.singUp(body).pipe(
+      tap((res: any) => {
 
       if (res.status === 201) {
         localStorage.setItem('token', res.tpken);
-
+        this.snackBar.openSuccessSnackBar('Thanks for your registration', 'close')
         this.router.navigate(['/login'])};
-    })).subscribe();
+    }),
+    catchError(({error}: HttpErrorResponse) => {
+      this.snackBar.openErrorSnackBar(error.message, 'close');
+      return of(error.message)
+    })
+    ).subscribe();
     this.subscriptions$.push(request$)
   }
 

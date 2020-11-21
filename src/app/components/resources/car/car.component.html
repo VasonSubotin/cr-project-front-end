@@ -1,0 +1,63 @@
+<div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
+(click)="navigateByResource(resource.smResource.idResource)">
+      <div class="title-font vendor" >
+        <span>{{resource.smResource.vendor}} / {{resource.smResource.model}}</span>
+      </div>
+      <div class="vendor-settings">
+        <app-drop-down [resourceData]="resource" (resourceDelete)="onDelete()"></app-drop-down>
+      </div>
+      <div class="resource-card__content">
+        <img src="../../../assets/imgs/cars.png" height="108" width="192"/>
+      </div>
+      <div class="resource-card__content">
+
+
+        <div class="sub_container">
+          <div class="title-font sub_tittle">Plugged:</div>
+          <!--     <ng-container *ngIf="resource.smartCarInfo else chargeOff">
+                 <ng-container *ngIf="resource.smartCarInfo?.charge else chargeOff">-->
+          <ng-container
+            *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state==='CHARGING' else chargeOff">
+            <div class="title-font sub_tittle sub_info">
+              Charging
+              <div class="charge-indicator charge-indicator__on"></div>
+            </div>
+          </ng-container>
+          <ng-container
+            *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state !=='CHARGING' ">
+            <div class="title-font sub_tittle sub_info">
+              Plugged In
+              <div class="charge-indicator charge-indicator__plugIn"></div>
+            </div>
+          </ng-container>
+          <!--     </ng-container>
+
+             </ng-container>
+ -->
+          <ng-template #chargeOff>
+            <div class="title-font sub_tittle sub_info">
+              Plugged Out
+              <div class="charge-indicator charge-indicator__off"></div>
+            </div>
+          </ng-template>
+        </div>
+        <div class="sub_container">
+          <div class="title-font sub_tittle">Policy:</div>
+          <ng-container *ngIf="policiesService?.policies">
+            <div class="title-font sub_tittle sub_info"> {{policiesService?.policies[resource.smResource.policyId]?.name}}</div>
+
+          </ng-container>
+        </div>
+        <div class="sub_container">
+          <div class="title-font sub_tittle">Battery:</div>
+          <div class="title-font sub_tittle sub_info"> {{resource.smResource?.capacity / 1000}} kWh</div>
+
+        </div>
+        <div class="sub_container">
+          <div class="title-font sub_tittle">SOC:</div>
+          <div class="title-font sub_tittle sub_info"> {{resource.smartCarInfo?.battery?.percentRemaining * 100}} %</div>
+
+        </div>
+      </div>
+
+    </div>

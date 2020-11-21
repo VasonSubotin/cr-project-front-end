@@ -25,7 +25,13 @@ export class DropDownComponent {
     this.dropDownOpen = !this.dropDownOpen;
   }
 
-  openEditResource() {
+  clickDropDownState($event: Event) {
+    $event.stopPropagation();
+    this.switchDropDownState();
+  }
+
+  openEditResource($event: Event) {
+    $event.stopPropagation();
     const dialogConf: any = {
       data: this.resourceData.smResource, panelClass: 'edit-resource-dialog', closeOnNavigation: true, autoFocus: false
     };
@@ -38,12 +44,11 @@ export class DropDownComponent {
       }
     );
   }
-  deleteResource() {
+  deleteResource($event: Event) {
+    $event.stopPropagation();
     this.switchDropDownState();
     this.resourceDelete.emit();
-    this.authService.deleteResourcesById(this.resourceData.smResource.idResource).subscribe(res=> {
-
-    })
+    this.authService.deleteResourcesById(this.resourceData.smResource.idResource).subscribe(res=> {})
     }
 }
 

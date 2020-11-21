@@ -1,3 +1,5 @@
+@import "../../scss/constants.scss";
+
 .link-container {
     position: relative;
     width: 100%;
@@ -22,7 +24,7 @@
     position: absolute;
     width: 2px;
     height: 20px;
-    background: #4339F2;
+    background: $blue;
   }
 
   .link_icon:before {
@@ -31,7 +33,7 @@
     position: absolute;
     width: 2px;
     height: 20px;
-    background: #4339F2;
+    background: $blue;
   }
 
   .link_text {
@@ -41,9 +43,13 @@
     font-size: 22px;
     line-height: 27px;
     text-align: center;
-    color: #4339F2;
+    color: $blue;
+  }
+  .search-input-container {
+    margin-right: 20px;
   }
 
+  // todo
   .charge-indicator {
     position: relative;
     width: 10px;
@@ -53,6 +59,7 @@
     margin-left: 10px;
     z-index: 2;
   }
+
 
   .charge-indicator__on {
     background: #34B53A;
@@ -66,9 +73,7 @@
     background: #ff8826
   }
 
-  .search-input-container {
-    margin-right: 20px;
-  }
+  
 
   .vendor {
     position: absolute;

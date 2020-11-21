@@ -79,7 +79,6 @@ export class MapGeoComponent implements OnInit {
       latitude: this.mapData[0].latitude,
       longitude: this.mapData[0].longitude
     };
-    console.log(this.customAnnotation)
   }
 
   mapDataPrepareData(mapData) {

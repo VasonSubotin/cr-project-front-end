@@ -35,12 +35,12 @@
   }
 </style>
 
-<div class="settings_icon" (click)="switchDropDownState()">
+<div class="settings_icon" (click)="clickDropDownState($event)">
   <img src="../../../assets/imgs/horizontal.png" height="24"
        width="24"/>
 </div>
 
 <div class="settings_content" *ngIf="dropDownOpen">
-  <div class="settings_item" (click)="openEditResource()">EDIT RESOURCE</div>
-  <div class="settings_item remove" (click)="deleteResource()">REMOVE RESOURCE</div>
+  <div class="settings_item" (click)="openEditResource($event)">EDIT RESOURCE</div>
+  <div class="settings_item remove" (click)="deleteResource($event)">REMOVE RESOURCE</div>
 </div>

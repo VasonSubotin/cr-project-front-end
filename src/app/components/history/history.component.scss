@@ -1,3 +1,5 @@
+@import "../../scss/constants.scss";
+
 .history-page {
     padding: 24px;
     display: flex;
@@ -25,7 +27,7 @@
     font-weight: normal;
     font-size: 10px;
     line-height: 15px;
-    color: #000000;
+    color: $black;
     mix-blend-mode: normal;
     opacity: 0.4;
     margin-top: 9px;
@@ -36,7 +38,7 @@
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
-    color: #000000;
+    color: $black;
   }
 
   .margin-right-60 {
