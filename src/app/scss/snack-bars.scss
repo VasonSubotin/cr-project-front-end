@@ -1,12 +1,19 @@
 @import "./constants.scss";
 
-.my-snack-bar-error {
-    background-color: $error-80;
-    color: $white;
+.my-snack-bar-error, .my-snack-bar-success {
+    color: $black-80;
     box-shadow: none;
+    border-radius: $radius;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.my-snack-bar-error {
+    background-color: $error-20;
+    border: 1px solid $error;
 }
 .my-snack-bar-success{
-    background-color: $success-80;
-    color: $white;
-    box-shadow: none;
+    background-color: $success-20;
+    border: 1px solid $success; 
 }
