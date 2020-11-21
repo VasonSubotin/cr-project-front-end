@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~ng-pick-datetime/assets/style/picker.min.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
+@import "./app/scss/snack-bars.scss";
+@import "./app/scss/constants.scss";
 
 @font-face {
   font-family: "Montserrat";
@@ -23,7 +25,7 @@ input:disabled {
 .input-login {
   width: 450px !important;
   height: 56px !important;
-  background: #FFFFFF !important;
+  background: $white !important;
   border: 1px solid #A7A9AA !important;
   box-sizing: border-box !important;
   border-radius: 4px !important;
@@ -42,7 +44,7 @@ input:disabled {
   height: 56px;
   right: 0;
   top: 7px;
-  border: 1px solid #D3D4D4;
+  border: $border;
   box-sizing: border-box;
   border-radius: 4px;
 }
@@ -52,7 +54,7 @@ input:disabled {
   font-weight: 600 !important;
   font-size: 16px !important;
   line-height: 20px !important;
-  color: #000000 !important;
+  color: $black !important;
 }
 
 .select-container {
@@ -61,7 +63,7 @@ input:disabled {
   height: 56px;
   right: 0;
   top: 7px;
-  border: 1px solid #D3D4D4;
+  border: $border;
   box-sizing: border-box;
   border-radius: 4px;
 }
@@ -71,7 +73,7 @@ input:disabled {
   max-width: 100%;
   max-height: 100%;
   border: none;
-  background: #FFFFFF;
+  background: $white;
   outline: none;
   width: 100%;
   height: 100%;
@@ -102,7 +104,7 @@ input:disabled {
 .input-label {
   z-index: 1;
   position: absolute;
-  background: #FFFFFF;
+  background: $white;
   font-style: normal;
   font-weight: normal;
   font-size: 10px;
@@ -131,8 +133,8 @@ input:disabled {
   align-items: center;
   text-align: center;
   text-transform: uppercase;
-  color: #FFFFFF;
-  background: #4339F2 !important;
+  color: $white;
+  background: $primary !important;
 }
 
 
@@ -152,7 +154,7 @@ input:disabled {
 }
 
 button:disabled {
-  background: #7B7D7F !important;
+  background: $background !important;
 }
 
 /*
@@ -191,8 +193,8 @@ body {
   cursor: pointer;
   text-align: center;
   outline: none;
-  color: #FFFFFF;
-  background: #4339F2;
+  color: $white;
+  background: $primary;
   border-radius: 4px;
 }
 .button-system--login {
@@ -346,7 +348,7 @@ body {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: #7B7D7F;
+  color: $background;
 }
 
 .sub_info {
@@ -410,7 +412,7 @@ body {
   width: 80%;
   position: fixed;
   bottom: 0;
-  background: #ffffff;
+  background: $white;
   padding-bottom: 40px;
 }
 
@@ -422,7 +424,7 @@ body {
   font-size: 32px;
   line-height: 37px;
   /* identical to box height */
-  color: #000000;
+  color: $black;
 }
 
 .resource-card {
@@ -430,11 +432,11 @@ body {
   height: 200px;
   padding: 34px 24px 24px 24px;
   margin: 10px;
-  background: #FFFFFF;
+  background: $white;
   border: 1px solid rgba(157, 165, 174, 0.2);
   box-sizing: border-box;
   border-radius: 20px;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F6F7F8 100%);
+  background: linear-gradient(180deg, $white 0%, #F6F7F8 100%);
   /* Black / 5 */
 }
 
@@ -459,7 +461,7 @@ body {
   position: relative;
   width: 670px;
   height: 40px;
-  background: #F4F4F4;
+  background: $light-background;
   border-radius: 4px;
   margin-right: 198px;
 }
@@ -480,16 +482,16 @@ body {
   align-items: center;
   text-align: center;
   text-transform: uppercase;
-  background: #4339F2;
+  background: $primary;
   border-radius: 4px;
-  color: #FFFFFF;
+  color: $white;
   outline: none;
 }
 
 .search-input {
   position: absolute;
   max-width: 100%;
-  border: 1px solid #D3D4D4;
+  border: $border;
   box-sizing: border-box;
   border-radius: 6px;
   max-height: 100%;
@@ -498,8 +500,8 @@ body {
 }
 
 .mat-raised-button {
-  background: #4339F2;
-  color: #FFFFFF;
+  background: $primary;
+  color: $white;
 }
 
 .big-button {
@@ -515,7 +517,7 @@ body {
 .add__resource {
   width: 451px;
   height: 250px;
-  border: 2px dashed #4339F2;
+  border: 2px dashed $primary;
   border-radius: 20px;
   margin: 10px;
   box-sizing: border-box;
@@ -524,9 +526,9 @@ body {
 .edit-resource-dialog {
   width: 685px;
   height: 765px;
-  background: #FFFFFF;
+  background: $white;
 
-  border: 1px solid #F4F4F4;
+  border: 1px solid $light-background;
   box-sizing: border-box;
   border-radius: 20px;
 }
@@ -592,7 +594,7 @@ body {
 }
 .empty-state--container h3 {
   font-size: 20px;
-  color: #7B7D7F;
+  color: $background;
 }
 .empty-state--container h1 {
   font-size: 40px;

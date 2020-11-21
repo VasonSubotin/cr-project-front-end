@@ -8,10 +8,12 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { request } from '../../constants/api';
+import { MySnackbarService } from 'src/app/services/snackbar.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subscriptions$ = [];
   googleLogin = `${request.apiUrl}googleLogin`;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private snackBar: MySnackbarService) {}
 
   ngOnInit(): void {}
 
@@ -63,9 +65,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate(['/resources']);
           }
         }),
-        catchError((err: any) => {
-          console.log(err);
-          return of('no more requests!!!')})
+        catchError(({error}: HttpErrorResponse) => {
+          this.snackBar.openErrorSnackBar(error.message, 'close');
+
+          return of(error.message)})
       
       ).subscribe();
       this.subscriptions$.push(request$);
