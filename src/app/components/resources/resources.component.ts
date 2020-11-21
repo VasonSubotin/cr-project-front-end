@@ -145,8 +145,8 @@ export class ResourcesComponent implements OnInit {
       .pipe(
         tap((res: any) => {
           if (res.status === 200) {
-            this.getResourcesArray();
             this.getResourcesFast();
+            this.getResourcesArray();
           }
         })
       )

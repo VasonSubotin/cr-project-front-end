@@ -21,72 +21,8 @@
   <ng-container *ngIf="resourcesData.length else emptyResourceList; index as i">
     <div class="resource-container">
       <ng-container *ngFor="let resource of resourcesData | filter: searchText">
-      <!--<car [resource]="resource" (resourceDelete)="resourceDelete(i)" [index]="i"></car> --> 
-       <div class="resource-content resource-card flex-block  flex-block--space-between max-width--600"
-        >
-          <div class="title-font vendor">
-            <span
-              (click)="navigateByResource(resource.smResource.idResource)">{{resource.smResource.vendor}}
-              / {{resource.smResource.model}}</span>
-          </div>
-          <div class="vendor-settings">
-            <app-drop-down [resourceData]="resource" (resourceDelete)="resourceDelete(i)"></app-drop-down>
-          </div>
-          <div class="resource-card__content">
-            <img src="../../../assets/imgs/cars.png" height="108" width="192"/>
-          </div>
-          <div class="resource-card__content">
-
-
-            <div class="sub_container">
-              <div class="title-font sub_tittle">Plugged:</div>
-              <!--     <ng-container *ngIf="resource.smartCarInfo else chargeOff">
-                     <ng-container *ngIf="resource.smartCarInfo?.charge else chargeOff">-->
-              <ng-container
-                *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state==='CHARGING' else chargeOff">
-                <div class="title-font sub_tittle sub_info">
-                  Charging
-                  <div class="charge-indicator charge-indicator__on"></div>
-                </div>
-              </ng-container>
-              <ng-container
-                *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn && resource.smartCarInfo?.charge?.data.state !=='CHARGING' ">
-                <div class="title-font sub_tittle sub_info">
-                  Plugged In
-                  <div class="charge-indicator charge-indicator__plugIn"></div>
-                </div>
-              </ng-container>
-              <!--     </ng-container>
-
-                 </ng-container>
-     -->
-              <ng-template #chargeOff>
-                <div class="title-font sub_tittle sub_info">
-                  Plugged Out
-                  <div class="charge-indicator charge-indicator__off"></div>
-                </div>
-              </ng-template>
-            </div>
-            <div class="sub_container">
-              <div class="title-font sub_tittle">Policy:</div>
-              <ng-container *ngIf="policiesService?.policies">
-                <div class="title-font sub_tittle sub_info"> {{policiesService?.policies[resource.smResource.policyId]?.name}}</div>
-
-              </ng-container>
-            </div>
-            <div class="sub_container">
-              <div class="title-font sub_tittle">Battery:</div>
-              <div class="title-font sub_tittle sub_info"> {{resource.smResource?.capacity / 1000}} kWh</div>
-
-            </div>
-            <div class="sub_container">
-              <div class="title-font sub_tittle">SOC:</div>
-              <div class="title-font sub_tittle sub_info"> {{resource.smartCarInfo?.battery?.percentRemaining * 100}} %</div>
-
-            </div>
-          </div>
-
-        </div>
+        <car [resource]="resource" (resourceDelete)="resourceDelete(i)" [index]="i"></car> 
+     
       </ng-container>
 
       <div class="add__resource">
