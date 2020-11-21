@@ -135,7 +135,7 @@ input:disabled {
   text-align: center;
   text-transform: uppercase;
   color: $white;
-  background: $primary !important;
+  background: $blue !important;
 }
 
 
@@ -155,7 +155,7 @@ input:disabled {
 }
 
 button:disabled {
-  background: $background !important;
+  background: $black-60 !important;
 }
 
 /*
@@ -326,7 +326,7 @@ body {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: $background;
+  color: $black-60;
 }
 
 .sub_info {
@@ -439,7 +439,7 @@ body {
   position: relative;
   width: 670px;
   height: 40px;
-  background: $light-background;
+  background: $black-0;
   border-radius: 4px;
   margin-right: 198px;
 }
@@ -460,7 +460,7 @@ body {
   align-items: center;
   text-align: center;
   text-transform: uppercase;
-  background: $primary;
+  background: $blue;
   border-radius: 4px;
   color: $white;
   outline: none;
@@ -478,7 +478,7 @@ body {
 }
 
 .mat-raised-button {
-  background: $primary;
+  background: $blue;
   color: $white;
 }
 
@@ -495,7 +495,7 @@ body {
 .add__resource {
   width: 451px;
   height: 250px;
-  border: 2px dashed $primary;
+  border: 2px dashed $blue;
   border-radius: 20px;
   margin: 10px;
   box-sizing: border-box;
@@ -506,7 +506,7 @@ body {
   height: 765px;
   background: $white;
 
-  border: 1px solid $light-background;
+  border: 1px solid $black-0;
   box-sizing: border-box;
   border-radius: 20px;
 }
@@ -572,7 +572,7 @@ body {
 }
 .empty-state--container h3 {
   font-size: 20px;
-  color: $background;
+  color: $black-60;
 }
 .empty-state--container h1 {
   font-size: 40px;

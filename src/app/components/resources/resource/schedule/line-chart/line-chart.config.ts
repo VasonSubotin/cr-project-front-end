@@ -10,7 +10,7 @@ export const LINE_CHART_CONFIG: Options = {
   title: {
     text: '',
     style: {
-      color: '#000000',
+      color: '$black',
       fontSize: '18px',
       fontWeight: '700',
     },
@@ -37,7 +37,7 @@ export const LINE_CHART_CONFIG: Options = {
         text: '',
         align: 'high',
         style: {
-          color: '#000000',
+          color: '$black',
           fontSize: '14px',
           fontWeight: '700'
         },
@@ -91,7 +91,7 @@ export const SECONDARY_AXIS_CONFIG = {
     text: '',
     align: 'high',
     style: {
-      color: '#000000',
+      color: '$black',
       fontSize: '14px',
       fontWeight: '700'
     },
@@ -113,7 +113,7 @@ export const OPPOSITE_SECONDARY_AXIS_CONFIG = {
     align: 'high',
     rotation: 0,
     style: {
-      color: '#000000',
+      color: '$black',
       fontSize: '14px',
       fontWeight: '700'
     },

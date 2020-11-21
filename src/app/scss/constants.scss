@@ -1,14 +1,19 @@
 $white: #FFFFFF;
-$black: #000;
-$light-background:#F4F4F4;
-$background: #7B7D7F;
 
-$primary: #4339F2;
-$primary-hover: #2E27A9;
+$black: #232729;
+$black-80: #4F5254;
+$black-60: #7B7D7F;
+$black-40: #A7A9AA;
+$black-20: #D3D4D4;
+$black-0: #F4F4F4;
+
+
+$blue: #4339F2;
+$blue-80: #6961F5;
 
 $success: #39F243;
 
 $error: #F24339;
 
 
-$border: 1px solid #D3D4D4;
+$border: 1px solid $black-20;

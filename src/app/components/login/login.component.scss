@@ -1,8 +1,11 @@
+@import "../../scss/constants.scss";
+@import "../../scss/buttons.scss";
+
 h1 {
     font-weight: 500;
     font-size: 40px;
     line-height: 49px;
-    color: #000000;
+    color: $black;
     margin-top: 32px;
     margin-bottom: 20px;
   }
@@ -27,7 +30,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #000000;
+    color: $black;
     height: 56px;
     margin-bottom: 50px;
     line-height: 56px;
