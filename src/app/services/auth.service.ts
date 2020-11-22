@@ -43,7 +43,7 @@ export class AuthService {
     return this.http.post(`${this.apiConstants.apiUrl}googleAuthenticate?code=${code}`, {}, {observe: 'response'})
   }
 
-  smartCarSession(code) {
+  smartCarSession(code: string) {
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
