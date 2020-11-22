@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {request} from "../constants/api";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { request } from '../constants/api';
 import { Policy } from '../data/Policy';
 
 @Injectable()
@@ -13,16 +13,19 @@ export class PoliciesService {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }),
     };
-    
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.policiesList}`, _options);
+
+    return this.http.get(
+      `${this.apiConstants.apiUrl}${this.apiConstants.policiesList}`,
+      _options
+    );
   }
 
-  getPoliciesList(){
+  getPoliciesList() {
     this.readPoliciesList().subscribe((res: Policy[]) => {
       this.policies = res;
-    })
+    });
   }
 }
