@@ -9,6 +9,7 @@ import { POLICIES } from '../../constants/policies';
 import { request } from '../../constants/api';
 import { EditResourcePopupComponent } from '../../reusable-components/popups/edit-resource-popup/edit-resource-popup.component';
 import { TYPES } from 'src/app/constants/authTypes';
+import { RegistrationService } from 'src/app/services/registration.service';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { TYPES } from 'src/app/constants/authTypes';
 })
 export class ResourcesComponent implements OnInit {
   constructor(
+    private _registrationService: RegistrationService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private matDialog: MatDialog,
@@ -94,7 +96,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   getGoogleAuthenticate(code) {
-    this.authService.googleAuthenticate(code).subscribe(
+    this._registrationService.googleAuthenticate(code).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.body.token);
         this.getResourcesFast();

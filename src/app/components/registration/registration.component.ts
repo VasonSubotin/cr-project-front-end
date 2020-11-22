@@ -8,6 +8,7 @@ import {catchError, tap} from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs/internal/observable/of';
 import { MySnackbarService } from 'src/app/services/snackbar.service';
+import { RegistrationService } from 'src/app/services/registration.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,9 +25,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 
 export class RegistrationComponent implements OnDestroy {
-  constructor(private authService: AuthService,
-              private router: Router,
-              private snackBar: MySnackbarService) {}
+  constructor(private _registrationService: RegistrationService,
+              private _snackBar: MySnackbarService,
+              private _router: Router) {}
 
   private subscriptions$ = [];
 
@@ -50,16 +51,16 @@ export class RegistrationComponent implements OnDestroy {
       login: this.myGroup.controls['login'].value,
       password: this.myGroup.controls['password'].value,
     };
-    const request$ = this.authService.singUp(body).pipe(
+    const request$ = this._registrationService.singUp(body).pipe(
       tap((res: any) => {
 
       if (res.status === 201) {
         localStorage.setItem('token', res.tpken);
-        this.snackBar.openSuccessSnackBar('Thanks for your registration', 'close')
-        this.router.navigate(['/login'])};
+        this._snackBar.openSuccessSnackBar('Thanks for your registration', 'close')
+        this._router.navigate(['/login'])};
     }),
     catchError(({error}: HttpErrorResponse) => {
-      this.snackBar.openErrorSnackBar(error.message, 'close');
+      this._snackBar.openErrorSnackBar(error.message, 'close');
       return of(error.message)
     })
     ).subscribe();
@@ -67,7 +68,7 @@ export class RegistrationComponent implements OnDestroy {
   }
 
   singupByGoogle() {
-    const requestGoogle$ = this.authService.googleLogin().pipe(tap((res: any) => {
+    const requestGoogle$ = this._registrationService.googleLogin().pipe(tap((res: any) => {
     })).subscribe();
     this.subscriptions$.push(requestGoogle$)
 
