@@ -44,8 +44,11 @@ import { AppleMapsModule } from 'ngx-apple-maps';
 import { ChartsService } from './services/charts.service';
 import { LineChartComponent } from './components/resources/resource/schedule/line-chart/line-chart.component';
 import { PoliciesService } from './services/policies.service';
+import { RegistrationService } from './services/registration.service';
 import { MySnackbarService } from './services/snackbar.service';
+
 import { CarComponent } from './components/resources/car/car.component';
+import { HistoryService } from './services/history.service';
 
 @NgModule({
   declarations: [
@@ -99,7 +102,7 @@ import { CarComponent } from './components/resources/car/car.component';
   ],
 
   entryComponents: [EditResourcePopupComponent,],
-  providers: [AuthService, PoliciesService, FunctionsService, ChartsService, MySnackbarService],
+  providers: [AuthService, PoliciesService, FunctionsService, ChartsService, MySnackbarService, RegistrationService, HistoryService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

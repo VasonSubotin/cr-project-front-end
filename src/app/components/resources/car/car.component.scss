@@ -6,8 +6,9 @@
     height: 10px;
     border-radius: 50%;
     padding-left: 10px;
-    margin-left: 10px;
+    margin-left: 4px;
     z-index: 2;
+    display: inline-block;
   }
 
   .charge-indicator__on {
@@ -19,21 +20,84 @@
   }
 
   .charge-indicator__plugIn {
-    background: #ff8826
+    background: $yellow;
   }
 
-  
-  .vendor {
-    position: absolute;
-    top: 10px
-  }
-
-  .resource-content {
-    position: relative;
-  }
   .vendor-settings {
     position: absolute;
     right: 24px;
     top: 10px
 
   }
+
+.resource-card {
+    width: 450px;
+    height: 200px - 48px;
+    padding: 24px;
+    margin: 10px;
+    background: $white;
+    border: 1px solid rgba(157, 165, 174, 0.2);
+    box-sizing: border-box;
+    border-radius: 20px;
+    background: linear-gradient(180deg, $white 0%, #F6F7F8 100%);
+    position: relative;
+    margin-bottom: 20px;
+    width: 450px;
+    min-height: 200px;
+    cursor: pointer;
+  }
+  
+
+  .car-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    
+  }
+
+  .car-title {
+    display: flex;
+    height: 32px;
+    .vendor-image {
+        width: 50%;
+    }
+  }
+
+  .car-image, .vendor-image {
+    margin-right: 12px;
+  }
+  
+  .car-info, .vendor {
+    margin-left: 12px; 
+  }
+
+ .car-image {
+    margin-top: 16px;
+ }
+
+ .vendor, .car-info{
+    width: 190px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+ }
+
+ .info-text {
+    width: 112px;
+    font-size: 14px;
+  
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: $black;
+}
+
+.info-block {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+}
+  
+  
+h6 {
+color: $black-60;
+}

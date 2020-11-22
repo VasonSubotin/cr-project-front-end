@@ -9,7 +9,6 @@ export class AuthService {
   }
 
   public apiConstants = request;
-  public auth_token;
 
   needInitSmartCarSession() {
     const _options = {
@@ -23,27 +22,7 @@ export class AuthService {
     return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.needInitSmartCarSession}`,{}, _options)
   }
 
-  singUp(body) {
-    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.signup}`, body, {observe: 'response'})
-  }
-
-  authenticate(body) {
-    return this.http.post(`${this.apiConstants.apiUrl}${this.apiConstants.authenticate}`, body, {observe: 'response'})
-  }
-
-  googleLogin() {
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.signupGoogle}`)
-  }
-
-  authrized(code) {
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.authrized}?code=${code}`)
-  }
-
-  public googleAuthenticate(code) {
-    return this.http.post(`${this.apiConstants.apiUrl}googleAuthenticate?code=${code}`, {}, {observe: 'response'})
-  }
-
-  smartCarSession(code) {
+  smartCarSession(code: string) {
     const headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -63,15 +42,7 @@ export class AuthService {
     //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/stateInfo`, _options);
   }
-  getPoliciesList() {
-    const _options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.policiesList}`, _options);
-  }
+
   getResourcesFast() {
     const _options = {
       headers: new HttpHeaders({

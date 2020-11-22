@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -8,6 +8,8 @@ import { PoliciesService } from '../../services/policies.service';
 import { POLICIES } from '../../constants/policies';
 import { request } from '../../constants/api';
 import { EditResourcePopupComponent } from '../../reusable-components/popups/edit-resource-popup/edit-resource-popup.component';
+import { TYPES } from 'src/app/constants/authTypes';
+import { RegistrationService } from 'src/app/services/registration.service';
 
 
 @Component({
@@ -17,8 +19,8 @@ import { EditResourcePopupComponent } from '../../reusable-components/popups/edi
 })
 export class ResourcesComponent implements OnInit {
   constructor(
+    private _registrationService: RegistrationService,
     private authService: AuthService,
-    private router: Router,
     private activatedRoute: ActivatedRoute,
     private matDialog: MatDialog,
     public policiesService: PoliciesService
@@ -36,10 +38,7 @@ export class ResourcesComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.smartCarToken = params['code'];
       const type = params['type'];
-      enum TYPES {
-        GOOGLE = 'google',
-        SMART_CAR = 'smartCar',
-      }
+     
       switch (type) {
         case TYPES.GOOGLE:
           this.getGoogleAuthenticate(params['code']);
@@ -97,7 +96,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   getGoogleAuthenticate(code) {
-    this.authService.googleAuthenticate(code).subscribe(
+    this._registrationService.googleAuthenticate(code).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.body.token);
         this.getResourcesFast();
@@ -114,7 +113,8 @@ export class ResourcesComponent implements OnInit {
     let resourcesArray = [];
     this.authService.getResourcesFast().subscribe((res: any) => {
       if (res.length) {
-        res.map((item, index) => {
+        res.map((item, index: number) => {
+        
           resourcesArray[index] = {};
           resourcesArray[index].smResource = item;
 
@@ -182,12 +182,7 @@ export class ResourcesComponent implements OnInit {
       });
   }
 
-  resourceDelete(index) { // todo
-    console.log(index);
+  resourceDelete(index: number) {
     this.resourcesData.splice(index, 1);
-  }
-
-  navigateByResource(idResource) { // todo
-    this.router.navigate([`/resource/${idResource}`]);
   }
 }

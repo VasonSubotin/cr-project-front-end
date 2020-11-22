@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { request } from '../constants/api';
-import { Policy } from '../data/Policy';
+import { HistoryItem } from '../data/History';
 
 @Injectable()
-export class PoliciesService {
-  policies: Policy[];
-  public apiConstants = request;
+export class HistoryService {
+  historyItems: HistoryItem[];
   constructor(private http: HttpClient) {}
 
-  readPoliciesList() {
+  readHistoryList() {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -18,14 +17,14 @@ export class PoliciesService {
     };
 
     return this.http.get(
-      `${this.apiConstants.apiUrl}${this.apiConstants.policiesList}`,
+      `${request.apiUrl}scheduleHistory`,
       _options
     );
   }
 
-  getPoliciesList() {
-    this.readPoliciesList().subscribe((res: Policy[]) => {
-      this.policies = res;
+  getHistoryList() {
+    this.readHistoryList().subscribe((res: HistoryItem[]) => {
+      this.historyItems = res;
     });
   }
 }

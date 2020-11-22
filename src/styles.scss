@@ -4,6 +4,7 @@
 @import "./app/scss/snack-bars.scss";
 @import "./app/scss/constants.scss";
 @import "./app/scss/buttons.scss";
+@import "./app/scss/headers.scss";
 
 @font-face {
   font-family: "Montserrat";
@@ -18,6 +19,10 @@
   src: url("../src/assets/font/Montserrat-Medium.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
+}
+
+input {
+  outline: none !important;
 }
 
 input:disabled {
@@ -37,6 +42,13 @@ input:disabled {
   align-items: center;
   color: #4F5254 !important;
   padding: 0 20px;
+  &:hover {
+    border-color: $blue-80 !important;
+
+  }
+  &:focus {
+    border-color: $blue !important;
+  }
 }
 
 .input-container {
@@ -314,25 +326,8 @@ body {
   text-decoration: underline;
 }*/
 
-.sub_container {
-  display: flex;
-  justify-content: space-between;
-}
 
-.sub_tittle {
-  width: 70px;
-  font-size: 14px;
-  padding-top: 10px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: $black-60;
-}
 
-.sub_info {
-  width: 112px;
-  color: #232729;
-}
 
 .enrollment-container {
   display: flex !important;
@@ -376,12 +371,7 @@ body {
   flex-direction: column;
 }
 
-.resource-content {
-  margin-bottom: 20px;
-  width: 350px;
-  min-height: 250px;
-  cursor: pointer;
-}
+
 
 .footer-container {
   display: flex;
@@ -405,23 +395,6 @@ body {
   color: $black;
 }
 
-.resource-card {
-  width: 451px;
-  height: 200px;
-  padding: 34px 24px 24px 24px;
-  margin: 10px;
-  background: $white;
-  border: 1px solid rgba(157, 165, 174, 0.2);
-  box-sizing: border-box;
-  border-radius: 20px;
-  background: linear-gradient(180deg, $white 0%, #F6F7F8 100%);
-  /* Black / 5 */
-}
-
-.resource-card__content {
-  position: relative;
-  flex: 1;
-}
 
 .search-container {
   display: flex;
@@ -492,14 +465,7 @@ body {
   line-height: 31px !important;
 }
 
-.add__resource {
-  width: 451px;
-  height: 250px;
-  border: 2px dashed $blue;
-  border-radius: 20px;
-  margin: 10px;
-  box-sizing: border-box;
-}
+
 
 .edit-resource-dialog {
   width: 685px;

@@ -7,7 +7,8 @@ import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-drop-down',
-  templateUrl: './drop-down.component.html'
+  templateUrl: './drop-down.component.html',
+  styleUrls: ['./drop-down.component.scss'],
 })
 
 

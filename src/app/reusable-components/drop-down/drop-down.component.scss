@@ -1,0 +1,42 @@
+@import "../../scss/constants.scss";
+
+.settings_icon {
+    position: absolute;
+    top: 0px;
+    right: -24px;
+    padding: 16px;
+
+  }
+  .settings_content {
+    position: absolute;
+    z-index: 3;
+    width: 210px;
+    background: $white;
+    box-sizing: border-box;
+    padding: 12px 0;
+    box-shadow: $shadow;
+    border-radius: $radius;
+    right: 0;
+    top: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+  }
+  .settings_item {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    color: $black;
+    height: 48px;
+    vertical-align: middle;
+    padding: 0 12px;
+    &:hover {
+        background-color: $black-0;
+    }
+  }
+  .remove {
+    color: $error;
+  }

@@ -1,19 +1,26 @@
-
 <div class="header-container">
   <div class="img-container">
-    <img src="../../../assets/imgs/Logo.png" height="36" width="36"/>
+    <img
+      src="../../../assets/imgs/Logo.png"
+      height="36"
+      width="36"
+      (click)="routeByLink('resources')"
+    />
   </div>
   <div class="header-menu">
-    <div class="header-menu__item" (click)="routeByLink('resources')">Resources</div>
-    <div class="header-menu__item" (click)="routeByLink('history')">History</div>
+    <div class="header-menu__item" (click)="routeByLink('resources')">
+      Resources
+    </div>
+    <div class="header-menu__item" (click)="routeByLink('history')">
+      History
+    </div>
     <div class="header-menu__item">Statistic</div>
-
   </div>
   <div class="profile-container" (click)="switchLogout()">
     <div class="user-name">Yevhenii Khudolii</div>
-    <img src="../../../assets/imgs/Photo.png" height="44" width="44"/>
+    <img src="../../../assets/imgs/Photo.png" height="44" width="44" />
   </div>
-<ng-container *ngIf="!logoutShow">
-  <app-logout></app-logout>
-</ng-container>
+  <ng-container *ngIf="!logoutShow">
+    <app-logout></app-logout>
+  </ng-container>
 </div>
