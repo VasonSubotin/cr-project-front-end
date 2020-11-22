@@ -45,6 +45,7 @@ import { ChartsService } from './services/charts.service';
 import { LineChartComponent } from './components/resources/resource/schedule/line-chart/line-chart.component';
 import { PoliciesService } from './services/policies.service';
 import { MySnackbarService } from './services/snackbar.service';
+
 import { CarComponent } from './components/resources/car/car.component';
 
 @NgModule({

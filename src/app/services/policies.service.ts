@@ -1,16 +1,26 @@
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {AuthService} from "./auth.service";
+import { Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {request} from "../constants/api";
 
 @Injectable()
 export class PoliciesService {
   policies;
-  constructor(private authService: AuthService,
-  ) {
+  public apiConstants = request;
+  constructor(private http: HttpClient) {}
+
+  readPoliciesList() {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    
+    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.policiesList}`, _options);
   }
+
   getPoliciesList(){
-    this.authService.getPoliciesList().subscribe((res) => {
-      console.log(res);
+    this.readPoliciesList().subscribe((res) => {
       this.policies = res;
     })
   }
