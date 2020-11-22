@@ -22,7 +22,7 @@ export class ResourcesComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private authService: AuthService,
 
-    public policiesService: PoliciesService,
+    public policiesService: PoliciesService
   ) {}
 
   policies: POLICIES;
@@ -39,7 +39,7 @@ export class ResourcesComponent implements OnInit {
     this._activatedRoute.queryParams.subscribe((params) => {
       this.smartCarToken = params['code'];
       const type = params['type'];
-     
+
       switch (type) {
         case TYPES.GOOGLE:
           this.getGoogleAuthenticate(this.smartCarToken);
@@ -57,8 +57,6 @@ export class ResourcesComponent implements OnInit {
           break;
       }
     });
-
-  
   }
 
   checkSmartCarToken() {
@@ -138,7 +136,7 @@ export class ResourcesComponent implements OnInit {
     this._resourcesService.getResourcesFast().subscribe((res: any) => {
       if (res.length && !this.dataIsReady) {
         this.resourcesData = res;
-      } 
+      }
       this.loaderState = true;
     });
   }
