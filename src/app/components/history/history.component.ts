@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
+import { HistoryService } from 'src/app/services/history.service';
 
 
 @Component({
@@ -10,12 +10,11 @@ import {AuthService} from "../../services/auth.service";
 
 
 export class HistoryComponent implements OnInit {
-  constructor(private authService: AuthService) {
+  constructor(private _historyService: HistoryService) {
   }
   ngOnInit(): void {
-    this.authService.getHistory(16).subscribe((res: any) => {
-   console.log(res)
-    });
+    this._historyService.getHistoryList();
+    
   }
 
 }

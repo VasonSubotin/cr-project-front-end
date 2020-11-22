@@ -48,6 +48,7 @@ import { RegistrationService } from './services/registration.service';
 import { MySnackbarService } from './services/snackbar.service';
 
 import { CarComponent } from './components/resources/car/car.component';
+import { HistoryService } from './services/history.service';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,7 @@ import { CarComponent } from './components/resources/car/car.component';
   ],
 
   entryComponents: [EditResourcePopupComponent,],
-  providers: [AuthService, PoliciesService, FunctionsService, ChartsService, MySnackbarService, RegistrationService],
+  providers: [AuthService, PoliciesService, FunctionsService, ChartsService, MySnackbarService, RegistrationService, HistoryService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
