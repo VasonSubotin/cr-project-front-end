@@ -131,7 +131,6 @@ export class ResourcesComponent implements OnInit {
         this.dataIsReady = true;
 
         this.resourcesData = res;
-        console.log(this.resourcesData);
       });
   }
 
