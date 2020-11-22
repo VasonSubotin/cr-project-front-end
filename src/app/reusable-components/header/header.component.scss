@@ -1,3 +1,5 @@
+@import "../../scss/constants.scss";
+
 .header-container {
     height: 84px;
     position: relative;
@@ -5,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #ffffff;
+    background: $white;
     z-index: 2;
   }
   .img-container {
@@ -18,7 +20,7 @@
     content: "";
     width: 1px;
     height: 100%;
-    background: #D3D4D4;
+    background: $black-20;
   }
   .header-menu {
     display: flex;
@@ -26,7 +28,7 @@
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
-    color: #232729;
+    color: $black;
   }
   .header-menu__item {
     margin-right: 40px;
@@ -36,7 +38,7 @@
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
-    color: #232729;
+    color: $black;
   }
   .profile-container {
     cursor: pointer;
