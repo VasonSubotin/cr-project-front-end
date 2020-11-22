@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {request} from "../constants/api";
+import { Policy } from '../data/Policy';
 
 @Injectable()
 export class PoliciesService {
-  policies;
+  policies: Policy[];
   public apiConstants = request;
   constructor(private http: HttpClient) {}
 
@@ -20,7 +21,7 @@ export class PoliciesService {
   }
 
   getPoliciesList(){
-    this.readPoliciesList().subscribe((res) => {
+    this.readPoliciesList().subscribe((res: Policy[]) => {
       this.policies = res;
     })
   }
