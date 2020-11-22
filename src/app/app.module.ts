@@ -49,6 +49,7 @@ import { MySnackbarService } from './services/snackbar.service';
 
 import { CarComponent } from './components/resources/car/car.component';
 import { HistoryService } from './services/history.service';
+import { ResourcesService } from './services/resources.service';
 
 @NgModule({
   declarations: [
@@ -98,11 +99,19 @@ import { HistoryService } from './services/history.service';
     Ng2SearchPipeModule,
     AmazingTimePickerModule,
     AppleMapsModule,
-    
   ],
 
-  entryComponents: [EditResourcePopupComponent,],
-  providers: [AuthService, PoliciesService, FunctionsService, ChartsService, MySnackbarService, RegistrationService, HistoryService],
+  entryComponents: [EditResourcePopupComponent],
+  providers: [
+    AuthService,
+    PoliciesService,
+    FunctionsService,
+    ChartsService,
+    MySnackbarService,
+    RegistrationService,
+    HistoryService,
+    ResourcesService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

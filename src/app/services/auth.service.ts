@@ -4,9 +4,7 @@ import {request} from "../constants/api";
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient,
-  ) {
-  }
+  constructor(private http: HttpClient) {}
 
   public apiConstants = request;
 
@@ -32,27 +30,7 @@ export class AuthService {
       {headers, observe: 'response'})
   }
 
-  getResources() {
-    const _options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    };
-    //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/stateInfo`, _options);
-  }
-
-  getResourcesFast() {
-    const _options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    };
-    //return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/resources`, _options);
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}`, _options);
-  }
+ 
 
   deleteResourcesById(idResource) {
     const _options = {
@@ -87,15 +65,6 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/resourceInfo`, _options);
   }
 
-  acccInfo(idResource) {
-    const _options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      })
-    };
-    return this.http.get(`${this.apiConstants.apiUrl}accountInfo`, _options);
-  }
 
   updateResourceById(idResource, body) {
     const _options = {
@@ -163,18 +132,6 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/chargingSchedule`, _options);
 
-  }
-
-
-  getHistory(idResource) {
-    const _options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-
-      })
-    };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/scheduleHistory`, _options);
   }
 
   timeOfUse(idResource) {

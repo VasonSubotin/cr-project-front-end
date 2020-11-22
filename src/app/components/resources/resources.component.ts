@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { PoliciesService } from '../../services/policies.service';
 import { POLICIES } from '../../constants/policies';
 import { request } from '../../constants/api';
-import { EditResourcePopupComponent } from '../../reusable-components/popups/edit-resource-popup/edit-resource-popup.component';
 import { TYPES } from 'src/app/constants/authTypes';
 import { RegistrationService } from 'src/app/services/registration.service';
-
+import { ResourcesService } from 'src/app/services/resources.service';
 
 @Component({
   selector: 'app-resources',
@@ -19,11 +17,12 @@ import { RegistrationService } from 'src/app/services/registration.service';
 })
 export class ResourcesComponent implements OnInit {
   constructor(
+    private _resourcesService: ResourcesService,
     private _registrationService: RegistrationService,
+    private _activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private activatedRoute: ActivatedRoute,
-    private matDialog: MatDialog,
-    public policiesService: PoliciesService
+
+    public policiesService: PoliciesService,
   ) {}
 
   policies: POLICIES;
@@ -35,28 +34,31 @@ export class ResourcesComponent implements OnInit {
   smartCarLogin: string = `${request.apiUrl}smartCarLogin`;
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((params) => {
+    this.policiesService.getPoliciesList();
+
+    this._activatedRoute.queryParams.subscribe((params) => {
       this.smartCarToken = params['code'];
       const type = params['type'];
      
       switch (type) {
         case TYPES.GOOGLE:
-          this.getGoogleAuthenticate(params['code']);
+          this.getGoogleAuthenticate(this.smartCarToken);
           break;
         case TYPES.SMART_CAR:
           localStorage.setItem('smartCarToken', this.smartCarToken);
-          if (localStorage.getItem('smartCarToken')) {
-            this.startSmartCarSession(localStorage.getItem('smartCarToken'));
+          if (this.smartCarToken) {
+            this.startSmartCarSession(this.smartCarToken);
             this.loaderState = true;
           }
           break;
         default:
           this.getResourcesFast();
+          this.checkSmartCarToken();
           break;
       }
     });
 
-    this.policiesService.getPoliciesList();
+  
   }
 
   checkSmartCarToken() {
@@ -78,23 +80,6 @@ export class ResourcesComponent implements OnInit {
       });
   }
 
-  testEdit() {
-    const dialogConf: any = {
-      data: {},
-      panelClass: 'edit-resource-dialog',
-      closeOnNavigation: true,
-      autoFocus: false,
-    };
-    const dialogRef = this.matDialog.open(
-      EditResourcePopupComponent,
-      dialogConf
-    );
-    dialogRef.afterClosed().subscribe((unixEvent) => {
-      if (unixEvent) {
-      }
-    });
-  }
-
   getGoogleAuthenticate(code) {
     this._registrationService.googleAuthenticate(code).subscribe(
       (res: any) => {
@@ -109,37 +94,7 @@ export class ResourcesComponent implements OnInit {
     );
   }
 
-  getResourcesFast() {
-    let resourcesArray = [];
-    this.authService.getResourcesFast().subscribe((res: any) => {
-      if (res.length) {
-        res.map((item, index: number) => {
-        
-          resourcesArray[index] = {};
-          resourcesArray[index].smResource = item;
-
-          this.checkSmartCarToken();
-        });
-        this.resourcesData = resourcesArray;
-      } else {
-        //  window.location.href = this.smartCarLogin;
-      }
-
-      /*else if (type === 'smartCar') {
-        localStorage.setItem('smartCarToken', code);
-        if (localStorage.getItem('smartCarToken')) {
-          this.startSmartCarSession(localStorage.getItem('smartCarToken'))
-        } else {
-          this.startSmartCarSession(localStorage.getItem('smartCarToken'));
-          this.loaderState = true;
-        }
-      } */
-
-      this.loaderState = true;
-    });
-  }
-
-  startSmartCarSession(code) {
+  startSmartCarSession(code: string) {
     this.authService
       .smartCarSession(code)
       .pipe(
@@ -155,8 +110,6 @@ export class ResourcesComponent implements OnInit {
 
         (error) => {
           if (error.status === 500) {
-            /*  localStorage.removeItem('token');
-            this.router.navigate(['/login'])*/
             this.getResourcesArray();
             this.getResourcesFast();
           }
@@ -165,7 +118,7 @@ export class ResourcesComponent implements OnInit {
   }
 
   getResourcesArray() {
-    this.authService
+    this._resourcesService
       .getResources()
       .pipe(
         catchError((err) => {
@@ -180,6 +133,15 @@ export class ResourcesComponent implements OnInit {
         this.resourcesData = res;
         console.log(this.resourcesData);
       });
+  }
+
+  getResourcesFast() {
+    this._resourcesService.getResourcesFast().subscribe((res: any) => {
+      if (res.length && !this.dataIsReady) {
+        this.resourcesData = res;
+      } 
+      this.loaderState = true;
+    });
   }
 
   resourceDelete(index: number) {
