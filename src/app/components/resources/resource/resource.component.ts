@@ -72,6 +72,7 @@ export class ResourceComponent implements OnInit {
       this.idResource = +res.get('idResource');
       const carId: number  = Number(localStorage.getItem('carId'));
       this.loadCalcGeo();
+      this.loadDrivingSchedule();
 
       if (carId === this.idResource && this.idResource > 0) {
  
@@ -96,8 +97,8 @@ export class ResourceComponent implements OnInit {
         
           this.resource = res.smResource;
           this.favoritePolices[this.resource.policyId - 1].active = true;
-          this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
-          this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
+          //this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
+          //this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
           if(this.resourceSmartCar && this.resourceSmartCar.location) {
             this.markerPositions.push({
               lat: this.resourceSmartCar.location.data.latitude,
@@ -137,12 +138,11 @@ export class ResourceComponent implements OnInit {
   }
 
   loadDrivingSchedule() {
-    this.authService.getScheduleById(this.idResource, 'DRV').pipe
+    this.authService.getDrivingScheduleById(this.idResource).pipe
     (
       (catchError(err => {
         localStorage.removeItem('station_locations');
         localStorage.removeItem('intervals');
-        localStorage.removeItem('schedule');
         return throwError(err);
       }))).subscribe((res: any) => {
       if (res) {

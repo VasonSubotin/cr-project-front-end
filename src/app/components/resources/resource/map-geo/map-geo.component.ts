@@ -65,7 +65,6 @@ export class MapGeoComponent implements OnInit, OnChanges {
   }
   
   }
-;
 
 
 
