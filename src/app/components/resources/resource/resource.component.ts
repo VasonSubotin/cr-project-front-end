@@ -73,9 +73,11 @@ export class ResourceComponent implements OnInit {
       const carId: number  = Number(localStorage.getItem('carId'));
 
       if (carId === this.idResource && this.idResource > 0) {
+ 
         this.resourceSmartCar = JSON.parse(localStorage.getItem('smartCarInfo')) || <any>{};
         this.station_locations = JSON.parse(localStorage.getItem('station_locations')) || <any>[];
         this.intervals = JSON.parse(localStorage.getItem('intervals')) || [];
+        console.log("resourceSmartCar ", this.resourceSmartCar );
       } 
 
 
@@ -87,9 +89,10 @@ export class ResourceComponent implements OnInit {
 
         this.loaderState = false;
         if (res) {
-          localStorage.setItem('smartCarInfo', JSON.stringify(res.smartCarInfo));
-          localStorage.setItem('carId', JSON.stringify(this.idResource));
           this.resourceSmartCar = res.smartCarInfo;
+          localStorage.setItem('smartCarInfo', JSON.stringify(this.resourceSmartCar));
+          localStorage.setItem('carId', JSON.stringify(this.idResource));
+        
           this.resource = res.smResource;
           this.favoritePolices[this.resource.policyId - 1].active = true;
           this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/declarations";
 
 @Component({
@@ -7,8 +7,9 @@ import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/decla
 })
 
 
-export class MapGeoComponent implements OnInit {
+export class MapGeoComponent implements OnInit, OnChanges {
   @Input() mapData: any;
+  @Input() locationData;
   latitude: 1;
   longitude: 1;
   customAnnotation = [];
@@ -52,7 +53,11 @@ export class MapGeoComponent implements OnInit {
     console.log('s')
     console.log(this.settings)
     console.log(this.mapData)
-  };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+   console.log("changes", changes);
+  }
+;
 
 
 
@@ -65,21 +70,26 @@ export class MapGeoComponent implements OnInit {
     const mapDataOptions = this.mapDataPrepareData(this.mapData);
     mapDataOptions[0].options.color = '#02A0FC';
     this.customAnnotation.push(...mapDataOptions);
-    const locationData = JSON.parse(localStorage.getItem('smartCarInfo')).location.data;
-    this.customAnnotation.push({
-      latitude: locationData.latitude % 10000,
-      longitude: locationData.longitude % 10000,
-      options: {
-        title: 'My car',
-        glyphText: `My car`,
-        color: "#4339F2",
-      }
-    });
+  
+    if(this.locationData) {
+      this.customAnnotation.push({
+        latitude: this.locationData.latitude % 10000,
+        longitude: this.locationData.longitude % 10000,
+        options: {
+          title: 'My car',
+          glyphText: `My car`,
+          color: "#4339F2",
+        }
+      });
+    }
+    
     this.settings.center = {
       latitude: this.mapData[0].latitude,
       longitude: this.mapData[0].longitude
     };
   }
+
+
 
   mapDataPrepareData(mapData) {
     return mapData.map((item, index) => {
