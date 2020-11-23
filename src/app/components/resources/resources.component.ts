@@ -78,7 +78,7 @@ export class ResourcesComponent implements OnInit {
       });
   }
 
-  getGoogleAuthenticate(code) {
+  getGoogleAuthenticate(code: string) {
     this._registrationService.googleAuthenticate(code).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.body.token);

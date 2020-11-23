@@ -10,8 +10,7 @@ import { Router } from '@angular/router';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { of } from 'rxjs/internal/observable/of';
 import { request } from '../../constants/api';
 import { MySnackbarService } from 'src/app/services/snackbar.service';
 import { RegistrationService } from 'src/app/services/registration.service';
@@ -39,7 +38,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   private subscriptions$ = [];
   googleLogin = `${request.apiUrl}googleLogin`;
 
-  constructor(private _registrationService: RegistrationService, private router: Router, private _snackBar: MySnackbarService) {}
+  constructor(
+    private _registrationService: RegistrationService,
+    private router: Router,
+    private _snackBar: MySnackbarService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -58,21 +61,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     const request$ = this._registrationService
       .authenticate(body)
       .pipe(
-        tap((res: {status: number, body: any}) => {
+        tap((res: { status: number; body: any }) => {
           if (res.status === 200) {
             localStorage.removeItem('token');
             localStorage.setItem('token', res.body.token);
             this.router.navigate(['/resources']);
           }
         }),
-        catchError(({error}: HttpErrorResponse) => {
+        catchError(({ error }: HttpErrorResponse) => {
           this._snackBar.openErrorSnackBar(error.message);
 
-          return of(error.message)})
-      
-      ).subscribe();
-      this.subscriptions$.push(request$);
-
+          return of(error.message);
+        })
+      )
+      .subscribe();
+    this.subscriptions$.push(request$);
   }
   ngOnDestroy(): void {
     this.subscriptions$.forEach((s$) => {
