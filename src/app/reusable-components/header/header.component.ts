@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RegistrationService } from 'src/app/services/registration.service';
 
 @Component({
   selector: 'app-header',
@@ -8,11 +9,16 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   logoutShow = true;
+  account = {login: "test"};
 
-  constructor(private router: Router) {}
+  constructor(private _router: Router, public registrationService: RegistrationService ) {}
+
+  ngOnInit(): void {
+    this.registrationService.accountInfo().subscribe((res: any) => this.account = res);
+  }
 
   routeByLink(link: string) {
-    this.router.navigate([`/${link}`]);
+    this._router.navigate([`/${link}`]);
   }
   
   switchLogout() {

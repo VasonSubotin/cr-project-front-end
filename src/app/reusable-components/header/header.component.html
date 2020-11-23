@@ -17,8 +17,11 @@
     <div class="header-menu__item">Statistic</div>
   </div>
   <div class="profile-container" (click)="switchLogout()">
-    <div class="user-name">Yevhenii Khudolii</div>
-    <img src="../../../assets/imgs/Photo.png" height="44" width="44" />
+    <ng-container *ngIf="account">
+      <div class="user-name" >{{account.login}}</div>
+    </ng-container>
+  
+  
   </div>
   <ng-container *ngIf="!logoutShow">
     <app-logout></app-logout>

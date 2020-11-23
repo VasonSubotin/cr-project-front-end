@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { of } from 'rxjs/internal/observable/of';
 import { request } from '../constants/api';
 import { LoginRequest } from '../data/LoginRequest';
+import { catchError } from 'rxjs/internal/operators/catchError';
+
 
 @Injectable()
 export class RegistrationService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   singUp(body: LoginRequest) {
     return this.http.post(`${request.apiUrl}${request.signup}`, body, {
@@ -42,6 +46,11 @@ export class RegistrationService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${request.apiUrl}accountInfo`, _options);
+    return this.http.get(`${request.apiUrl}accountInfo`, _options).pipe(
+      catchError(err => {
+        this.router.navigate(['/login'])
+        return of(err);
+      }))
+      
   }
 }
