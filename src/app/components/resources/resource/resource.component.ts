@@ -71,6 +71,7 @@ export class ResourceComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(res => {
       this.idResource = +res.get('idResource');
       const carId: number  = Number(localStorage.getItem('carId'));
+      this.loadCalcGeo();
 
       if (carId === this.idResource && this.idResource > 0) {
  
@@ -97,7 +98,7 @@ export class ResourceComponent implements OnInit {
           this.favoritePolices[this.resource.policyId - 1].active = true;
           this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
           this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
-          if(this.resourceSmartCar) {
+          if(this.resourceSmartCar && this.resourceSmartCar.location) {
             this.markerPositions.push({
               lat: this.resourceSmartCar.location.data.latitude,
               lng: this.resourceSmartCar.location.data.longitude
@@ -137,11 +138,7 @@ export class ResourceComponent implements OnInit {
 
   loadDrivingSchedule() {
     this.authService.getScheduleById(this.idResource, 'DRV').pipe
-    (tap((res: any) => {
-        if (!res) {
-          this.loadCalcGeo();
-        }
-      }),
+    (
       (catchError(err => {
         localStorage.removeItem('station_locations');
         localStorage.removeItem('intervals');

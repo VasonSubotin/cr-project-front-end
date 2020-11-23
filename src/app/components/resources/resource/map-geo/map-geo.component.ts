@@ -56,36 +56,57 @@ export class MapGeoComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
    console.log("changes", changes);
+   if (changes.mapData && changes.mapData.currentValue !== changes.mapData.previousValue) {
+    this.initMapData(changes.mapData.currentValue);
+  }
+
+  if(changes.locationData && changes.locationData.currentValue !== changes.locationData.previousValue) {
+    this.initLocations(changes.locationData.currentValue)
+  }
+  
   }
 ;
 
 
 
   ngOnInit(): void {
-    console.log(this.settings)
+    console.log("settings")
+   
+    if (this.mapData) {
+      this.initMapData(this.mapData);
+    }
+  
+    if(this.locationData) {
+      this.initLocations(this.locationData)
+    }
+    
+    
+  }
+
+  initLocations(locationData) {
+    this.customAnnotation.push({
+      latitude: locationData.latitude % 10000,
+      longitude: locationData.longitude % 10000,
+      options: {
+        title: 'My car',
+        glyphText: `My car`,
+        color: "#4339F2",
+      }
+    });
+  }
+
+  initMapData(mapData) {
     this.settings.region.center = {
-      latitude: this.mapData[0].latitude,
-      longitude: this.mapData[0].longitude
+      latitude: mapData[0].latitude,
+      longitude: mapData[0].longitude
     };
     const mapDataOptions = this.mapDataPrepareData(this.mapData);
     mapDataOptions[0].options.color = '#02A0FC';
     this.customAnnotation.push(...mapDataOptions);
-  
-    if(this.locationData) {
-      this.customAnnotation.push({
-        latitude: this.locationData.latitude % 10000,
-        longitude: this.locationData.longitude % 10000,
-        options: {
-          title: 'My car',
-          glyphText: `My car`,
-          color: "#4339F2",
-        }
-      });
-    }
-    
+
     this.settings.center = {
-      latitude: this.mapData[0].latitude,
-      longitude: this.mapData[0].longitude
+      latitude: mapData[0].latitude,
+      longitude: mapData[0].longitude
     };
   }
 
