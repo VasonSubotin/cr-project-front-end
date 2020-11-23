@@ -62,17 +62,17 @@ export class RegistrationComponent implements OnDestroy {
       .singUp(body)
       .pipe(
         tap((res: any) => {
-          if (res.status === 201) {
-            localStorage.setItem('token', res.token); // TODO tpken ???? We don't habe token here
+          if (res.status === 200) {
+
+            localStorage.setItem('token', res.body.token); 
             this._snackBar.openSuccessSnackBar(
-              'Thanks for your registration',
-              'close'
+              'Thanks for your registration'
             );
-            this._router.navigate(['/login']);
-          } // TODO need to change flow
+            this._router.navigate(['/resources']);
+          } 
         }),
         catchError(({ error }: HttpErrorResponse) => {
-          this._snackBar.openErrorSnackBar(error.message, 'close');
+          this._snackBar.openErrorSnackBar(error.message);
           return of(error.message);
         })
       )
