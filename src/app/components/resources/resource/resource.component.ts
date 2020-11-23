@@ -29,9 +29,9 @@ export class ResourceComponent implements OnInit {
   selectedTab = 0;
 
   resource;
-  station_locations = JSON.parse(localStorage.getItem('station_locations')) || <any>[];
-  resourceSmartCar = JSON.parse(localStorage.getItem('smartCarInfo')) || <any>{};
-  intervals = JSON.parse(localStorage.getItem('intervals')) || [];
+  station_locations;
+  resourceSmartCar;
+  intervals = [];
 
   idResource: number;
   favoritePolice;
@@ -70,6 +70,15 @@ export class ResourceComponent implements OnInit {
 
     this.activatedRoute.paramMap.subscribe(res => {
       this.idResource = +res.get('idResource');
+      const carId: number  = Number(localStorage.getItem('carId'));
+
+      if (carId === this.idResource && this.idResource > 0) {
+        this.resourceSmartCar = JSON.parse(localStorage.getItem('smartCarInfo')) || <any>{};
+        this.station_locations = JSON.parse(localStorage.getItem('station_locations')) || <any>[];
+        this.intervals = JSON.parse(localStorage.getItem('intervals')) || [];
+      } 
+
+
       this.authService.getResourceSmartById(this.idResource).pipe((catchError(err => {
           this.loaderState = false;
           return throwError(err);
@@ -79,17 +88,21 @@ export class ResourceComponent implements OnInit {
         this.loaderState = false;
         if (res) {
           localStorage.setItem('smartCarInfo', JSON.stringify(res.smartCarInfo));
+          localStorage.setItem('carId', JSON.stringify(this.idResource));
           this.resourceSmartCar = res.smartCarInfo;
           this.resource = res.smResource;
           this.favoritePolices[this.resource.policyId - 1].active = true;
           this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
           this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
-          this.markerPositions.push({
-            lat: this.resourceSmartCar.location.data.latitude,
-            lng: this.resourceSmartCar.location.data.longitude
-          })
-          this.progressBar.nativeElement.style.width = (this.resourceSmartCar.battery.percentRemaining * 100) + '%';
-          if (this.selectedTab === 1) this.progressBar.nativeElement.classList.add('active-charge');
+          if(this.resourceSmartCar) {
+            this.markerPositions.push({
+              lat: this.resourceSmartCar.location.data.latitude,
+              lng: this.resourceSmartCar.location.data.longitude
+            })
+            this.progressBar.nativeElement.style.width = (this.resourceSmartCar.battery.percentRemaining * 100) + '%';
+            if (this.selectedTab === 1) this.progressBar.nativeElement.classList.add('active-charge');
+          }
+          
           //this.progressBar.nativeElement.style.width < 50 ? this.progressBar.nativeElement.style.background = '#CD3E22' : this.progressBar.nativeElement.style.background = '#54cb46d6';
         }
       });
@@ -127,7 +140,9 @@ export class ResourceComponent implements OnInit {
         }
       }),
       (catchError(err => {
-        this.loadCalcGeo();
+        localStorage.removeItem('station_locations');
+        localStorage.removeItem('intervals');
+        localStorage.removeItem('schedule');
         return throwError(err);
       }))).subscribe((res: any) => {
       if (res) {
