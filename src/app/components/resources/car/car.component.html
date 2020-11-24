@@ -56,10 +56,10 @@
 
       <div class="info-block">
         <h6>Policy:</h6>
-        <ng-container *ngIf="policiesService?.policies">
+        <ng-container >
           <div class="info-text">
-            {{ policiesService?.policies[resource.smResource.policyId]?.name }}
-          </div>
+            {{ policyName }}
+          </div> 
         </ng-container>
       </div>
       <div class="info-block">

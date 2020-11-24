@@ -21,7 +21,7 @@
   <ng-container *ngIf="resourcesData.length else emptyResourceList; index as i">
     <div class="resource-container">
       <ng-container *ngFor="let resource of resourcesData | filter: searchText">
-        <car [resource]="resource" (resourceDelete)="resourceDelete(i)" [index]="i" ></car> 
+        <car [resource]="resource" (resourceDelete)="resourceDelete(i)" [index]="i"  [policyName]="policiesService?.policies[resource.smResource.policyId]?.name"></car> 
      
       </ng-container>
 

@@ -11,11 +11,11 @@ export class CarComponent {
 
   @Input() resource: any;
   @Input() index: number;
+  @Input() policyName?: string;
 
   @Output() resourceDelete  = new EventEmitter<number>();
 
-  constructor(private router: Router, 
-    public policiesService: PoliciesService) {}
+  constructor(private router: Router) {}
  
   navigateByResource(idResource: string) {
 
@@ -23,7 +23,6 @@ export class CarComponent {
   }
 
   onDelete() {
-      console.log(this.index);
     this.resourceDelete.emit(this.index);
   }
   
