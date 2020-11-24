@@ -34,7 +34,7 @@ export class EditResourcePopupComponent implements OnInit {
 
   ) {
     if(resource.policyId) {
-      this.selectPolicy = this.policyForSelect[resource.policyId].name
+      this.selectPolicy = this.policyForSelect[resource.policyId]?.name || "";
     }
   }
 
