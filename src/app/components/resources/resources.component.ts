@@ -34,7 +34,7 @@ export class ResourcesComponent implements OnInit {
   smartCarLogin: string = `${request.apiUrl}smartCarLogin`;
 
   ngOnInit(): void {
-    this.policiesService.getPoliciesList();
+
 
     this._activatedRoute.queryParams.subscribe((params) => {
       this.smartCarToken = params['code'];
@@ -52,6 +52,7 @@ export class ResourcesComponent implements OnInit {
           }
           break;
         default:
+          this.policiesService.getPoliciesList();
           this.getResourcesFast();
           this.checkSmartCarToken();
           break;
@@ -82,11 +83,11 @@ export class ResourcesComponent implements OnInit {
     this._registrationService.googleAuthenticate(code).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.body.token);
-        this.getResourcesFast();
+        this.readAllResources();
       },
       (error) => {
         if (error.status === 500) {
-          this.getResourcesFast();
+          this.readAllResources();
         }
       }
     );
@@ -98,8 +99,7 @@ export class ResourcesComponent implements OnInit {
       .pipe(
         tap((res: any) => {
           if (res.status === 200) {
-            this.getResourcesFast();
-            this.getResourcesArray();
+           this.readAllResources();
           }
         })
       )
@@ -108,8 +108,7 @@ export class ResourcesComponent implements OnInit {
 
         (error) => {
           if (error.status === 500) {
-            this.getResourcesArray();
-            this.getResourcesFast();
+           this.readAllResources();
           }
         }
       );
@@ -143,5 +142,11 @@ export class ResourcesComponent implements OnInit {
 
   resourceDelete(index: number) {
     this.resourcesData.splice(index, 1);
+  }
+
+  readAllResources() {
+    this.policiesService.getPoliciesList();
+    this.getResourcesArray();
+    this.getResourcesFast();
   }
 }
