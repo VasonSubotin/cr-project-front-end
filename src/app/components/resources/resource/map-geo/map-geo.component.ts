@@ -9,7 +9,7 @@ import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/decla
 
 export class MapGeoComponent implements OnInit, OnChanges {
   @Input() mapData: any;
-  @Input() locationData;
+  @Input() locationData: any;
   latitude: 1;
   longitude: 1;
   customAnnotation = [];
