@@ -72,7 +72,7 @@ export class ResourceComponent implements OnInit {
       this.idResource = +res.get('idResource');
       const carId: number  = Number(localStorage.getItem('carId'));
       this.loadCalcGeo();
-      this.loadDrivingSchedule();
+      //this.loadDrivingSchedule();
 
       if (carId === this.idResource && this.idResource > 0) {
  
