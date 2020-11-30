@@ -38,26 +38,11 @@ export class ResourceComponent implements OnInit {
   useCalendarFlag: boolean;
   loadChartFlag: boolean;
   policyId = 1;
-
-  center = {lat: 38.74014171287381, lng: -122.42073208468675};
-  markerOptions = {draggable: false};
-  //markerPositions: google.maps.LatLngLiteral[] = [];
-  zoom = 6;
-  display?: google.maps.LatLngLiteral;
-
-  move(event: google.maps.MouseEvent) {
-    this.display = event.latLng.toJSON();
-  }
-
+  
   openInfoWindow(marker: MapMarker) {
     this.infoWindow.open(marker);
   }
 
-/*
-  addMarker(event: google.maps.MouseEvent) {
-    this.markerPositions.push(event.latLng.toJSON());
-    console.log(this.markerPositions)
-  }*/
 
   favoritePolices = [
     {name: 'Minimize CO2 emission', active: false},
