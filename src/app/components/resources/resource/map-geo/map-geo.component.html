@@ -15,11 +15,12 @@
         <ngx-apple-maps-annotation [latitude]="item.latitude" [longitude]="item.longitude">
         </ngx-apple-maps-annotation>
       </ng-template>-->
-     <ng-container *ngFor="let item of customAnnotation">
-      <ngx-apple-maps-annotation [options]="item.options" [latitude]="item.latitude" [longitude]="item.longitude">
-      </ngx-apple-maps-annotation>
-     </ng-container>
+      <ng-container *ngFor="let item of customAnnotation">
+        <ngx-apple-maps-annotation [options]="item.options" [latitude]="item.latitude" [longitude]="item.longitude">
+        </ngx-apple-maps-annotation>
+  
+       </ng-container>
+    
     </ngx-apple-maps>
-
-
+  
 </ng-container>

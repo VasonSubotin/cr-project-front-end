@@ -9,7 +9,7 @@ import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/decla
 
 export class MapGeoComponent implements OnInit, OnChanges {
   @Input() mapData: any;
-  @Input() locationData: any;
+  @Input() public locationData: any;
   latitude: 1;
   longitude: 1;
   customAnnotation = [];
@@ -35,10 +35,11 @@ export class MapGeoComponent implements OnInit, OnChanges {
     mapType: 'standard',
     colorScheme: 'dark',
     center: {
-      latitude: 37.779267,
-      longitude: -122.419269,
+      latitude: 0,
+      longitude: 0,
     }
   };
+
   // @ts-ignore
   options: MapKitInitOptions = {
     // tslint:disable-next-line:max-line-length
@@ -49,14 +50,10 @@ export class MapGeoComponent implements OnInit, OnChanges {
     }
   };
 
-  constructor() {
-    console.log('s')
-    console.log(this.settings)
-    console.log(this.mapData)
-  }
   ngOnChanges(changes: SimpleChanges): void {
-   console.log("changes", changes);
+
    if (changes.mapData && changes.mapData.currentValue !== changes.mapData.previousValue) {
+    console.log("changes", changes);
     this.initMapData(changes.mapData.currentValue);
   }
 
@@ -69,7 +66,6 @@ export class MapGeoComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-    console.log("settings")
    
     if (this.mapData) {
       this.initMapData(this.mapData);
@@ -83,30 +79,37 @@ export class MapGeoComponent implements OnInit, OnChanges {
   }
 
   initLocations(locationData) {
-    this.customAnnotation.push({
-      latitude: locationData.latitude % 10000,
-      longitude: locationData.longitude % 10000,
-      options: {
-        title: 'My car',
-        glyphText: `My car`,
-        color: "#4339F2",
-      }
-    });
+    if(locationData && locationData.latitude && locationData.longitude) {
+      this.customAnnotation.push({
+        latitude: locationData.latitude % 10000,
+        longitude: locationData.longitude % 10000,
+        options: {
+          title: 'My car',
+          glyphText: `My car`,
+          color: "#4339F2",
+        }
+      });
+    }
+  
   }
 
   initMapData(mapData) {
-    this.settings.region.center = {
-      latitude: mapData[0].latitude,
-      longitude: mapData[0].longitude
-    };
-    const mapDataOptions = this.mapDataPrepareData(this.mapData);
-    mapDataOptions[0].options.color = '#02A0FC';
-    this.customAnnotation.push(...mapDataOptions);
-
-    this.settings.center = {
-      latitude: mapData[0].latitude,
-      longitude: mapData[0].longitude
-    };
+    console.log("mapData initLocations", mapData);
+    if(mapData[0]) {
+      this.settings.region.center = {
+        latitude: mapData[0].latitude,
+        longitude: mapData[0].longitude
+      };
+      const mapDataOptions = this.mapDataPrepareData(this.mapData);
+      mapDataOptions[0].options.color = '#02A0FC';
+      this.customAnnotation.push(...mapDataOptions);
+  
+      this.settings.center = {
+        latitude: mapData[0].latitude,
+        longitude: mapData[0].longitude
+      };
+    }
+   
   }
 
 

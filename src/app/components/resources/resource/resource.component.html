@@ -46,9 +46,9 @@
       <ng-container>
         <div class="schedule-container">
           <div class="visual-container">
-            <ng-container *ngIf="station_locations && resourceSmartCar && resourceSmartCar.location && resourceSmartCar.location.data" >
+            <ng-container> <!--- *ngIf="station_locations && resourceSmartCar && resourceSmartCar.location && resourceSmartCar.location.data" -->
               <div class="maps-wrapper">
-              <app-map-geo [mapData]="station_locations" [locationData]="resourceSmartCar.location.data"></app-map-geo>
+              <app-map-geo [mapData]="station_locations" [locationData]="resourceSmartCar?.location?.data"></app-map-geo>
               </div>
               <div class="legenda">
                 <div class="legenda-item">
