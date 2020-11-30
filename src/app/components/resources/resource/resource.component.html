@@ -46,29 +46,30 @@
       <ng-container>
         <div class="schedule-container">
           <div class="visual-container">
-            <ng-container >
+            <ng-container> <!--- *ngIf="station_locations && resourceSmartCar && resourceSmartCar.location && resourceSmartCar.location.data" -->
               <div class="maps-wrapper">
-              <app-map-geo [mapData]="station_locations"></app-map-geo>
+              <app-map-geo [mapData]="station_locations" [locationData]="resourceSmartCar?.location?.data"></app-map-geo>
+              </div>
+              <div class="legenda">
+                <div class="legenda-item">
+                  <img src="../../../../assets/imgs/my_car.png" height="34" width="30"/>
+                  My car
+                </div>
+                <div class="legenda-item">
+                  <img src="../../../../assets/imgs/address_of_visiting.png" height="32" width="32"/>
+                  Charging station
+                </div>
+                <div class="legenda-item">
+                  <img src="../../../../assets/imgs/charging_station.png" height="40" width="32"/>
+                  Address of visiting
+                </div>
+                <div class="legenda-item">
+                  <img src="../../../../assets/imgs/error_station.png" height="40" width="32"/>
+                  Error charging station
+                </div>
               </div>
             </ng-container>
-            <div class="legenda">
-              <div class="legenda-item">
-                <img src="../../../../assets/imgs/my_car.png" height="34" width="30"/>
-                My car
-              </div>
-              <div class="legenda-item">
-                <img src="../../../../assets/imgs/address_of_visiting.png" height="32" width="32"/>
-                Charging station
-              </div>
-              <div class="legenda-item">
-                <img src="../../../../assets/imgs/charging_station.png" height="40" width="32"/>
-                Address of visiting
-              </div>
-              <div class="legenda-item">
-                <img src="../../../../assets/imgs/error_station.png" height="40" width="32"/>
-                Error charging station
-              </div>
-            </div>
+           
           </div>
           <div class="event-content">
             <div class="event-container-header">

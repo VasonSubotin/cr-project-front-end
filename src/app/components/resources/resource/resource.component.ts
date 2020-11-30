@@ -29,35 +29,20 @@ export class ResourceComponent implements OnInit {
   selectedTab = 0;
 
   resource;
-  station_locations = JSON.parse(localStorage.getItem('station_locations')) || <any>[];
-  resourceSmartCar = JSON.parse(localStorage.getItem('smartCarInfo')) || <any>{};
-  intervals = JSON.parse(localStorage.getItem('intervals')) || [];
+  station_locations = [];
+  resourceSmartCar: any = {};
+  intervals = [];
 
   idResource: number;
   favoritePolice;
   useCalendarFlag: boolean;
   loadChartFlag: boolean;
   policyId = 1;
-
-  center = {lat: 38.74014171287381, lng: -122.42073208468675};
-  markerOptions = {draggable: false};
-  markerPositions: google.maps.LatLngLiteral[] = [];
-  zoom = 6;
-  display?: google.maps.LatLngLiteral;
-
-  move(event: google.maps.MouseEvent) {
-    this.display = event.latLng.toJSON();
-  }
-
+  
   openInfoWindow(marker: MapMarker) {
     this.infoWindow.open(marker);
   }
 
-
-  addMarker(event: google.maps.MouseEvent) {
-    this.markerPositions.push(event.latLng.toJSON());
-    console.log(this.markerPositions)
-  }
 
   favoritePolices = [
     {name: 'Minimize CO2 emission', active: false},
@@ -70,32 +55,53 @@ export class ResourceComponent implements OnInit {
 
     this.activatedRoute.paramMap.subscribe(res => {
       this.idResource = +res.get('idResource');
-      this.authService.getResourceSmartById(this.idResource).pipe((catchError(err => {
-          this.loaderState = false;
-          return throwError(err);
-        }))
-      ).subscribe((res: any) => {
+      const carId: number  = Number(localStorage.getItem('carId'));
+      this.loadCalcGeo();
+      //this.loadDrivingSchedule();
 
-        this.loaderState = false;
-        if (res) {
-          localStorage.setItem('smartCarInfo', JSON.stringify(res.smartCarInfo));
-          this.resourceSmartCar = res.smartCarInfo;
-          this.resource = res.smResource;
-          this.favoritePolices[this.resource.policyId - 1].active = true;
-          this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
-          this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
-          this.markerPositions.push({
-            lat: this.resourceSmartCar.location.data.latitude,
-            lng: this.resourceSmartCar.location.data.longitude
-          })
-          this.progressBar.nativeElement.style.width = (this.resourceSmartCar.battery.percentRemaining * 100) + '%';
-          if (this.selectedTab === 1) this.progressBar.nativeElement.classList.add('active-charge');
-          //this.progressBar.nativeElement.style.width < 50 ? this.progressBar.nativeElement.style.background = '#CD3E22' : this.progressBar.nativeElement.style.background = '#54cb46d6';
-        }
-      });
+      if (carId === this.idResource && this.idResource > 0) {
+ 
+        this.resourceSmartCar = JSON.parse(localStorage.getItem('smartCarInfo')) || <any>{};
+        this.intervals = JSON.parse(localStorage.getItem('intervals')) || [];
+        this.station_locations = JSON.parse(localStorage.getItem('station_locations'));;
+      
+      } 
+
       this.authService.getResourceDataById(this.idResource).subscribe((res: any) => {
         localStorage.setItem('resourceInfo', JSON.stringify(res.resourceInfo))
       })
+
+      this.authService.getResourceSmartById(this.idResource).pipe((catchError(err => {
+          this.loaderState = false;
+        
+          return throwError(err);
+        }))
+      ).subscribe((res: any) => {
+        console.log("smartCar", res);
+
+        this.loaderState = false;
+        if (res) {
+          this.resourceSmartCar = res.smartCarInfo;
+          localStorage.setItem('smartCarInfo', JSON.stringify(this.resourceSmartCar));
+          localStorage.setItem('carId', JSON.stringify(this.idResource));
+        
+          this.resource = res.smResource;
+          this.favoritePolices[this.resource.policyId - 1].active = true;
+          //this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
+          //this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
+          if(this.resourceSmartCar && this.resourceSmartCar.location) {
+            /*this.markerPositions.push({
+              lat: this.resourceSmartCar.location.data.latitude,
+              lng: this.resourceSmartCar.location.data.longitude
+            })*/
+           // this.progressBar.nativeElement.style.width = (this.resourceSmartCar.battery.percentRemaining * 100) + '%';
+           // if (this.selectedTab === 1) this.progressBar.nativeElement.classList.add('active-charge');
+          }
+          
+          //this.progressBar.nativeElement.style.width < 50 ? this.progressBar.nativeElement.style.background = '#CD3E22' : this.progressBar.nativeElement.style.background = '#54cb46d6';
+        }
+      });
+ 
     });
 
     this.authService.getJwtToken().subscribe(res=> {
@@ -120,14 +126,11 @@ export class ResourceComponent implements OnInit {
   }
 
   loadDrivingSchedule() {
-    this.authService.getScheduleById(this.idResource, 'DRV').pipe
-    (tap((res: any) => {
-        if (!res) {
-          this.loadCalcGeo();
-        }
-      }),
+    this.authService.getDrivingScheduleById(this.idResource).pipe
+    (
       (catchError(err => {
-        this.loadCalcGeo();
+        localStorage.removeItem('station_locations');
+        localStorage.removeItem('intervals');
         return throwError(err);
       }))).subscribe((res: any) => {
       if (res) {
@@ -142,10 +145,13 @@ export class ResourceComponent implements OnInit {
     this.loaderState = false;
     this.authService.calculateGeo(this.idResource).subscribe((res: any) => {
       this.loaderStateGeo = false;
-      this.intervals = res.intervals;
-      this.station_locations = res.intervals[0].station_locations;
-      localStorage.setItem('station_locations', JSON.stringify(this.station_locations));
-      localStorage.setItem('intervals', JSON.stringify(this.intervals));
+      if(res.intervals) {
+        console.log("loadCalcGeo", res.intervals);
+        this.intervals = res.intervals;
+        this.station_locations = res.intervals[0].station_locations;
+        localStorage.setItem('station_locations', JSON.stringify(this.station_locations));
+        localStorage.setItem('intervals', JSON.stringify(this.intervals));
+      }
     })
   }
 
