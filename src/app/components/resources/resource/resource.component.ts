@@ -65,14 +65,7 @@ export class ResourceComponent implements OnInit {
         this.intervals = JSON.parse(localStorage.getItem('intervals')) || [];
         this.station_locations = JSON.parse(localStorage.getItem('station_locations'));;
       
-        console.log("resourceSmartCar ", this.resourceSmartCar );
-      } else {
-
-        this.resourceSmartCar = {};
-        this.intervals = [];
-        this.station_locations = [];
-
-      }
+      } 
 
       this.authService.getResourceDataById(this.idResource).subscribe((res: any) => {
         localStorage.setItem('resourceInfo', JSON.stringify(res.resourceInfo))
