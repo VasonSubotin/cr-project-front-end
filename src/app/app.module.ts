@@ -9,6 +9,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
@@ -83,6 +84,7 @@ import { ResourcesService } from './services/resources.service';
     ReactiveFormsModule,
     MatSnackBarModule,
     MatInputModule,
+    MatSelectModule,
     MatButtonModule,
     MatDialogModule,
     MatDatepickerModule,

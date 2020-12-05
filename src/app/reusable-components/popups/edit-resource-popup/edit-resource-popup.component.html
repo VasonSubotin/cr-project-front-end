@@ -1,55 +1,63 @@
-<style>
-  .popup-container {
-    justify-content: end;
-    align-content: center;
-    position: relative;
-  }
-
-  .popup-content {
-    width: 450px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    align-items: end;
-  }
-
-  .clock-icon {
-    position: absolute;
-    right: 12px;
-    top: 14px
-  }
-
-  .footer-button {
-    width: 450px !important;
-    height: 56px !important;
-  }
-
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-  }
-
-  .checkbox-container input {
-    margin-left: 10px;
-  }
-
-  .modal-title {
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    display: flex;
-    align-items: center;
-    color: #232729;
-  }
-
-  .popup-header {
-    height: 110px;
-  }
-
-</style>
 <div class="popup-container flex-block flex-block--column">
+  <div class="popup-header flex-block ">
+    <div class="title-font">
+      Edit {{resource.vendor}} {{resource.model}}
+    </div>
+
+    <div class="close" (click)="closeEvent()">
+      <img src="../../../../assets/imgs/Close.png" height="40" width="40"/>
+    </div>
+  </div>
+
+  <div class="popup-content">
+
+
+    <div class="flex-block flex-block--column flex-block--center">
+      <img src="../../../../assets/imgs/TeslaYwhite.png" height="171" width="450"/>
+    </div>
+    <div class="flex-block flex-block--space-between">
+      <div class="title-font modal-title">
+        Time of use period
+      </div>
+      <div class="checkbox-container">
+        <div class="modal-title">Use as default</div>
+        <input (change)="useTos()" [checked]="!tosSwitcher" type="checkbox">
+      </div>
+
+    </div>
+<form
+    #form
+    class="login-form flex-block flex-block--center flex-block--column"
+    [formGroup]="myGroup"
+    (ngSubmit)="onSubmit()"
+  >
+
+    <select matNativeControl formControlName="policy" [compareWith]="compareWithFunc" class="edit-select">
+       <option *ngFor="let policy of policiesService?.policies"  [value]="policy.idPolicy" class="edit-option"> {{policy.name}}</option>
+    </select>
+
+    <div class="title-font padding-top-30 modal-title">Maximum duration of charging session. (For green policy)</div>
+    <input
+    matInput
+    formControlName="duration"
+    class="input-login login-input"
+    type="number"
+    placeholder="Duraction"
+  />
+
+    <button
+      color="primary"
+      class="button-system button-system--login margin-top-60"
+      [disabled]="form.valid"
+    >
+    Save
+    </button>
+  </form>
+  </div>
+</div>
+
+<!--
+  <div class="popup-container flex-block flex-block--column">
   <div class="popup-header flex-block ">
     <div class="title-font">
       Edit {{resource.vendor}} {{resource.model}}
@@ -76,6 +84,7 @@
 
     </div>
 
+    
     <div class="flex-block flex-block--space-between ">
       <div class="input-container">
         <div class="input-label">From</div>
@@ -88,7 +97,7 @@
         <app-time-stop [stopAtInput]=stopAtInput
                        (stopAtInputChanged)="stopAtInputChanged($event)"></app-time-stop>
       </div>
-    </div>
+    </div> 
 
     <div class="flex-block padding-top-30">
       <div class="select-container ">
@@ -102,10 +111,7 @@
     <div class="flex-block flex-block--end">
       <div class="select-container width-215">
         <div class="input-label">Duration</div>
-        <input class="input-system">
-        <!--
-                <owl-date-time [startAt]="startAt" [pickerType]="'timer'" #pickerDuration></owl-date-time>
-        -->
+        <input class="input-system"   >
         <input class="input-system"  type="text"   [ngModel]="duration" >
         <img class="clock-icon" src="../../../../assets/imgs/clock_icon.png" height="24" width="24"/>
       </div>
@@ -119,3 +125,5 @@
   </div>
 
 </div>
+
+-->

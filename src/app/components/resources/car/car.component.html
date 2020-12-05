@@ -23,17 +23,17 @@
       <div class="info-block">
         <h6>Plugged:</h6>
         <ng-container *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn">
-
           <span>
-            <ng-container *ngIf="resource.smartCarInfo?.charge?.data.state === 'CHARGING'"
+            <ng-container
+              *ngIf="resource.smartCarInfo?.charge?.data.state === 'CHARGING'"
             >
               <div class="info-text">
                 Charging
                 <span class="charge-indicator charge-indicator__on"></span>
               </div>
             </ng-container>
-    
-              <ng-container
+
+            <ng-container
               *ngIf="resource.smartCarInfo?.charge?.data.state !== 'CHARGING'"
             >
               <div class="info-text">
@@ -42,13 +42,11 @@
               </div>
             </ng-container>
           </span>
-         
-    </ng-container>
+        </ng-container>
 
-      
-       
-
-        <ng-container *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn === false">
+        <ng-container
+          *ngIf="resource.smartCarInfo?.charge?.data.isPluggedIn === false"
+        >
           <div class="info-text">
             Plugged Out
             <span class="charge-indicator charge-indicator__off"></span>
@@ -58,10 +56,10 @@
 
       <div class="info-block">
         <h6>Policy:</h6>
-        <ng-container >
+        <ng-container>
           <div class="info-text">
             {{ policyName }}
-          </div> 
+          </div>
         </ng-container>
       </div>
       <div class="info-block">
