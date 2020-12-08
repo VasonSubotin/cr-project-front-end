@@ -30,49 +30,65 @@
       [formGroup]="myGroup"
       (ngSubmit)="onSubmit()"
     >
-
-    <div class="time">
-      <label>
-
-        <input [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"   formControlName="from" placeholder="From" class="input-login login-input time-input">
-        <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
-    </label>
-    <div class="m8"></div>
-    <label>
-  
-      <input [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2"   formControlName="to" placeholder="To" class="input-login login-input time-input">
-      <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
-  </label>
-    </div>
- 
+      <div class="time">
+        <label>
+          <input
+            [owlDateTimeTrigger]="dt1"
+            [owlDateTime]="dt1"
+            formControlName="from"
+            placeholder="From"
+            class="input-login login-input time-input"
+          />
+          <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+        </label>
+        <div class="m8"></div>
+        <label>
+          <input
+            [owlDateTimeTrigger]="dt2"
+            [owlDateTime]="dt2"
+            formControlName="to"
+            placeholder="To"
+            class="input-login login-input time-input"
+          />
+          <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+        </label>
+      </div>
+      <ng-container *ngIf="policiesService && policiesService.policies">
       <select
         matNativeControl
         formControlName="policy"
         [compareWith]="compareWithFunc"
         class="edit-select"
       >
+    
         <option
-          *ngFor="let policy of policiesService?.policies"
-          [value]="policy.idPolicy"
-          class="edit-option"
-        >
-          {{ policy.name }}
-        </option>
+        *ngFor="let policy of policiesService?.policies"
+        [value]="policy.idPolicy"
+        class="edit-option"
+      >
+        {{ policy.name }}
+      </option>
       </select>
+     
+    </ng-container>
 
-     <!-- <ng-container *ngIf="myGroup.value.policy === 2">--> 
-        <div class="title-font padding-top-30 modal-title">
-          Maximum duration of charging session. (For green policy)
-        </div>
-        <input
-          matInput
-          formControlName="duration"
-          class="input-login login-input"
-          type="number"
-          placeholder="Duraction"
-        />
-     <!--</ng-container>--> 
 
+   <ng-container *ngIf="myGroup.get('policy').value === '1'">
+     <div>
+      <div class="title-font padding-top-30 modal-title">
+        Maximum duration of charging session. (For green policy)
+      </div>
+      <input
+        matInput
+        formControlName="duration"
+        class="input-login login-input"
+        type="number"
+        placeholder="Duraction"
+      />
+
+     </div>
+   </ng-container>
+     
       <button
         color="primary"
         class="button-system button-system--login margin-top-60 save"
@@ -83,75 +99,3 @@
     </form>
   </div>
 </div>
-
-<!--
-  <div class="popup-container flex-block flex-block--column">
-  <div class="popup-header flex-block ">
-    <div class="title-font">
-      Edit {{resource.vendor}} {{resource.model}}
-    </div>
-
-    <div class="close" (click)="closeEvent()">
-      <img src="../../../../assets/imgs/Close.png" height="40" width="40"/>
-    </div>
-  </div>
-
-  <div class="popup-content">
-
-    <div class="flex-block flex-block--column flex-block--center">
-      <img src="../../../../assets/imgs/TeslaYwhite.png" height="171" width="450"/>
-    </div>
-    <div class="flex-block flex-block--space-between">
-      <div class="title-font modal-title">
-        Time of use period
-      </div>
-      <div class="checkbox-container">
-        <div class="modal-title">Use as default</div>
-        <input (change)="useTos()" [checked]="!tosSwitcher" type="checkbox">
-      </div>
-
-    </div>
-
-    
-    <div class="flex-block flex-block--space-between ">
-      <div class="input-container">
-        <div class="input-label">From</div>
-        <app-time-start [startAtInput]=startAtInput
-                        (startAtInputChanged)="startAtInputChanged($event)"></app-time-start>
-
-      </div>
-      <div class="input-container">
-        <div class="input-label">To</div>
-        <app-time-stop [stopAtInput]=stopAtInput
-                       (stopAtInputChanged)="stopAtInputChanged($event)"></app-time-stop>
-      </div>
-    </div> 
-
-    <div class="flex-block padding-top-30">
-      <div class="select-container ">
-        <div class="input-label">Default Policy</div>
-        <select class="input-system select-system" (change)="onChange($event.target.selectedIndex)">
-          <option *ngFor="let policy of policiesService?.policies"> {{policy.name}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="title-font padding-top-30 modal-title">Maximum duration of charging session. (For green policy)</div>
-    <div class="flex-block flex-block--end">
-      <div class="select-container width-215">
-        <div class="input-label">Duration</div>
-        <input class="input-system"   >
-        <input class="input-system"  type="text"   [ngModel]="duration" >
-        <img class="clock-icon" src="../../../../assets/imgs/clock_icon.png" height="24" width="24"/>
-      </div>
-    </div>
-
-
-  </div>
-  <div class="popup-footer padding-top-30">
-    <button mat-raised-button color="primary" class="button-system big-button footer-button" (click)="onSubmit()">Save
-    </button>
-  </div>
-
-</div>
-
--->
