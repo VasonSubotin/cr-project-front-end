@@ -19,7 +19,7 @@ export class HistoryService implements OnDestroy {
     };
 
     return this.http.get(
-      `${request.apiUrl}scheduleHistory`,
+      `${request.apiUrl}resources/scheduleHistory`,
       _options
     );
   }

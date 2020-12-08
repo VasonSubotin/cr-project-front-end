@@ -1,30 +1,35 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {AuthService} from "../../../services/auth.service";
 import {AmazingTimePickerService} from "amazing-time-picker";
 import {FunctionsService} from "../../../services/functions.service";
 import {PoliciesService} from "../../../services/policies.service";
+import { Resource } from 'src/app/data/Resource';
 
 @Component({
   selector: 'app-edit-resource-popup',
   templateUrl: './edit-resource-popup.component.html',
+  styleUrls: ['./edit-resource-popup.component.scss']
 })
 export class EditResourcePopupComponent implements OnInit {
-  idResource;
-  policyId: string;
-  selectPolicy;
+
+  tou = {};
   tosSwitcher = true;
   periodFrom = 0;
   duration = 0;
   isTous = false;
   defaultInputSwitcher = false;
-  startAtInput = this.funcService.formattingTime(746);
-  stopAtInput =  this.funcService.formattingTime(974);
-  startAtInputMinutes = 0;
-  stopAtInputMinutes = 0;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public resource,
+
+  myGroup = new FormGroup({
+    duration: new FormControl(2),
+    policy: new FormControl('0'),
+    from: new FormControl(new Date()),    
+    to: new FormControl(new Date())
+  });
+
+  constructor(@Inject(MAT_DIALOG_DATA) public resource: Resource,
               private dialogRef: MatDialogRef<EditResourcePopupComponent>,
               public fb: FormBuilder,
               private authService: AuthService,
@@ -33,34 +38,45 @@ export class EditResourcePopupComponent implements OnInit {
               public policiesService: PoliciesService
 
   ) {
-    if(resource.policyId) {
-      this.selectPolicy = this.policyForSelect[resource.policyId]?.name || "";
-    }
+  
   }
 
   @ViewChild("pickerFrom", {static: false}) pickerFrom: ElementRef;
   @ViewChild("pickerTo", {static: false}) pickerTo: ElementRef;
   @ViewChild("pickerToInput", {static: false}) pickerToInput: ElementRef;
   @ViewChild("pickerFromInput", {static: false}) pickerFromInput: ElementRef;
-  policyForSelect: any = [
-    {value: 0, name: 'green policy. (optimized to CO2 marginal emission)'},
-    {value: 1, name: 'monetary policy (optimized to energy market pricing)'},
-    {value: 2, name: 'simple policy (charge as fast as possible)'}
-  ];
+  
+
 
   ngOnInit(): void {
-    this.authService.timeOfUse(this.resource.idResource).subscribe(((res: any) => {
+    this.authService.timeOfUse(this.resource.idResource).subscribe(((res: {start: string, stop: string}) => {
           if (res) {
             this.isTous = true;
 
-            this.startAtInput = this.funcService.formattingTime(res.start);
-            this.stopAtInput =  this.funcService.formattingTime(res.stop);
+            this.myGroup.controls["from"].setValue(new Date(res.start));
+            this.myGroup.controls["to"].setValue(new Date(res.stop));
           }
         }
       )
     )
 
+    this.authService.getResourceDataById(this.resource.idResource).subscribe(((res: Resource) => {
+      if (res) {
+        console.log(res.policyId.toString());
+
+          //this.myGroup.controls["duration"].setValue(res.policyId);
+          this.myGroup.controls["policy"].setValue((res.policyId + 1).toString());
+        
+      }
+    }
+  )
+)
+
   }
+
+
+  compareWithFunc = (a: any, b: any) => a == b;
+
   openDuration() {
     const durationTimePicker = this.atp.open();
     durationTimePicker.afterClose().subscribe(time => {
@@ -73,16 +89,7 @@ export class EditResourcePopupComponent implements OnInit {
   useTos() {
     this.tosSwitcher = !this.tosSwitcher;
   }
-  startAtInputChanged (event) {
-    this.startAtInputMinutes = event
-  }
-  stopAtInputChanged (event) {
-    this.stopAtInputMinutes = event
-  }
-
-  onChange(policyId) {
-    this.policyId = policyId;
-  }
+ 
 
   closeEvent() {
     this.dialogRef.close();
@@ -90,28 +97,28 @@ export class EditResourcePopupComponent implements OnInit {
 
   updateTOU() {
     if (this.isTous) {
-      this.authService.putTimeOfUse(this.resource.idResource, this.startAtInputMinutes, this.stopAtInputMinutes).subscribe((res) => {
+      this.authService.putTimeOfUse(this.resource.idResource, this.myGroup.value.from.getTime(), this.myGroup.value.to.getTime()).subscribe((res) => {
         console.log(res)
       })
-    } else {
-      this.authService.postTimeOfUse(this.resource.idResource, this.startAtInputMinutes, this.stopAtInputMinutes).subscribe((res) => {
-        console.log(res)
-      })
-    }
+    } 
 
   }
 
   onSubmit() {
-    this.updateResource(this.policyId);
+    console.log(this.myGroup);
+    this.updateResource();
     this.updateTOU();
   }
 
-  updateResource(policyId) {
-
-   this.selectPolicy = this.policyForSelect[policyId || this.resource.policyId].name;
-    this.resource.policyId = +policyId || this.resource.policyId;
-    this.resource.chargeby_time = +this.duration;
+  updateResource() {
+let policy = this.myGroup.value.policy;
+    if(policy) {
+      this.resource.policyId = policy - 1;
+    }
+    
+   // this.resource.chargeby_time = +this.duration;
     const body = this.resource;
+
     this.authService.updateResourceById(this.resource.idResource, body).subscribe((res: any) => {
       this.resource = res;
     });
