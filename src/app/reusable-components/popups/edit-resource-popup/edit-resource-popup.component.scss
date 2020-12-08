@@ -77,3 +77,22 @@
   .edit-option{
     height: 40px;
   }
+
+  .time {
+    display: flex;
+    margin-top: 24px;
+    width: 100%;
+    label {
+      width: 100% !important;
+    }
+    .time-input{
+      width: 100% !important;
+    }
+    .m8{
+      margin: 8px;
+    }
+  }
+
+  .save {
+    justify-content: center;
+  }

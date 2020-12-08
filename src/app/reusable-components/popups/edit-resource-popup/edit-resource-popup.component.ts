@@ -14,19 +14,19 @@ import { Resource } from 'src/app/data/Resource';
 })
 export class EditResourcePopupComponent implements OnInit {
 
+  tou = {};
   tosSwitcher = true;
   periodFrom = 0;
   duration = 0;
   isTous = false;
   defaultInputSwitcher = false;
-  startAtInput = this.funcService.formattingTime(746);
-  stopAtInput =  this.funcService.formattingTime(974);
-  startAtInputMinutes = 0;
-  stopAtInputMinutes = 0;
+
 
   myGroup = new FormGroup({
     duration: new FormControl(2),
     policy: new FormControl('0'),
+    from: new FormControl(new Date()),    
+    to: new FormControl(new Date())
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public resource: Resource,
@@ -49,12 +49,12 @@ export class EditResourcePopupComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.timeOfUse(this.resource.idResource).subscribe(((res: any) => {
+    this.authService.timeOfUse(this.resource.idResource).subscribe(((res: {start: string, stop: string}) => {
           if (res) {
             this.isTous = true;
 
-            this.startAtInput = this.funcService.formattingTime(res.start);
-            this.stopAtInput =  this.funcService.formattingTime(res.stop);
+            this.myGroup.controls["from"].setValue(new Date(res.start));
+            this.myGroup.controls["to"].setValue(new Date(res.stop));
           }
         }
       )
@@ -63,10 +63,10 @@ export class EditResourcePopupComponent implements OnInit {
     this.authService.getResourceDataById(this.resource.idResource).subscribe(((res: Resource) => {
       if (res) {
         console.log(res.policyId.toString());
-        this.myGroup = new FormGroup({
-          duration: new FormControl(res.policyId),
-          policy: new FormControl((res.policyId + 1).toString()),
-        });
+
+          //this.myGroup.controls["duration"].setValue(res.policyId);
+          this.myGroup.controls["policy"].setValue((res.policyId + 1).toString());
+        
       }
     }
   )
@@ -89,14 +89,7 @@ export class EditResourcePopupComponent implements OnInit {
   useTos() {
     this.tosSwitcher = !this.tosSwitcher;
   }
-  startAtInputChanged (event) {
-    this.startAtInputMinutes = event
-  }
-  stopAtInputChanged (event) {
-    this.stopAtInputMinutes = event
-  }
-
-
+ 
 
   closeEvent() {
     this.dialogRef.close();
@@ -104,21 +97,17 @@ export class EditResourcePopupComponent implements OnInit {
 
   updateTOU() {
     if (this.isTous) {
-      this.authService.putTimeOfUse(this.resource.idResource, this.startAtInputMinutes, this.stopAtInputMinutes).subscribe((res) => {
+      this.authService.putTimeOfUse(this.resource.idResource, this.myGroup.value.from.getTime(), this.myGroup.value.to.getTime()).subscribe((res) => {
         console.log(res)
       })
-    } else {
-      this.authService.postTimeOfUse(this.resource.idResource, this.startAtInputMinutes, this.stopAtInputMinutes).subscribe((res) => {
-        console.log(res)
-      })
-    }
+    } 
 
   }
 
   onSubmit() {
     console.log(this.myGroup);
     this.updateResource();
-    //this.updateTOU();
+    this.updateTOU();
   }
 
   updateResource() {
@@ -129,7 +118,7 @@ let policy = this.myGroup.value.policy;
     
    // this.resource.chargeby_time = +this.duration;
     const body = this.resource;
-    console.log(body);
+
     this.authService.updateResourceById(this.resource.idResource, body).subscribe((res: any) => {
       this.resource = res;
     });
