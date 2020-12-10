@@ -25,5 +25,9 @@ export class CarComponent {
   onDelete() {
     this.resourceDelete.emit(this.index);
   }
+
+  round(soc: number) {
+    return Math.round(soc * 100)
+  }
   
 }

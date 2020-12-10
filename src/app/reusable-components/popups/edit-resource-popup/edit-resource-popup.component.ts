@@ -96,11 +96,9 @@ export class EditResourcePopupComponent implements OnInit {
   }
 
   updateTOU() {
-    if (this.isTous) {
       this.authService.putTimeOfUse(this.resource.idResource, this.myGroup.value.from.getTime(), this.myGroup.value.to.getTime()).subscribe((res) => {
         console.log(res)
       })
-    } 
 
   }
 

@@ -71,7 +71,10 @@
       <div class="info-block">
         <h6>SOC:</h6>
         <div class="info-text">
-          {{ resource.smartCarInfo?.battery?.percentRemaining * 100 }} %
+          <ng-container *ngIf="resource.smartCarInfo?.battery?.percentRemaining">
+            {{  round(resource.smartCarInfo?.battery?.percentRemaining)   }} %
+          </ng-container>
+ 
         </div>
       </div>
     </div>
