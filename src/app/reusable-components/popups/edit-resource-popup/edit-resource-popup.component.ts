@@ -78,7 +78,7 @@ export class EditResourcePopupComponent implements OnInit {
 
           //this.myGroup.controls["duration"].setValue(res.policyId);
           this.myGroup.controls['policy'].setValue(
-            (res.policyId + 1).toString()
+            (res.policyId).toString()
           );
           if (res.chargeby_time) {
             this.myGroup.controls['duration'].setValue(res.chargeby_time);
@@ -110,11 +110,20 @@ export class EditResourcePopupComponent implements OnInit {
       stop = start;
     }
 
-    this.authService
+    if(this.isTous) {
+      this.authService
       .putTimeOfUse(this.resource.idResource, start, stop)
       .subscribe((res) => {
         console.log(res);
       });
+    } else {
+      this.authService
+      .postTimeOfUse(this.resource.idResource, start, stop)
+      .subscribe((res) => {
+        console.log(res);
+      });
+    }
+  
   }
 
   onSubmit() {
@@ -125,7 +134,7 @@ export class EditResourcePopupComponent implements OnInit {
   updateResource() {
     let policy = this.myGroup.value.policy;
     if (policy) {
-      this.resource.policyId = policy - 1;
+      this.resource.policyId = policy;
     }
     if (this.myGroup.value.duration) {
       this.resource.chargeby_time = this.myGroup.value.duration;

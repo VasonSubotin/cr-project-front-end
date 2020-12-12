@@ -44,11 +44,6 @@ export class ResourceComponent implements OnInit {
   }
 
 
-  favoritePolices = [
-    {name: 'Minimize CO2 emission', active: false},
-    {name: 'Minimize costs', active: false},
-    {name: 'Monetary savings', active: false},
-    {name: 'Charge car as fast as possible', active: false}];
 
   ngOnInit(): void {
     this.policiesService.getPoliciesList();
@@ -89,7 +84,6 @@ export class ResourceComponent implements OnInit {
           localStorage.setItem('carId', JSON.stringify(this.idResource));
         
           this.resource = res.smResource;
-          this.favoritePolices[this.resource.policyId - 1].active = true;
      
           //this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
           //this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
