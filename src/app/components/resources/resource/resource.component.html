@@ -1,39 +1,67 @@
-
 <app-header></app-header>
 
 <div class="resource-page">
-
-
   <div class="resource-header-navigation">
     <div class="breadcramps-container">
       <a [routerLink]="['/resources']">Resources </a>
       <div class="breadcpm-arrow">
-        <img src="../../../../assets/imgs/Right.png" height="24" width="24"/>
+        <img src="../../../../assets/imgs/Right.png" height="24" width="24" />
       </div>
-      <a class="active-link">{{resource?.vendor}} {{resource?.model}} </a>
+      <a class="active-link">{{ resource?.vendor }} {{ resource?.model }} </a>
     </div>
-    <div class="charge-state">
-      <div class="progress-bar" #progressBar></div>
+    <div class="charge-state" [ngClass]="getClass(resourceSmartCar?.battery?.percentRemaining)"  >
       <div class="charge-state__text">State of charge:</div>
-      <div class="charge-state__info">
-<!--        <ng-container *ngIf="selectedTab !== 1">(Plugged out)</ng-container>
-        <ng-container *ngIf="selectedTab === 1">%{{resourceSmartCar?.battery?.percentRemaining * 100}} ({{resourceSmartCar?.charge?.data.state}})</ng-container>
-        <ng-container *ngIf="selectedTab === 1 && !resourceSmartCar?.charge">(Plugged out)</ng-container>-->
-        <ng-container>%{{resourceSmartCar?.battery?.percentRemaining * 100}} ({{resourceSmartCar?.charge?.data.state}})</ng-container>
+      <div class="charge-state__info" >
+        <ng-container
+          >%{{ round(resourceSmartCar?.battery?.percentRemaining) }} (
+          <span>
+            <ng-container *ngIf="resourceSmartCar?.charge?.data.isPluggedIn">
+              <span>
+                <ng-container
+                  *ngIf="resourceSmartCar?.charge?.data.state === 'CHARGING'"
+                >
+                  Charging
+                </ng-container>
 
+                <ng-container
+                  *ngIf="resourceSmartCar?.charge?.data.state !== 'CHARGING'"
+                >
+                  Plugged In
+                </ng-container>
+              </span>
+            </ng-container>
+
+            <ng-container
+              *ngIf="resourceSmartCar?.charge?.data.isPluggedIn === false"
+            >
+              Plugged Out
+            </ng-container>
+          </span>
+          )</ng-container
+        >
       </div>
     </div>
   </div>
 
-
-  <mat-tab-group animationDuration="0ms" (click)="loadChart()"
-                 [(selectedIndex)]="selectedTab">
+  <mat-tab-group
+    animationDuration="0ms"
+    (click)="loadChart()"
+    [(selectedIndex)]="selectedTab"
+  >
     <ng-template #emptyState>
       <div class="empty-state--container">
         <div class="empty-state--img">
-          <img src="../../../../assets/imgs/empty_charge.png" height="214" width="268"/></div>
+          <img
+            src="../../../../assets/imgs/empty_charge.png"
+            height="214"
+            width="268"
+          />
+        </div>
         <h1>No charging schedule avaliable - the car is pluged out</h1>
-        <h3>You will see the charging schedule and statistic when <br> you put your car on charging</h3>
+        <h3>
+          You will see the charging schedule and statistic when <br />
+          you put your car on charging
+        </h3>
       </div>
     </ng-template>
 
@@ -46,94 +74,165 @@
       <ng-container>
         <div class="schedule-container">
           <div class="visual-container">
-            <ng-container> <!--- *ngIf="station_locations && resourceSmartCar && resourceSmartCar.location && resourceSmartCar.location.data" -->
+            <ng-container>
+              <!--- *ngIf="station_locations && resourceSmartCar && resourceSmartCar.location && resourceSmartCar.location.data" -->
               <div class="maps-wrapper">
-              <app-map-geo [mapData]="station_locations" [locationData]="resourceSmartCar?.location?.data"></app-map-geo>
+                <app-map-geo
+                  [mapData]="station_locations"
+                  [locationData]="resourceSmartCar?.location?.data"
+                ></app-map-geo>
               </div>
               <div class="legenda">
                 <div class="legenda-item">
-                  <img src="../../../../assets/imgs/my_car.png" height="34" width="30"/>
+                  <img
+                    src="../../../../assets/imgs/my_car.png"
+                    height="34"
+                    width="30"
+                  />
                   My car
                 </div>
                 <div class="legenda-item">
-                  <img src="../../../../assets/imgs/address_of_visiting.png" height="32" width="32"/>
+                  <img
+                    src="../../../../assets/imgs/address_of_visiting.png"
+                    height="32"
+                    width="32"
+                  />
                   Charging station
                 </div>
                 <div class="legenda-item">
-                  <img src="../../../../assets/imgs/charging_station.png" height="40" width="32"/>
+                  <img
+                    src="../../../../assets/imgs/charging_station.png"
+                    height="40"
+                    width="32"
+                  />
                   Address of visiting
                 </div>
                 <div class="legenda-item">
-                  <img src="../../../../assets/imgs/error_station.png" height="40" width="32"/>
+                  <img
+                    src="../../../../assets/imgs/error_station.png"
+                    height="40"
+                    width="32"
+                  />
                   Error charging station
                 </div>
               </div>
             </ng-container>
-           
           </div>
           <div class="event-content">
             <div class="event-container-header">
               <div class="title-font">LOCATIONS</div>
-              <button mat-raised-button color="primary" class="button-system create-request-button "
-                      (click)="openRequestModal()">
+              <button
+                mat-raised-button
+                color="primary"
+                class="button-system create-request-button"
+                (click)="openRequestModal()"
+              >
                 <div class="button-name_icon">
-                  <img src="../../../../assets/imgs/power.png" height="22" width="16"/>
+                  <img
+                    src="../../../../assets/imgs/power.png"
+                    height="22"
+                    width="16"
+                  />
                   Create Request
                 </div>
-
               </button>
             </div>
             <div class="event-list">
               <ng-container *ngIf="loaderStateGeo">
                 Load data from yor geo location...
               </ng-container>
-              <ng-container  *ngIf="!loaderStateGeo">
-                <div class="event-container" *ngFor="let eventInterval of intervals">
+              <ng-container *ngIf="!loaderStateGeo">
+                <div
+                  class="event-container"
+                  *ngFor="let eventInterval of intervals"
+                >
                   <div class="event-title-container">
                     <div class="event-row">
                       <div class="event-title">
-                        <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Start time:
+                        <img
+                          src="../../../../assets/imgs/Clock.png"
+                          height="16"
+                          width="16"
+                        />
+                        Start time:
                       </div>
-                      <div class="event-value">{{eventInterval.time_start| date:'h:mm a'}}</div>
+                      <div class="event-value">
+                        {{ eventInterval.time_start | date: "h:mm a" }}
+                      </div>
                     </div>
                     <div class="event-row">
                       <div class="event-title">
-                        <img src="../../../../assets/imgs/Clock.png" height="16" width="16"/> Duration:
+                        <img
+                          src="../../../../assets/imgs/Clock.png"
+                          height="16"
+                          width="16"
+                        />
+                        Duration:
                       </div>
-                      <div class="event-value">{{eventInterval.duration / 60 |  number:'1.0-0' }} m</div>
+                      <div class="event-value">
+                        {{ eventInterval.duration / 60 | number: "1.0-0" }} m
+                      </div>
                     </div>
                     <div class="event-row">
                       <div class="event-title">
-                        <img src="../../../../assets/imgs/Bulb.png" height="16" width="16"/> Policy:
+                        <img
+                          src="../../../../assets/imgs/Bulb.png"
+                          height="16"
+                          width="16"
+                        />
+                        Policy:
                       </div>
-                      <div class="event-value">{{eventInterval.duration}}</div>
+                      <div class="event-value">
+                        {{ eventInterval.duration }}
+                      </div>
                     </div>
                     <div class="event-row">
                       <div class="event-title">
-                        <img src="../../../../assets/imgs/On.png" height="16" width="16"/> Energy needed:
+                        <img
+                          src="../../../../assets/imgs/On.png"
+                          height="16"
+                          width="16"
+                        />
+                        Energy needed:
                       </div>
-                      <div class="event-value">{{eventInterval.energy}}</div>
+                      <div class="event-value">{{ eventInterval.energy }}</div>
                     </div>
                     <div class="event-row">
                       <div class="event-title">
-                        <img src="../../../../assets/imgs/Compass.png" height="16" width="16"/> Location:
+                        <img
+                          src="../../../../assets/imgs/Compass.png"
+                          height="16"
+                          width="16"
+                        />
+                        Location:
                       </div>
-                      <div class="event-value">{{resourceSmartCar.location?.data.latitude.toString()| slice:0:10}}, {{resourceSmartCar.location?.data.longitude.toString()| slice:0:10}}</div>
+                      <div class="event-value">
+                        {{
+                          resourceSmartCar.location?.data.latitude.toString()
+                            | slice: 0:10
+                        }},
+                        {{
+                          resourceSmartCar.location?.data.longitude.toString()
+                            | slice: 0:10
+                        }}
+                      </div>
                     </div>
                     <div class="event-row">
                       <div class="event-title">
-                        <img src="../../../../assets/imgs/Pin.png" height="16" width="16"/>Stations address:
+                        <img
+                          src="../../../../assets/imgs/Pin.png"
+                          height="16"
+                          width="16"
+                        />Stations address:
                       </div>
-                      <div class="event-value">{{eventInterval.station_locations[0].address}}</div>
+                      <div class="event-value">
+                        {{ eventInterval.station_locations[0].address }}
+                      </div>
                     </div>
-
-
                   </div>
                 </div>
-
               </ng-container>
             </div>
-
           </div>
         </div>
       </ng-container>
@@ -144,7 +243,10 @@
           <app-loader></app-loader>
         </div>
       </ng-container>
-      <app-schedule [battery]="resourceSmartCar?.battery?.percentRemaining" [intervals]="intervals"></app-schedule>
+      <app-schedule
+        [battery]="resourceSmartCar?.battery?.percentRemaining"
+        [intervals]="intervals"
+      ></app-schedule>
 
       <!-- <ng-container *ngIf="!loaderState">
          <div class="schedule-container" *ngIf="selectedTab !== 1 else emptyState">
@@ -210,7 +312,4 @@
        </ng-container>-->
     </mat-tab>
   </mat-tab-group>
-
-
 </div>
-

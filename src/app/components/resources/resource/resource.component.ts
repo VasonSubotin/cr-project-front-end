@@ -195,4 +195,18 @@ export class ResourceComponent implements OnInit {
   changePolicy(policyId) {
     this.updateResource(policyId);
   }
+
+  round(soc: number) {
+    return Math.round(soc * 100)
+  }
+  getClass(soc: number) {
+    const newSoc = this.round(soc);
+    if(newSoc > 50) {
+      return "success";
+    }
+    if(newSoc < 30) {
+      return "error";
+    }
+    return "";
+  }
 }
