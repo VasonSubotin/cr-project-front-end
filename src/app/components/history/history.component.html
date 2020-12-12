@@ -1,460 +1,80 @@
-
 <app-header></app-header>
 
 <div class="history-page">
   <div class="search-input-container">
-    <input class="input-system search-input" placeholder="Type what you want to find">
-    <button class="button-system search-button">
-      Search
-    </button>
+    <input
+      class="input-system search-input"
+      placeholder="Type what you want to find"
+    />
+    <button class="button-system search-button">Search</button>
   </div>
 
-  <div class="history-container">
-    <div class="history-item">
-      <div class="item-container">
-        <div class="history-info">
-          CHR
+  <ng-container *ngFor="let item of historyService?.historyItems">
+    <div class="history-container">
+      <div class="history-item">
+        <div class="item-container">
+          <div class="history-info">{{ item.schedule_type }}</div>
+          <div class="history-label">Schedule</div>
         </div>
-        <div class="history-label">
-          Schedule
+        <div class="item-container margin-right-60">
+          <div class="history-info">
+            {{ item.resource_id }} todo now ID resource
+          </div>
+          <div class="history-label">Device</div>
         </div>
+        <ng-container *ngIf="item.capacity">
+          <div class="item-container">
+            <div class="history-info">{{ item.capacity }} kWh</div>
+            <div class="history-label">Battery capacity</div>
+          </div>
+        </ng-container>
 
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          Tesla Model X
+        <ng-container *ngIf="item.capacity && item.initial_energy">
+          <div class="item-container">
+            <div class="history-info">
+              {{ getInitialSOC(item.initial_energy, item.capacity) }} %
+            </div>
+            <div class="history-label">Initial SOC</div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="item.end_soc">
+          <div class="item-container">
+            <div class="history-info">{{ item.end_soc }}</div>
+            <div class="history-label">Final SOC</div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="item.total_charge">
+          <div class="item-container">
+            <div class="history-info">{{ item.total_charge }} kWh</div>
+            <div class="history-label">Energy added</div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="item.total_cost">
+          <div class="item-container">
+            <div class="history-info">$ {{ item.total_cost }}</div>
+            <div class="history-label">Charging cost</div>
+          </div>
+        </ng-container>
+        <div class="item-container">
+          <ng-container *ngIf="item.policy_id === 1">
+            <div class="history-info">{{ item.co2_savings }}</div>
+          </ng-container>
+          <ng-container *ngIf="item.policy_id === 2">
+            <div class="history-info">{{ item.monetary_savings }}</div>
+          </ng-container>
+          <div class="history-label">Total saving</div>
         </div>
-        <div class="history-label">
-          Device
+        <div class="item-container margin-right-60">
+          <div class="history-info">{{ policiesService?.policies[item.policy_id]?.name  }}</div>
+          <div class="history-label">Policy</div>
         </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          60 kWh
-        </div>
-        <div class="history-label">
-          Battery capacity
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          7 %
-        </div>
-        <div class="history-label">
-          Initial SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          26 %
-        </div>
-        <div class="history-label">
-          Final SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          1043 kWh
-        </div>
-        <div class="history-label">
-          Energy added
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 435
-        </div>
-        <div class="history-label">
-          Charging cost
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 123
-        </div>
-        <div class="history-label">
-          Total saving
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          ToU
-        </div>
-        <div class="history-label">
-          Policy
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          01/12/20, 11:30pm
-        </div>
-        <div class="history-label margin-right-60">
-          Start session
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          2 h 10 min
-        </div>
-        <div class="history-label">
-          Duration
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          CHR
-        </div>
-        <div class="history-label">
-          Location
-        </div>
-
+        <ng-container *ngIf="item.start_time">
+          <div class="item-container margin-right-60">
+            <div class="history-info">{{ item.start_time }}</div>
+            <div class="history-label margin-right-60">Start session</div>
+          </div>
+        </ng-container>
       </div>
     </div>
-  </div>
-  <div class="history-container">
-    <div class="history-item">
-      <div class="item-container">
-        <div class="history-info">
-          CHR
-        </div>
-        <div class="history-label">
-          Schedule
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          Tesla Model X
-        </div>
-        <div class="history-label">
-          Device
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          60 kWh
-        </div>
-        <div class="history-label">
-          Battery capacity
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          7 %
-        </div>
-        <div class="history-label">
-          Initial SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          26 %
-        </div>
-        <div class="history-label">
-          Final SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          1043 kWh
-        </div>
-        <div class="history-label">
-          Energy added
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 435
-        </div>
-        <div class="history-label">
-          Charging cost
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 123
-        </div>
-        <div class="history-label">
-          Total saving
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          ToU
-        </div>
-        <div class="history-label">
-          Policy
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          01/12/20, 11:30pm
-        </div>
-        <div class="history-label margin-right-60">
-          Start session
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          2 h 10 min
-        </div>
-        <div class="history-label">
-          Duration
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          CHR
-        </div>
-        <div class="history-label">
-          Location
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="history-container">
-    <div class="history-item">
-      <div class="item-container">
-        <div class="history-info">
-          CHR
-        </div>
-        <div class="history-label">
-          Schedule
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          Tesla Model X
-        </div>
-        <div class="history-label">
-          Device
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          60 kWh
-        </div>
-        <div class="history-label">
-          Battery capacity
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          7 %
-        </div>
-        <div class="history-label">
-          Initial SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          26 %
-        </div>
-        <div class="history-label">
-          Final SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          1043 kWh
-        </div>
-        <div class="history-label">
-          Energy added
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 435
-        </div>
-        <div class="history-label">
-          Charging cost
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 123
-        </div>
-        <div class="history-label">
-          Total saving
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          ToU
-        </div>
-        <div class="history-label">
-          Policy
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          01/12/20, 11:30pm
-        </div>
-        <div class="history-label margin-right-60">
-          Start session
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          2 h 10 min
-        </div>
-        <div class="history-label">
-          Duration
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          CHR
-        </div>
-        <div class="history-label">
-          Location
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="history-container">
-    <div class="history-item">
-      <div class="item-container">
-        <div class="history-info">
-          CHR
-        </div>
-        <div class="history-label">
-          Schedule
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          Tesla Model X
-        </div>
-        <div class="history-label">
-          Device
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          60 kWh
-        </div>
-        <div class="history-label">
-          Battery capacity
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          7 %
-        </div>
-        <div class="history-label">
-          Initial SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          26 %
-        </div>
-        <div class="history-label">
-          Final SOC
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          1043 kWh
-        </div>
-        <div class="history-label">
-          Energy added
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 435
-        </div>
-        <div class="history-label">
-          Charging cost
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          $ 123
-        </div>
-        <div class="history-label">
-          Total saving
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          ToU
-        </div>
-        <div class="history-label">
-          Policy
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          01/12/20, 11:30pm
-        </div>
-        <div class="history-label margin-right-60">
-          Start session
-        </div>
-
-      </div>
-      <div class="item-container margin-right-60">
-        <div class="history-info">
-          2 h 10 min
-        </div>
-        <div class="history-label">
-          Duration
-        </div>
-
-      </div>
-      <div class="item-container">
-        <div class="history-info">
-          CHR
-        </div>
-        <div class="history-label">
-          Location
-        </div>
-
-      </div>
-    </div>
-  </div>
+  </ng-container>
 </div>
