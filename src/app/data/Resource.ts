@@ -11,5 +11,6 @@ policyId: number
 power: any;
 resourceTypeId: number
 status?: any
-vendor: string
+vendor: string,
+chargeby_time: number
 }
