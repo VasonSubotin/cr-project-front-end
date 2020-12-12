@@ -562,3 +562,11 @@ body {
   width: 133px;
   height: 107px
 }
+
+.mat-tab-body-content{
+  overflow-y: hidden !important;
+}
+
+html {
+  overflow-y: auto;
+}

@@ -52,11 +52,14 @@ export class ResourceComponent implements OnInit {
 
   ngOnInit(): void {
     this.policiesService.getPoliciesList();
+         
+   
 
     this.activatedRoute.paramMap.subscribe(res => {
       this.idResource = +res.get('idResource');
       const carId: number  = Number(localStorage.getItem('carId'));
       this.loadCalcGeo();
+      this.loadChargeSchedule();
       //this.loadDrivingSchedule();
 
       if (carId === this.idResource && this.idResource > 0) {
@@ -87,6 +90,7 @@ export class ResourceComponent implements OnInit {
         
           this.resource = res.smResource;
           this.favoritePolices[this.resource.policyId - 1].active = true;
+     
           //this.selectedTab = res.smartCarInfo?.charge?.data?.isPluggedIn === 'true' ? 1 : 0;
           //this.selectedTab === 1 ? this.loadChargeSchedule() : this.loadDrivingSchedule();
           if(this.resourceSmartCar && this.resourceSmartCar.location) {
@@ -154,7 +158,7 @@ export class ResourceComponent implements OnInit {
       }
     })
   }
-
+  
   loadChart() {
     if (!this.loadChartFlag) {
       this.loadChartFlag = !this.loadChartFlag;

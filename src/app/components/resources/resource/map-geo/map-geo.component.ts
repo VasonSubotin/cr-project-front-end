@@ -25,7 +25,6 @@ export class MapGeoComponent implements OnInit, OnChanges {
         to: 1,
       },
     },
-
     isZoomEnabled: true,
     showsZoomControl: true,
     showsUserLocationControl: true,
@@ -119,6 +118,7 @@ export class MapGeoComponent implements OnInit, OnChanges {
       return {
         ...item,
         options: {
+          
           title: item.name,
           animates: true,
           selected: index === 0,
