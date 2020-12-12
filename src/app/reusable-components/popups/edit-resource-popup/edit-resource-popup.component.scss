@@ -1,3 +1,4 @@
+@import "../../../scss/constants.scss";
 .popup-container {
   justify-content: end;
   align-content: center;
@@ -19,10 +20,7 @@
   top: 14px
 }
 
-.footer-button {
-  width: 450px !important;
-  height: 56px !important;
-}
+
 
 .checkbox-container {
   display: flex;
@@ -33,7 +31,7 @@
   margin-left: 10px;
 }
 
-@import "../../../scss/constants.scss";
+
 
 .modal-title {
   font-style: normal;

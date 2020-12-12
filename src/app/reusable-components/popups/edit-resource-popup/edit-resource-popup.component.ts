@@ -118,7 +118,6 @@ export class EditResourcePopupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.myGroup);
     this.updateResource();
     this.updateTOU();
   }
