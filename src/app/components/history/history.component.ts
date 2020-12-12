@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { HistoryService } from 'src/app/services/history.service';
+import { PoliciesService } from 'src/app/services/policies.service';
 
 
 @Component({
@@ -10,11 +11,17 @@ import { HistoryService } from 'src/app/services/history.service';
 
 
 export class HistoryComponent implements OnInit {
-  constructor(private _historyService: HistoryService) {
+  constructor(public historyService: HistoryService, 
+    public policiesService: PoliciesService) {
   }
   ngOnInit(): void {
-    this._historyService.getHistoryList();
-    
+    this.historyService.getHistoryList();
+    this.policiesService.getPoliciesList();
+  }
+
+  getInitialSOC(initial_energy: number,  capacity: number) {
+    return initial_energy/capacity;
+
   }
 
 }
