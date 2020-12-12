@@ -21,8 +21,7 @@ export class EditResourcePopupComponent implements OnInit {
   isTous = false;
   defaultInputSwitcher = false;
 
-
-  myGroup = new FormGroup({
+  myGroup =  new FormGroup({
     duration: new FormControl(0),
     policy: new FormControl('0'),
     from: new FormControl(new Date()),    
@@ -38,7 +37,7 @@ export class EditResourcePopupComponent implements OnInit {
               public policiesService: PoliciesService
 
   ) {
-  
+
   }
 
   @ViewChild("pickerFrom", {static: false}) pickerFrom: ElementRef;
@@ -49,12 +48,22 @@ export class EditResourcePopupComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.timeOfUse(this.resource.idResource).subscribe(((res: {start: string, stop: string}) => {
+    this.authService.timeOfUse(this.resource.idResource).subscribe(((res: {start: number, stop: number}) => {
           if (res) {
             this.isTous = true;
 
-            this.myGroup.controls["from"].setValue(new Date(res.start));
-            this.myGroup.controls["to"].setValue(new Date(res.stop));
+            const start = res.start;
+            const from = new Date();
+            from.setHours(Math.floor(start / 60));
+            from.setMinutes(start % 60);
+            
+            const stop = res.stop;
+            const to = new Date();
+            from.setHours(Math.floor(stop / 60));
+            from.setMinutes(stop % 60);
+
+            this.myGroup.controls["from"].setValue(from);
+            this.myGroup.controls["to"].setValue(to);
             
    
           }
@@ -102,7 +111,14 @@ export class EditResourcePopupComponent implements OnInit {
   }
 
   updateTOU() {
-      this.authService.putTimeOfUse(this.resource.idResource, this.myGroup.value.from.getTime(), this.myGroup.value.to.getTime()).subscribe((res) => {
+    const start = this.myGroup.value.from.getHours() * 60 + this.myGroup.value.from.getMinutes();
+    let stop = this.myGroup.value.to.getHours() * 60 + this.myGroup.value.to.getMinutes();
+
+    if(stop < start) {
+      stop = start;
+    }
+
+      this.authService.putTimeOfUse(this.resource.idResource, start, stop).subscribe((res) => {
         console.log(res)
       })
 
