@@ -57,13 +57,13 @@ export class EditResourcePopupComponent implements OnInit {
 
           const start = res.start;
           const from = new Date();
-          from.setHours(Math.floor(start / 60));
+          from.setHours(Math.floor(res.start / 60));
           from.setMinutes(start % 60);
 
           const stop = res.stop;
           const to = new Date();
-          from.setHours(Math.floor(stop / 60));
-          from.setMinutes(stop % 60);
+          to.setHours(Math.floor(stop / 60));
+          to.setMinutes(stop % 60);
 
           this.myGroup.controls['from'].setValue(from);
           this.myGroup.controls['to'].setValue(to);
