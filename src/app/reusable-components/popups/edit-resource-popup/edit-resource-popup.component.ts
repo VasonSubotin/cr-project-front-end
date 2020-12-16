@@ -20,7 +20,7 @@ import { Resource } from 'src/app/data/Resource';
 })
 export class EditResourcePopupComponent implements OnInit {
   tou = {};
-  tosSwitcher = true;
+  tosSwitcher = false;
   periodFrom = 0;
   duration = 0;
   isTous = false;
