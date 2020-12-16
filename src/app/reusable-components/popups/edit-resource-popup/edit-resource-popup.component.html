@@ -17,6 +17,14 @@
         width="450"
       />
     </div>
+
+    <form
+      #form
+      class="login-form flex-block flex-block--center flex-block--column"
+      [formGroup]="myGroup"
+      (ngSubmit)="onSubmit()"
+    >
+
     <div class="flex-block flex-block--space-between">
       <div class="title-font modal-title">Time of use period</div>
       <div class="checkbox-container">
@@ -24,12 +32,7 @@
         <input (change)="useTos()" [checked]="!tosSwitcher" type="checkbox" />
       </div>
     </div>
-    <form
-      #form
-      class="login-form flex-block flex-block--center flex-block--column"
-      [formGroup]="myGroup"
-      (ngSubmit)="onSubmit()"
-    >
+    
       <div class="time">
         <label>
           <input
@@ -60,8 +63,6 @@
         [compareWith]="compareWithFunc"
         class="edit-select"
       >
-    
-      
         <option
         *ngFor="let policy of policiesService?.policies"
         [value]="policy.idPolicy"

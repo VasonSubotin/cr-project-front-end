@@ -144,7 +144,7 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tou`, _options);
   }
 
-  postTimeOfUse(idResource, periodFrom, periodTo) {
+  postTimeOfUse(idResource, periodFrom, periodTo, active) {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -154,12 +154,13 @@ export class AuthService {
     const body = {
       resourceId: idResource,
       start: periodFrom,
-      stop: periodTo
+      stop: periodTo,
+      active
     };
     return this.http.post(`${this.apiConstants.apiUrl}tous`, body, _options);
   }
 
-  putTimeOfUse(idResource, periodFrom, periodTo) {
+  putTimeOfUse(idResource, periodFrom, periodTo, active) {
     const _options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -168,7 +169,8 @@ export class AuthService {
     };
     const body = {
       start: periodFrom,
-      stop: periodTo
+      stop: periodTo,
+      active
     };
     return this.http.put(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/tou`, body, _options);
   }

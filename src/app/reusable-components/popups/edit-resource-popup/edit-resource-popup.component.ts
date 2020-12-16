@@ -31,6 +31,7 @@ export class EditResourcePopupComponent implements OnInit {
     policy: new FormControl('0'),
     from: new FormControl(new Date()),
     to: new FormControl(new Date()),
+    active: new FormControl(false)
   });
 
   constructor(
@@ -43,10 +44,6 @@ export class EditResourcePopupComponent implements OnInit {
     public policiesService: PoliciesService
   ) {}
 
-  @ViewChild('pickerFrom', { static: false }) pickerFrom: ElementRef;
-  @ViewChild('pickerTo', { static: false }) pickerTo: ElementRef;
-  @ViewChild('pickerToInput', { static: false }) pickerToInput: ElementRef;
-  @ViewChild('pickerFromInput', { static: false }) pickerFromInput: ElementRef;
 
   ngOnInit(): void {
     this.authService
@@ -92,6 +89,7 @@ export class EditResourcePopupComponent implements OnInit {
 
   useTos() {
     this.tosSwitcher = !this.tosSwitcher;
+
   }
 
   closeEvent() {
@@ -112,13 +110,13 @@ export class EditResourcePopupComponent implements OnInit {
 
     if(this.isTous) {
       this.authService
-      .putTimeOfUse(this.resource.idResource, start, stop)
+      .putTimeOfUse(this.resource.idResource, start, stop, this.tosSwitcher)
       .subscribe((res) => {
         console.log(res);
       });
     } else {
       this.authService
-      .postTimeOfUse(this.resource.idResource, start, stop)
+      .postTimeOfUse(this.resource.idResource, start, stop, this.tosSwitcher)
       .subscribe((res) => {
         console.log(res);
       });
