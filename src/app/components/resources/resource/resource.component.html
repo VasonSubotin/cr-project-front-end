@@ -183,7 +183,7 @@
                         Policy:
                       </div>
                       <div class="event-value">
-                        {{ eventInterval.duration }}
+                        {{ policiesService?.policies ? policiesService?.policies[policyId - 1]?.name : "" }}
                       </div>
                     </div>
                     <div class="event-row">
@@ -195,7 +195,7 @@
                         />
                         Energy needed:
                       </div>
-                      <div class="event-value">{{ eventInterval.energy }}</div>
+                      <div class="event-value">{{ eventInterval.energy }} Wh</div>
                     </div>
                     <div class="event-row">
                       <div class="event-title">

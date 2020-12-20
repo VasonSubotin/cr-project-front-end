@@ -20,7 +20,7 @@ export class ResourceComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private authService: AuthService,
               private matDialog: MatDialog,
-              private policiesService: PoliciesService) {}
+              public policiesService: PoliciesService) {}
 
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
   @ViewChild('progressBar') progressBar: ElementRef;
@@ -37,7 +37,7 @@ export class ResourceComponent implements OnInit {
   favoritePolice;
   useCalendarFlag: boolean;
   loadChartFlag: boolean;
-  policyId = 1;
+  policyId = 2;
   
   openInfoWindow(marker: MapMarker) {
     this.infoWindow.open(marker);
@@ -134,7 +134,8 @@ export class ResourceComponent implements OnInit {
       if (res) {
         localStorage.setItem('schedule', JSON.stringify(res.intervals));
         this.loaderState = false;
-        this.intervals = res.intervals
+        this.intervals = res.intervals;
+        this.policyId = res.policyId;
       }
     })
   }
@@ -144,11 +145,14 @@ export class ResourceComponent implements OnInit {
     this.authService.calculateGeo(this.idResource).subscribe((res: any) => {
       this.loaderStateGeo = false;
       if(res.intervals) {
+
         console.log("loadCalcGeo", res.intervals);
         this.intervals = res.intervals;
         this.station_locations = res.intervals[0].station_locations;
+        this.policyId = res.policy_id;
         localStorage.setItem('station_locations', JSON.stringify(this.station_locations));
         localStorage.setItem('intervals', JSON.stringify(this.intervals));
+        localStorage.setItem('policyId', JSON.stringify(this.policyId));
       }
     })
   }
