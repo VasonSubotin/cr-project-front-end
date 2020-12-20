@@ -48,8 +48,9 @@ export class EditResourcePopupComponent implements OnInit {
   ngOnInit(): void {
     this.authService
       .timeOfUse(this.resource.idResource)
-      .subscribe((res: { start: number; stop: number }) => {
+      .subscribe((res: { start: number; stop: number, active: boolean }) => {
         if (res) {
+          this.tosSwitcher = res.active;
           this.isTous = true;
 
           const start = res.start;
