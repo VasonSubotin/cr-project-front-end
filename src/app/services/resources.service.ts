@@ -16,6 +16,7 @@ export class ResourcesService {
     return this.http.get(`${request.apiUrl}${request.resources}/stateInfo`, _options);
   }
 
+
   getResourcesFast() {
     const _options = {
       headers: new HttpHeaders({
@@ -25,6 +26,7 @@ export class ResourcesService {
     };
     return this.http.get(`${request.apiUrl}${request.resources}`, _options);
   }
+
 }
 
 

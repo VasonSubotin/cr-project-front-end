@@ -53,4 +53,15 @@ export class RegistrationService {
       }))
       
   }
+
+  checkAccount() {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    return this.http.get(`${request.apiUrl}needInitGoogleSession`, _options)
+      
+  }
 }

@@ -3,21 +3,18 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {AuthService} from "../../../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PoliciesService} from "../../../../services/policies.service";
+import { RegistrationService } from "src/app/services/registration.service";
 
 @Component({
   selector: 'app-request-popup',
-  templateUrl: './request-popup.component.html'
+  templateUrl: './request-popup.component.html',
+  styleUrls: ['./request-popup.component.scss']
 })
-
 
 export class RequestPopupComponent implements OnInit {
   successSync = false;
   idResource;
-  policyForSelect: any = [
-    {value: 0, name: 'green policy. (optimized to CO2 marginal emission)'},
-    {value: 1, name: 'monetary policy (optimized to energy market pricing)'},
-    {value: 2, name: 'CO2 - Minimize CO2 emission'}
-  ];
+
   driveSchedule = JSON.parse(localStorage.getItem('driveSchedule')) || [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public resource,
@@ -25,6 +22,7 @@ export class RequestPopupComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
+              private _registrationService: RegistrationService,
               public policiesService: PoliciesService) {
   }
 
@@ -37,6 +35,21 @@ export class RequestPopupComponent implements OnInit {
   }
 
   syncWidthCalendar() {
+
+    this._registrationService.checkAccount().subscribe(res => {
+      console.log(res);
+    })
+
+    console.log("e");
+    const requestGoogle$ = this._registrationService
+    .googleLogin()
+    .pipe()
+    .subscribe(res => {
+      console.log("res", res);
+      //this._registrationService.googleAuthenticate()
+    });
+
+/*
     this.successSync = !this.successSync;
     this.authService.getDrivingScheduleById(this.idResource).subscribe(res => {
         if (res) {
@@ -47,7 +60,7 @@ export class RequestPopupComponent implements OnInit {
           localStorage.setItem('driveSchedule', JSON.stringify(res));
         }
       }
-    )
+    )*/
   }
 
   addNewInterval() {
