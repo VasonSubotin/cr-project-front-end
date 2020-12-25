@@ -61,7 +61,7 @@ export class RegistrationService {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
     };
-    return this.http.get(`${request.apiUrl}needInitGoogleSession`, _options)
+    return this.http.post(`${request.apiUrl}needInitGoogleSession`,{}, _options)
       
   }
 }

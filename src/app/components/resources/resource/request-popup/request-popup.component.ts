@@ -36,6 +36,9 @@ export class RequestPopupComponent implements OnInit {
 
   syncWidthCalendar() {
 
+    this.authService.needInitSmartCarSession().subscribe(res => {
+      console.log(res);
+    })
     this._registrationService.checkAccount().subscribe(res => {
       console.log(res);
     })
@@ -49,7 +52,7 @@ export class RequestPopupComponent implements OnInit {
       //this._registrationService.googleAuthenticate()
     });
 
-/*
+
     this.successSync = !this.successSync;
     this.authService.getDrivingScheduleById(this.idResource).subscribe(res => {
         if (res) {
@@ -60,7 +63,7 @@ export class RequestPopupComponent implements OnInit {
           localStorage.setItem('driveSchedule', JSON.stringify(res));
         }
       }
-    )*/
+    )
   }
 
   addNewInterval() {

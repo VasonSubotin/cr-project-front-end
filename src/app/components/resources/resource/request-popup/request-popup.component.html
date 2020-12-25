@@ -66,10 +66,13 @@
       <div class="event-item">
         <div class="flex-block flex-block--column width-450">
 
-          <div class="input-container width-450">
-            <div class="input-label">Destination address</div>
-            <input class="input-system" [placeholder]="driveItem?.calendar_location?.address">
-          </div>
+          <ng-container *ngIf="driveItem && driveItem.calendar_location">
+            <div class="input-container width-450">
+              <div class="input-label">Destination address</div>
+              <input class="input-system" [value]="driveItem?.calendar_location?.address">
+            </div>
+          </ng-container>
+         
           <div class="select-container margin-top-25">
             <div class="input-label">Policy</div>
             <select class="input-system" disabled >
@@ -87,10 +90,13 @@
             </div>
           </div>
 
-          <div class="charg-station margin-top-22">
-            <div class="charg-station-title">Charging Station: </div>
-            <div class="charg-station-value">{{driveItem?.station_locations[i].address}}</div>
-          </div>
+          <ng-container *ngIf="driveItem && driveItem?.station_locations && driveItem?.station_locations[i]">
+            <div class="charg-station margin-top-22">
+              <div class="charg-station-title">Charging Station: </div>
+              <div class="charg-station-value">{{driveItem?.station_locations[i].address}}</div>
+            </div>
+          </ng-container>
+          
         </div>
         <div class="flex-block flex-block--column width-450 map-container">
 
