@@ -27,7 +27,7 @@ export class RequestPopupComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.idResource = this.router.url.split("/")[2];
+    this.idResource = this.resource.idResource;
   }
 
   closeEvent() {
@@ -76,7 +76,14 @@ export class RequestPopupComponent implements OnInit {
 
   createRequest() {
     this.authService.putScheduleById(this.idResource, this.driveSchedule).subscribe((res) => {
-      console.log(res)
+
+      const urlTree = this.router.createUrlTree([], {
+        queryParams: { sh: "driving"  },
+        queryParamsHandling: "merge",
+        preserveFragment: true });
+        console.log(urlTree);
+      this.router.navigateByUrl(urlTree); 
+
     });
     this.closeEvent();
   }

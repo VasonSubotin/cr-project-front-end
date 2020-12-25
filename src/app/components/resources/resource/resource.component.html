@@ -183,7 +183,7 @@
                         Policy:
                       </div>
                       <div class="event-value">
-                        {{ policiesService?.policies ? policiesService?.policies[policyId - 1]?.name : "" }}
+                        {{ policiesService?.policies ? policiesService?.policies[policyId - 1]?.name : policyId }}
                       </div>
                     </div>
                     <div class="event-row">
@@ -226,7 +226,10 @@
                         />Stations address:
                       </div>
                       <div class="event-value">
-                        {{ eventInterval.station_locations[0].address }}
+                        <ng-container *ngIf="eventInterval.station_locations[0]">
+                          {{ eventInterval.station_locations[0].address }}
+                        </ng-container>
+                      
                       </div>
                     </div>
                   </div>

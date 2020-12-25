@@ -24,6 +24,7 @@ export class ResourceComponent implements OnInit {
 
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
   @ViewChild('progressBar') progressBar: ElementRef;
+  sh: undefined | string = undefined;
   loaderState = false;
   loaderStateGeo = false;
   selectedTab = 0;
@@ -51,11 +52,28 @@ export class ResourceComponent implements OnInit {
    
 
     this.activatedRoute.paramMap.subscribe(res => {
+     
       this.idResource = +res.get('idResource');
       const carId: number  = Number(localStorage.getItem('carId'));
-      this.loadCalcGeo();
-      this.loadChargeSchedule();
-      //this.loadDrivingSchedule();
+      this.activatedRoute.queryParams.subscribe(res => {
+        console.log("res", res);
+        this.sh = res.sh;
+        console.log('sh', this.sh);
+        switch (this.sh) {
+          case "driving":
+            this.loadDrivingSchedule();
+            break;
+          case "charge":
+              this.loadChargeSchedule();
+              break;
+        
+          default:
+            this.loadCalcGeo();
+            break;
+        }
+
+      })
+    
 
       if (carId === this.idResource && this.idResource > 0) {
  
@@ -135,7 +153,7 @@ export class ResourceComponent implements OnInit {
         localStorage.setItem('schedule', JSON.stringify(res.intervals));
         this.loaderState = false;
         this.intervals = res.intervals;
-        this.policyId = res.policyId;
+        this.policyId = res.policy_id;
       }
     })
   }

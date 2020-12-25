@@ -107,7 +107,7 @@ export class AuthService {
 
       })
     };
-    return this.http.get(`${this.apiConstants.apiUrl}${this.apiConstants.resources}/${idResource}/drivingSchedule`, _options);
+    return this.http.get(`${this.apiConstants.apiUrl}resources/${idResource}/drivingSchedule`, _options);
   }
 
   calculateGeo(idResource) {
