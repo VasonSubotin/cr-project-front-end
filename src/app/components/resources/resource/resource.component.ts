@@ -142,7 +142,7 @@ export class ResourceComponent implements OnInit {
   }
 
   loadDrivingSchedule() {
-    this.authService.getDrivingScheduleById(this.idResource).pipe
+    this.authService.getScheduleById(this.idResource, "DVR").pipe
     (
       (catchError(err => {
         localStorage.removeItem('station_locations');
@@ -192,12 +192,16 @@ export class ResourceComponent implements OnInit {
   }
 
   openRequestModal() {
+
     if (this.selectedTab === 1) {
       this.selectedTab = 1;
       return
     }
     const dialogConf: any = {
-      data: this.resource, panelClass: 'create-request-dialog', closeOnNavigation: true, autoFocus: false
+      data: {
+        resource: this.resource,
+        id: this.idResource
+      }, panelClass: 'create-request-dialog', closeOnNavigation: true, autoFocus: false
     };
     const dialogRef = this.matDialog.open(RequestPopupComponent, dialogConf);
     dialogRef.afterClosed().subscribe(
