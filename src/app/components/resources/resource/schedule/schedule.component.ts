@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import {AuthService} from '../../../../services/auth.service';
 import {LineConfigModel, LineValuesModel} from './line-chart/charts.model';
 import {COLORS_MAP, HOUR_IN_MILLISECONDS} from './line-chart/line-chart.config';
-import {CHARGE_SCHEDULE} from './line-chart-data';
 
 @Component({
   selector: 'app-schedule',
@@ -29,6 +28,9 @@ export class ScheduleComponent implements OnInit {
   };
   @Input() battery: any;
   @Input() intervals: any;
+  @Input() initial_energy: number;
+  @Input() capacity: number;
+  @Input() moers: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private authService: AuthService) {
@@ -60,7 +62,7 @@ export class ScheduleComponent implements OnInit {
 
   public convertData(): number[] {
     const arrayMinutes = [];
-    for (let mSecond = CHARGE_SCHEDULE.moers.start; mSecond < CHARGE_SCHEDULE.moers.stop; mSecond = mSecond + HOUR_IN_MILLISECONDS) {
+    for (let mSecond = this.moers.start; mSecond < this.moers.stop; mSecond = mSecond + HOUR_IN_MILLISECONDS) {
       arrayMinutes.push(moment(mSecond).format('LT'));
     }
     return arrayMinutes;
@@ -68,7 +70,7 @@ export class ScheduleComponent implements OnInit {
 
   public generatePower(): number[][] {
     const powerArray = [];
-    CHARGE_SCHEDULE.intervals.map(item => {
+    this.intervals.map(item => {
       powerArray.push([+new Date(item.time_start), null]);
       powerArray.push([+new Date(item.time_start), 0]);
       powerArray.push([+new Date(item.time_start), item.power]);
@@ -81,23 +83,25 @@ export class ScheduleComponent implements OnInit {
 
   public generateSOC(): number[][] {
     const costSoc = [];
-    CHARGE_SCHEDULE.intervals[0].energy = CHARGE_SCHEDULE.intervals[0].energy + (CHARGE_SCHEDULE.initial_energy);
-    CHARGE_SCHEDULE.intervals.map((item, index, array): any => {
+    this.intervals[0].energy = this.intervals[0].energy + (this.initial_energy);
+    this.intervals.map((item, index, array): any => {
       if (index !== 0) {
         item.energy = item.energy + array[index - 1].energy;
       }
-      costSoc.push([+new Date(item.time_start), (item.energy / CHARGE_SCHEDULE.capacity) * 100]);
+      costSoc.push([+new Date(item.time_start), (item.energy / this.capacity) * 100]);
     });
     return costSoc;
   }
 
   public generateMoers(): number[][] {
     let moers = [];
-    let date =  CHARGE_SCHEDULE.moers.start;
-    CHARGE_SCHEDULE.moers.values.forEach( value => {
-      moers.push([date, value / 1000]);
-      date = date + (1000 * 60 * 5);
-    });
+    let date = this.moers.start;
+    if(this.moers.values) {
+      this.moers.values.forEach(value => {
+        moers.push([date, value / 1000]);
+        date = date + (1000 * 60 * 5);
+      });
+    }
     return moers;
   }
 }

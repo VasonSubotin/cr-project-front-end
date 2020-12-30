@@ -94,7 +94,7 @@ export class MapGeoComponent implements OnInit, OnChanges {
 
   initMapData(mapData) {
     console.log("mapData initLocations", mapData);
-    if(mapData[0]) {
+    if(mapData && mapData[0]) {
       this.settings.region.center = {
         latitude: mapData[0].latitude,
         longitude: mapData[0].longitude

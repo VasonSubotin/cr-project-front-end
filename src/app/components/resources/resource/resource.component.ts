@@ -18,6 +18,7 @@ import {PoliciesService} from "../../../services/policies.service";
 
 export class ResourceComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
               private authService: AuthService,
               private matDialog: MatDialog,
               public policiesService: PoliciesService) {}
@@ -27,12 +28,14 @@ export class ResourceComponent implements OnInit {
   sh: undefined | string = undefined;
   loaderState = false;
   loaderStateGeo = false;
-  selectedTab = 0;
+  selectedTab;
 
   resource;
   station_locations = [];
   resourceSmartCar: any = {};
   intervals = [];
+  moers: any;
+  initial_energy: number;
 
   idResource: number;
   favoritePolice;
@@ -49,8 +52,7 @@ export class ResourceComponent implements OnInit {
   ngOnInit(): void {
     this.policiesService.getPoliciesList();
          
-   
-
+  
     this.activatedRoute.paramMap.subscribe(res => {
      
       this.idResource = +res.get('idResource');
@@ -58,13 +60,14 @@ export class ResourceComponent implements OnInit {
       this.activatedRoute.queryParams.subscribe(res => {
         console.log("res", res);
         this.sh = res.sh;
-        console.log('sh', this.sh);
         switch (this.sh) {
           case "driving":
             this.loadDrivingSchedule();
+            this.selectedTab = 0;
             break;
           case "charge":
               this.loadChargeSchedule();
+              this.selectedTab = 1;
               break;
         
           default:
@@ -126,13 +129,16 @@ export class ResourceComponent implements OnInit {
   }
 
   loadChargeSchedule() {
-    this.authService.calculateCharing(this.idResource).pipe(tap((res: any) => {
+    this.authService.getScheduleById(this.idResource, "CHR").pipe( tap((res: any) => {
+    //this.authService.calculateCharing(this.idResource).pipe(tap((res: any) => {
       if (res.status === 500) {
         this.loaderState = false;
         this.authService.getScheduleById(this.idResource, 'CHR').subscribe((res: any) => {
           if (res) {
             this.intervals = res.intervals;
             this.loaderState = false;
+            this.moers = res.moers;
+            this.initial_energy = res.initial_energy; 
           }
         })
       }
@@ -142,7 +148,7 @@ export class ResourceComponent implements OnInit {
   }
 
   loadDrivingSchedule() {
-    this.authService.getScheduleById(this.idResource, "DVR").pipe
+    this.authService.getScheduleById(this.idResource, "DRV").pipe
     (
       (catchError(err => {
         localStorage.removeItem('station_locations');
@@ -154,6 +160,7 @@ export class ResourceComponent implements OnInit {
         this.loaderState = false;
         this.intervals = res.intervals;
         this.policyId = res.policy_id;
+      
       }
     })
   }
@@ -175,10 +182,32 @@ export class ResourceComponent implements OnInit {
     })
   }
   
-  loadChart() {
+  loadChart(selectedTab: number) {
+    this.selectedTab = selectedTab;
+    console.log(selectedTab);
+    if(selectedTab == 1) {
+      //this.loadChargeSchedule();
+      const urlTree = this.router.createUrlTree([], {
+        queryParams: { sh: "charge"  },
+        queryParamsHandling: "merge",
+        preserveFragment: true });
+        console.log(urlTree);
+      this.router.navigateByUrl(urlTree); 
+    }
+    if(selectedTab == 0) {
+      //this.loadDrivingSchedule();
+      const urlTree = this.router.createUrlTree([], {
+        queryParams: { sh: "driving"  },
+        queryParamsHandling: "merge",
+        preserveFragment: true });
+        console.log(urlTree);
+      this.router.navigateByUrl(urlTree); 
+    }
     if (!this.loadChartFlag) {
       this.loadChartFlag = !this.loadChartFlag;
     }
+    
+   
   }
 
 
@@ -205,9 +234,8 @@ export class ResourceComponent implements OnInit {
     };
     const dialogRef = this.matDialog.open(RequestPopupComponent, dialogConf);
     dialogRef.afterClosed().subscribe(
-      unixEvent => {
-        if (unixEvent) {
-        }
+      () => {
+       this.loadDrivingSchedule();
       }
     );
   }
@@ -229,4 +257,6 @@ export class ResourceComponent implements OnInit {
     }
     return "";
   }
+
+
 }

@@ -45,7 +45,7 @@
 
   <mat-tab-group
     animationDuration="0ms"
-    (click)="loadChart()"
+    (click)="loadChart(selectedTab)"
     [(selectedIndex)]="selectedTab"
   >
     <ng-template #emptyState>
@@ -246,10 +246,15 @@
           <app-loader></app-loader>
         </div>
       </ng-container>
-      <app-schedule
+      <ng-container *ngIf="moers && initial_energy">
+        <app-schedule
         [battery]="resourceSmartCar?.battery?.percentRemaining"
         [intervals]="intervals"
+        [moers]="moers"
+        [initial_energy]="initial_energy"
       ></app-schedule>
+      </ng-container>
+     
 
       <!-- <ng-container *ngIf="!loaderState">
          <div class="schedule-container" *ngIf="selectedTab !== 1 else emptyState">

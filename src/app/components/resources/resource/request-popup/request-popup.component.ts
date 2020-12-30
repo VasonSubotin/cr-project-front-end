@@ -85,7 +85,7 @@ export class RequestPopupComponent implements OnInit {
 
   createRequest() {
     this.authService.putScheduleById(this.idResource, this.driveSchedule).pipe(  tap((res: any) => {
-      if (res.status === 200) {
+
         const urlTree = this.router.createUrlTree([], {
           queryParams: { sh: "driving"  },
           queryParamsHandling: "merge",
@@ -93,7 +93,7 @@ export class RequestPopupComponent implements OnInit {
           console.log(urlTree);
         this.router.navigateByUrl(urlTree); 
         this.closeEvent();
-      } 
+      
     }), catchError(({ error }: HttpErrorResponse) => {
       this._snackBar.openErrorSnackBar(error.message || "Something went wrong!");
       return of(error.message);
