@@ -85,12 +85,17 @@ export class ScheduleComponent implements OnInit {
 
   public generateSOC(): number[][] {
     const costSoc = [];
-    this.intervals[0].energy = this.intervals[0].energy + (this.initial_energy);
     this.intervals.map((item, index, array): any => {
-      if (index !== 0) {
-        item.energy = item.energy + array[index - 1].energy;
+      let startInterval = 0;
+      if(index === 0) {
+        startInterval += this.initial_energy;
       }
-      costSoc.push([+new Date(item.time_start), (item.energy / this.capacity) * 100]);
+      if (index !== 0) {
+        startInterval = array[index - 1].energy;
+      }
+      costSoc.push([+new Date(item.time_start), (startInterval/ this.capacity) * 100]);
+      item.energy += startInterval;
+      costSoc.push([+new Date(item.time_start) + item.duration, (item.energy/ this.capacity) * 100]);
     });
     return costSoc;
   }
