@@ -37,15 +37,17 @@ export class ScheduleComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const data = this.convertData();
-
-    this.schedulePerformanceValues = [{
+    //const data = this.convertData();
+/**
+ * {
       label: 'CO2 emission',
       color: COLORS_MAP.ORANGE,
       type: 'line',
       data: this.generateMoers().sort((a, b) => a[0] - b[0]),
       axis: 0
-    }, {
+    }, 
+ */
+    this.schedulePerformanceValues = [{
       label: 'SOC',
       color: COLORS_MAP.BLUE,
       type: 'line',
@@ -95,13 +97,15 @@ export class ScheduleComponent implements OnInit {
 
   public generateMoers(): number[][] {
     let moers = [];
-    let date = this.moers.start;
-    if(this.moers.values) {
-      this.moers.values.forEach(value => {
-        moers.push([date, value / 1000]);
-        date = date + (1000 * 60 * 5);
-      });
+    if(this.moers) {
+      let date = this.moers.start;
+        this.moers.values.forEach(value => {
+          moers.push([date, value / 1000]);
+          date = date + (1000 * 60 * 5);
+        });
+      
     }
+    
     return moers;
   }
 }

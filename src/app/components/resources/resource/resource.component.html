@@ -226,7 +226,7 @@
                         />Stations address:
                       </div>
                       <div class="event-value">
-                        <ng-container *ngIf="eventInterval.station_locations[0]">
+                        <ng-container *ngIf="eventInterval.station_locations && eventInterval.station_locations[0]">
                           {{ eventInterval.station_locations[0].address }}
                         </ng-container>
                       
@@ -246,12 +246,13 @@
           <app-loader></app-loader>
         </div>
       </ng-container>
-      <ng-container *ngIf="moers && initial_energy">
+      <ng-container *ngIf="initial_energy">
         <app-schedule
         [battery]="resourceSmartCar?.battery?.percentRemaining"
         [intervals]="intervals"
         [moers]="moers"
         [initial_energy]="initial_energy"
+        [capacity]="capacity"
       ></app-schedule>
       </ng-container>
      

@@ -36,6 +36,7 @@ export class ResourceComponent implements OnInit {
   intervals = [];
   moers: any;
   initial_energy: number;
+  capacity: number;
 
   idResource: number;
   favoritePolice;
@@ -131,17 +132,17 @@ export class ResourceComponent implements OnInit {
   loadChargeSchedule() {
     this.authService.getScheduleById(this.idResource, "CHR").pipe( tap((res: any) => {
     //this.authService.calculateCharing(this.idResource).pipe(tap((res: any) => {
-      if (res.status === 500) {
+      this.loaderState = false;
+      console.log("a", res);
+      if (res) {
+        this.intervals = res.intervals;
         this.loaderState = false;
-        this.authService.getScheduleById(this.idResource, 'CHR').subscribe((res: any) => {
-          if (res) {
-            this.intervals = res.intervals;
-            this.loaderState = false;
-            this.moers = res.moers;
-            this.initial_energy = res.initial_energy; 
-          }
-        })
+        this.moers = res.moers;
+        console.log("res", res);
+        this.initial_energy = res.initial_energy; 
+        this.capacity= res.capacity;
       }
+      
     })).subscribe(res => {
       this.loaderState = false;
     })
