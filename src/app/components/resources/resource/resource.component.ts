@@ -29,6 +29,7 @@ export class ResourceComponent implements OnInit {
   loaderState = false;
   loaderStateGeo = false;
   selectedTab;
+  loading: boolean = false;
 
   resource;
   station_locations = [];
@@ -72,7 +73,12 @@ export class ResourceComponent implements OnInit {
               break;
         
           default:
+            this.loading = false;
             this.loadCalcGeo();
+            if (carId === this.idResource && this.idResource > 0) {
+              this.station_locations = JSON.parse(localStorage.getItem('station_locations'));;
+            } 
+      
             break;
         }
 
@@ -83,7 +89,6 @@ export class ResourceComponent implements OnInit {
  
         this.resourceSmartCar = JSON.parse(localStorage.getItem('smartCarInfo')) || <any>{};
         this.intervals = JSON.parse(localStorage.getItem('intervals')) || [];
-        this.station_locations = JSON.parse(localStorage.getItem('station_locations'));;
       
       } 
 
@@ -149,6 +154,7 @@ export class ResourceComponent implements OnInit {
   }
 
   loadDrivingSchedule() {
+    this.loading = true;
     this.authService.getScheduleById(this.idResource, "DRV").pipe
     (
       (catchError(err => {
@@ -157,10 +163,18 @@ export class ResourceComponent implements OnInit {
         return throwError(err);
       }))).subscribe((res: any) => {
       if (res) {
+        this.loading = false;
         localStorage.setItem('schedule', JSON.stringify(res.intervals));
         this.loaderState = false;
         this.intervals = res.intervals;
         this.policyId = res.policy_id;
+        let station_locations = [];
+        res.intervals.forEach(element => {
+       
+          if(element.station_locations)
+          station_locations.push(element.station_locations[0]);
+        }); 
+        this.station_locations = station_locations;
       
       }
     })

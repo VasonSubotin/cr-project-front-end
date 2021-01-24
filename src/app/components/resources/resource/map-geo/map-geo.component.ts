@@ -9,6 +9,7 @@ import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/decla
 
 export class MapGeoComponent implements OnInit, OnChanges {
   @Input() mapData: any;
+  @Input() type: string;
   @Input() public locationData: any;
   latitude: 1;
   longitude: 1;
@@ -45,21 +46,18 @@ export class MapGeoComponent implements OnInit, OnChanges {
     JWT: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkY1NkJaNVdWU0cifQ.eyJpc3MiOiI4V1o5QkgzQVIzIiwiaWF0IjoxNjAyMTY4OTIwLCJleHAiOjE2MzY5ODgxMjB9.0TvY-zhIH_GJSwg7pjMlZlo8I1D9zai9gD9Qx-SweUJ68jmyuy2AXjP-mrF-Q4Is03IyqAdPTcjmo9Wf_dPK2w',
     callback: (data) => {
       console.log('data ', data);
-      // console.log('data ', data);
     }
   };
 
   ngOnChanges(changes: SimpleChanges): void {
 
    if (changes.mapData && changes.mapData.currentValue !== changes.mapData.previousValue) {
-    console.log("changes", changes);
-    this.initMapData(changes.mapData.currentValue);
+    this.initMapData(changes.mapData.currentValue); 
   }
 
   if(changes.locationData && changes.locationData.currentValue !== changes.locationData.previousValue) {
     this.initLocations(changes.locationData.currentValue)
   }
-  
   }
 
 
@@ -93,14 +91,15 @@ export class MapGeoComponent implements OnInit, OnChanges {
   }
 
   initMapData(mapData) {
-    console.log("mapData initLocations", mapData);
+  
     if(mapData && mapData[0]) {
       this.settings.region.center = {
         latitude: mapData[0].latitude,
         longitude: mapData[0].longitude
       };
-      const mapDataOptions = this.mapDataPrepareData(this.mapData);
+      const mapDataOptions = this.mapDataPrepareData(this.mapData, this.type === "driving" ? '#02A0FC':"#D3D4D4");
       mapDataOptions[0].options.color = '#02A0FC';
+      console.log("mapData initLocations", mapDataOptions);
       this.customAnnotation.push(...mapDataOptions);
   
       this.settings.center = {
@@ -113,7 +112,8 @@ export class MapGeoComponent implements OnInit, OnChanges {
 
 
 
-  mapDataPrepareData(mapData) {
+  mapDataPrepareData(mapData, color: string) {
+    console.log("mapDataPrepareData", mapData);
     return mapData.map((item, index) => {
       return {
         ...item,
@@ -121,9 +121,9 @@ export class MapGeoComponent implements OnInit, OnChanges {
           
           title: item.name,
           animates: true,
-          selected: index === 0,
+          //selected: index === 0,
          // glyphText: `${index + 1}`,
-          color: '#D3D4D4'
+          color
         }
       }
     })

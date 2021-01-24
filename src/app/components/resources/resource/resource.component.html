@@ -78,6 +78,7 @@
               <!--- *ngIf="station_locations && resourceSmartCar && resourceSmartCar.location && resourceSmartCar.location.data" -->
               <div class="maps-wrapper">
                 <app-map-geo
+                  [type]="sh"
                   [mapData]="station_locations"
                   [locationData]="resourceSmartCar?.location?.data"
                 ></app-map-geo>
