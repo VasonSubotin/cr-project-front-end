@@ -74,9 +74,8 @@
       <ng-container>
         <div class="schedule-container">
           <div class="visual-container">
-            <ng-container>
-              <!--- *ngIf="station_locations && resourceSmartCar && resourceSmartCar.location && resourceSmartCar.location.data" -->
-              <div class="maps-wrapper">
+            <ng-container >
+             <div class="maps-wrapper">
                 <app-map-geo
                   [type]="sh"
                   [mapData]="station_locations"
@@ -171,7 +170,7 @@
                         Duration:
                       </div>
                       <div class="event-value">
-                        {{ eventInterval.duration / 60 | number: "1.0-0" }} m
+                        {{ eventInterval.duration / 60 / 1000 | number: "1.0-0" }} m
                       </div>
                     </div>
                     <div class="event-row">
@@ -196,7 +195,7 @@
                         />
                         Energy needed:
                       </div>
-                      <div class="event-value">{{ eventInterval.energy }} Wh</div>
+                      <div class="event-value">{{ eventInterval.energy / 1000  | number:'1.0-0'}} kWh</div>
                     </div>
                     <div class="event-row">
                       <div class="event-title">

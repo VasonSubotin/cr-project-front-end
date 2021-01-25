@@ -14,6 +14,7 @@ export class MapGeoComponent implements OnInit, OnChanges {
   latitude: 1;
   longitude: 1;
   customAnnotation = [];
+  map;
 
   settings: MapConstructorOptions = {
     region: {
@@ -52,6 +53,7 @@ export class MapGeoComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
 
    if (changes.mapData && changes.mapData.currentValue !== changes.mapData.previousValue) {
+    //this.customAnnotation = [];
     this.initMapData(changes.mapData.currentValue); 
   }
 
@@ -60,7 +62,10 @@ export class MapGeoComponent implements OnInit, OnChanges {
   }
   }
 
-
+  onLoaded(e) {
+    this.map = e;
+  
+  }
 
   ngOnInit(): void {
    

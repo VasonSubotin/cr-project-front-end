@@ -110,6 +110,18 @@ export class AuthService {
     return this.http.get(`${this.apiConstants.apiUrl}resources/${idResource}/drivingSchedule`, _options);
   }
 
+  getResourceImage(idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}resources/${idResource}/getCarImage`, _options);
+  }
+
+
   calculateGeo(idResource) {
     const _options = {
       headers: new HttpHeaders({

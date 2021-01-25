@@ -58,6 +58,9 @@ export class ResourceComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(res => {
      
       this.idResource = +res.get('idResource');
+      this.authService.getResourceImage(this.idResource).subscribe((item)=> {
+        console.log(item);
+      })
       const carId: number  = Number(localStorage.getItem('carId'));
       this.activatedRoute.queryParams.subscribe(res => {
         console.log("res", res);

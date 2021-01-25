@@ -16,12 +16,11 @@
         </ngx-apple-maps-annotation>
       </ng-template>-->
       <ng-container *ngIf="customAnnotation.length > 0">
-      <ng-container *ngFor="let item of customAnnotation">
-        <ng-container  *ngIf="item && item.options">
-          <ngx-apple-maps-annotation [options]="item.options" [latitude]="item.latitude" [longitude]="item.longitude">
+
+          <ngx-apple-maps-annotation  (onLoaded)="onLoaded($event)" *ngFor="let item of customAnnotation" [options]="item.options" [latitude]="item.latitude" [longitude]="item.longitude" >
           </ngx-apple-maps-annotation>
-        </ng-container>
-      </ng-container>
+
+
   
        </ng-container>
     

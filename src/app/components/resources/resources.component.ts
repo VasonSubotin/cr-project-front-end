@@ -148,6 +148,7 @@ export class ResourcesComponent implements OnInit {
     this.policiesService.getPoliciesList();
     this.getResourcesArray();
     this.getResourcesFast();
+    
   }
 
   getCorrectPolicy(id: number) {

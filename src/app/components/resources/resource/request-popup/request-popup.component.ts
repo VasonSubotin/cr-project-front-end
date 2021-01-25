@@ -105,4 +105,11 @@ export class RequestPopupComponent implements OnInit {
     this.authService.calculateGeo(this.idResource).subscribe()
     this.closeEvent()
   }
+
+  getEndTime(startTime: Date, duration: number) {
+
+    let start = new Date(startTime);
+    start.setMilliseconds(start.getMilliseconds() + duration);
+    return start;
+  }
 }

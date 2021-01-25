@@ -86,7 +86,7 @@
             </div>
             <div class="input-container margin-top-25">
               <div class="input-label" >To</div>
-              <input class="input-system" [placeholder]="driveItem?.time_start |  date:'shortTime'" disabled>
+              <input class="input-system" [placeholder]="getEndTime(driveItem?.time_start, driveItem.duration) |  date:'shortTime'" disabled>
             </div>
           </div>
 
