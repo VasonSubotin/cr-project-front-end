@@ -64,6 +64,7 @@ export class MapGeoComponent implements OnInit, OnChanges {
 
   onLoaded(e) {
     this.map = e;
+    this.map.zoom = 50;
   
   }
 

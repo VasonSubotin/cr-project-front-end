@@ -29,5 +29,9 @@ export class CarComponent {
   round(soc: number) {
     return Math.round(soc * 100)
   }
+
+  image() {
+    return this.resource.smResource?.imagePath ? `https://chargeevnow.com:8443/${this.resource.smResource?.imagePath}` : `../../../assets/imgs/cars.png`;
+  }
   
 }
