@@ -138,22 +138,24 @@ export class ResourceComponent implements OnInit {
   }
 
   loadChargeSchedule() {
-    this.authService.getScheduleById(this.idResource, "CHR").pipe( tap((res: any) => {
-    //this.authService.calculateCharing(this.idResource).pipe(tap((res: any) => {
-      this.loaderState = false;
-      console.log("a", res);
-      if (res) {
-        this.intervals = res.intervals;
-        this.loaderState = false;
-        this.moers = res.moers;
-        console.log("res", res);
-        this.initial_energy = res.initial_energy; 
-        this.capacity= res.capacity;
-      }
-      
-    })).subscribe(res => {
-      this.loaderState = false;
+    this.authService.calculateCharing(this.idResource).subscribe((res) => {
+      this.authService.getScheduleById(this.idResource, "CHR").pipe( tap((res: any) => {
+          this.loaderState = false;
+          console.log("a", res);
+          if (res) {
+            this.intervals = res.intervals;
+            this.loaderState = false;
+            this.moers = res.moers;
+            console.log("res", res);
+            this.initial_energy = res.initial_energy; 
+            this.capacity= res.capacity;
+          }
+          
+        })).subscribe(res => {
+          this.loaderState = false;
+        })
     })
+   
   }
 
   loadDrivingSchedule() {
