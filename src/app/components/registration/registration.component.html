@@ -69,11 +69,9 @@
   </form>
   <p class="margin-top-25 margin-bottom-25">or</p>
 
-  <button
-    class="button-system button-system--login--google"
-    color="primary"
-    (click)="singupByGoogle()"
-  >
+  <button class="button-system button-system--login--google" color="primary">
+    <a class="link-button" [href]="googleLogin"> </a>
+
     <img
       src="../../../assets/imgs/flat-color-icons_google.png"
       height="24"
@@ -81,6 +79,7 @@
     />
     Sign up with google
   </button>
+
 
   <span>Have account?<a routerLink="/login"> Login</a> </span>
 </div>

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
-
+import { request } from '../../constants/api';
 import { MySnackbarService } from 'src/app/services/snackbar.service';
 import { RegistrationService } from 'src/app/services/registration.service';
 import { LoginRequest } from 'src/app/data/LoginRequest';
@@ -44,6 +44,7 @@ export class RegistrationComponent implements OnDestroy {
   ) {}
 
   private subscriptions$ = [];
+  googleLogin = `${request.apiUrl}googleLogin`;
 
   myGroup = new FormGroup({
     login: new FormControl('', [Validators.required]),
