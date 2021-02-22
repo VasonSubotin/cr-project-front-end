@@ -20,8 +20,19 @@ export class HistoryComponent implements OnInit {
   }
 
   getInitialSOC(initial_energy: number,  capacity: number) {
-    return initial_energy/capacity;
+    return Math.round(initial_energy/capacity);
 
+  }
+
+  getFinalSOC(energy: number) {
+    return Math.round(energy);
+
+  }
+
+  getTotal(
+value: number
+  ){
+   return Math.floor(value); 
   }
 
 }

@@ -39,7 +39,7 @@
         </ng-container>
         <ng-container *ngIf="item.end_soc">
           <div class="item-container">
-            <div class="history-info">{{ item.end_soc }}</div>
+            <div class="history-info">{{ getFinalSOC(item.end_soc) }} %</div>
             <div class="history-label">Final SOC</div>
           </div>
         </ng-container>
@@ -57,20 +57,20 @@
         </ng-container>
         <div class="item-container">
           <ng-container *ngIf="item.policy_id === 1">
-            <div class="history-info">{{ item.co2_savings }}</div>
+            <div class="history-info">{{  item.co2_savings ? getTotal(item.co2_savings) : 0}}</div>
           </ng-container>
-          <ng-container *ngIf="item.policy_id === 2">
-            <div class="history-info">{{ item.monetary_savings }}</div>
+          <ng-container *ngIf="item.policy_id != 1">
+            <div class="history-info">{{item.monetary_savings ? getTotal(item.monetary_savings)  : 0}}</div>
           </ng-container>
           <div class="history-label">Total saving</div>
         </div>
         <div class="item-container margin-right-60">
-          <div class="history-info">{{ policiesService?.policies[item.policy_id]?.name  }}</div>
+          <div class="history-info">{{ policiesService?.policies[item.policy_id - 1]?.name  }}</div>
           <div class="history-label">Policy</div>
         </div>
         <ng-container *ngIf="item.start_time">
           <div class="item-container margin-right-60">
-            <div class="history-info">{{ item.start_time }}</div>
+            <div class="history-info">   {{ item.start_time  |  date:'shortTime'}}</div>
             <div class="history-label margin-right-60">Start session</div>
           </div>
         </ng-container>
