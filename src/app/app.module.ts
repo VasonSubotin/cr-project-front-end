@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +42,8 @@ import { FunctionsService } from './services/functions.service';
 import { HistoryComponent } from './components/history/history.component';
 import { LoaderComponent } from './reusable-components/loader.component/loader.component';
 import { MapGeoComponent } from './components/resources/resource/map-geo/map-geo.component';
+
+import { MapComponent } from './components/resources/resource/map/map.component';
 import { AppleMapsModule } from 'ngx-apple-maps';
 import { ChartsService } from './services/charts.service';
 import { LineChartComponent } from './components/resources/resource/schedule/line-chart/line-chart.component';
@@ -72,11 +75,16 @@ import { ResourcesService } from './services/resources.service';
     HistoryComponent,
     setTimeStopComponent,
     MapGeoComponent,
+    MapComponent,
     LineChartComponent,
     CarComponent,
   ],
   imports: [
+    
     BrowserModule,
+    AgmCoreModule.forRoot({
+      apiKey: ''
+    }),
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,

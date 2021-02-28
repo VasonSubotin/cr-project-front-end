@@ -1,0 +1,20 @@
+<style>
+  agm-map {
+  height: 660px;
+}
+
+
+</style>
+<ng-container *ngIf="settings && mapData">
+  <agm-map [latitude]="settings.region.center.latitude" [longitude]="settings.region.center.longitude"  [zoom]="zoom">
+
+    <ng-container *ngIf="customAnnotation.length > 0">
+      
+      
+      <agm-marker  *ngFor="let item of customAnnotation" [iconUrl]="item.options.icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.options"></agm-marker>
+
+   </ng-container>
+
+  </agm-map>
+  
+</ng-container>
