@@ -10,7 +10,9 @@ import {MapConstructorOptions, MapKitInitOptions} from "ngx-apple-maps/lib/decla
 export class MapComponent implements OnInit, OnChanges {
   @Input() mapData: any;
   @Input() type: string;
+  @Input() size: string;
   @Input() public locationData: any;
+  @Input() public locationsData: any;
   latitude: 1;
   longitude: 1;
   customAnnotation = [];
@@ -47,17 +49,23 @@ export class MapComponent implements OnInit, OnChanges {
   options = {
  
   };
+  car;
+  locations = [];
 
   ngOnChanges(changes: SimpleChanges): void {
 
    if (changes.mapData && changes.mapData.currentValue !== changes.mapData.previousValue) {
     this.customAnnotation = [];
-    this.initLocations(this.locationData);
     this.initMapData(changes.mapData.currentValue); 
   }
 
   if(changes.locationData && changes.locationData.currentValue !== changes.locationData.previousValue) {
-    this.initLocations(changes.locationData.currentValue)
+    this.initCar(changes.locationData.currentValue)
+  }
+
+  if (changes.locationsData && changes.locationsData.currentValue !== changes.locationsData.previousValue) {
+    this.locations = [];
+    this.initLocations(changes.locationsData.currentValue); 
   }
 
   }
@@ -72,13 +80,17 @@ export class MapComponent implements OnInit, OnChanges {
     if(this.locationData) {
       this.initLocations(this.locationData)
     }
+
+    if(this.locationsData) {
+      this.initLocations(this.locationsData); 
+    }
     
     
   }
 
-  initLocations(locationData) {
+  initCar(locationData) {
     if(locationData && locationData.latitude && locationData.longitude) {
-      this.customAnnotation.push({
+      this.car = {
         latitude: locationData.latitude % 10000,
         longitude: locationData.longitude % 10000,
         options: {
@@ -87,7 +99,7 @@ export class MapComponent implements OnInit, OnChanges {
           color: "white",
           icon : { url: '../../../../assets/imgs/my_car.png', scaledSize: {height: 40, width: 40}}
         }
-      });
+      };
     }
   
   }
@@ -112,6 +124,30 @@ export class MapComponent implements OnInit, OnChanges {
    
   }
 
+  initLocations(mapData) {
+  
+    if(mapData && mapData[0]) {
+
+      const mapDataOptions = mapData.map((item, index) => {
+        return {
+          ...item,
+          options: {
+            glyphTitle: item.name,
+            animates: true,
+            //selected: index === 0,
+            text: index === 0 ? " ": `${index + 1}`,
+            icon : { url: '../../../../assets/imgs/address_of_visiting.png', scaledSize: {height: 40, width: 40}}
+          }
+        }
+      })
+      console.log("mapData initLocations", mapDataOptions);
+      this.locations.push(...mapDataOptions);
+  
+   
+    }
+   
+  }
+
 
 
   mapDataPrepareData(mapData, color: string) {
@@ -125,7 +161,7 @@ export class MapComponent implements OnInit, OnChanges {
           //selected: index === 0,
           text: index === 0 ? " ": `${index + 1}`,
           color,
-          icon : { url: index === 0 ? '../../../../assets/imgs/charging_station.png' : '../../../../assets/imgs/address_of_visiting.png', scaledSize: {height: 40, width: 40}}
+          icon : { url: index === 0 ? '../../../../assets/imgs/charging_station.png' : '../../../../assets/imgs/charging_station_dis.png', scaledSize: {height: 40, width: 40}}
         }
       }
     })

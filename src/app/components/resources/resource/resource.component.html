@@ -77,9 +77,11 @@
             <ng-container >
              <div class="maps-wrapper">
                 <app-map
+                  size="big"
                   [type]="sh"
                   [mapData]="station_locations"
                   [locationData]="resourceSmartCar?.location?.data"
+                  [locationsData]="locations"
                 ></app-map>
               </div>
               <div class="legenda">

@@ -33,6 +33,7 @@ export class ResourceComponent implements OnInit {
 
   resource;
   station_locations = [];
+  locations = [];
   resourceSmartCar: any = {};
   intervals = [];
   moers: any;
@@ -174,12 +175,17 @@ export class ResourceComponent implements OnInit {
         this.intervals = res.intervals;
         this.policyId = res.policy_id;
         let station_locations = [];
+        let locations = [];
         res.intervals.forEach(element => {
        
           if(element.station_locations)
           station_locations.push(element.station_locations[0]);
+          if(element.calendar_location) {
+            locations.push(element.calendar_location);
+          }
         }); 
         this.station_locations = station_locations;
+        this.locations = locations;
       
       }
     })
