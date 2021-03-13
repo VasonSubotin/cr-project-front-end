@@ -105,11 +105,12 @@ export class ScheduleComponent implements OnInit {
     let moers = [];
     if(this.moers) {
       let date = this.moers.start;
-        this.moers.values.forEach(value => {
-          moers.push([date, value / 1000]);
-          date = date + (1000 * 60 * 5);
-        });
-      
+        if(this.moers.values) {
+          this.moers.values.forEach(value => {
+            moers.push([date, value / 1000]);
+            date = date + (1000 * 60 * 5);
+          });
+        }
     }
     
     return moers;

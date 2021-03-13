@@ -1,13 +1,13 @@
 <style>
   agm-map {
-  max-height: 660px;
+  max-height: 600px;
   height: 230px;
 }
 
 
 </style>
 <ng-container *ngIf="settings && mapData">
-  <agm-map  [ngStyle]="{'height': size === 'big' ? '100vh': '230px'}"
+  <agm-map  [ngStyle]="{'height': size === 'big' ? '600px': '230px'}"
   [latitude]="settings.region.center.latitude" [longitude]="settings.region.center.longitude"  [zoom]="zoom">
     <ng-container *ngIf="locations.length > 0">
       
