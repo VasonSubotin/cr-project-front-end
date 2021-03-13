@@ -5,11 +5,28 @@
   .schedule-chart .app-line-chart {
 
   }
+
+.not-found-chart {
+  width: 100%;
+  margin: 40px;
+  text-align: center;
+}
 </style>
 <div class="schedule-chart">
-  <app-line-chart label="Treatment Performance"
-                  [values]="schedulePerformanceValues"
-                  [configs]="schedulePerformanceConfigs"
-                  class="app-line-chart">
-  </app-line-chart>
+  <ng-container *ngIf="(moers && moers.values) ||  (intervals && intervals.length)">
+    <app-line-chart label="Treatment Performance"
+    [values]="schedulePerformanceValues"
+    [configs]="schedulePerformanceConfigs"
+    class="app-line-chart">
+</app-line-chart>
+
+  </ng-container>
+  <ng-container *ngIf="!((moers && moers.values) ||  (intervals && intervals.length))">
+    
+    <div class="not-found-chart">
+      Charging data not found
+    </div>
+
+  </ng-container>
+
 </div>
