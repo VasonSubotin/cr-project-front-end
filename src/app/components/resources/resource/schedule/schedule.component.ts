@@ -19,6 +19,7 @@ export class ScheduleComponent implements OnInit {
     showSecondary: true,
     showOppositeSecondary: true,
     secondaryPostfix: '%',
+    primaryMax: 2,
     secondaryMax: 100,
     oppositeSecondaryMax: 10000,
     chartTitle: 'First line chart',
