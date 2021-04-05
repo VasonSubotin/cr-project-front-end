@@ -97,7 +97,7 @@ export class MapComponent implements OnInit, OnChanges {
           glyphTitle: 'My car',
           text: ` `,
           color: "white",
-          icon : { url: '../../../../assets/imgs/my_car.png', scaledSize: {height: 40, width: 40}}
+          icon : { url: '../../../../assets/imgs/my_car.png', scaledSize: {height: 30, width: 30}}
         }
       };
     }
@@ -112,8 +112,7 @@ export class MapComponent implements OnInit, OnChanges {
         longitude: mapData[0].longitude
       };
       const mapDataOptions = this.mapDataPrepareData(this.mapData, this.type === "driving" ? '#02A0FC':"#D3D4D4");
-      mapDataOptions[0].options.color = '#02A0FC';
-      console.log("mapData initLocations", mapDataOptions);
+
       this.customAnnotation.push(...mapDataOptions);
   
       this.settings.center = {
@@ -129,13 +128,14 @@ export class MapComponent implements OnInit, OnChanges {
     if(mapData && mapData[0]) {
 
       const mapDataOptions = mapData.map((item, index) => {
+      
         return {
           ...item,
           options: {
             glyphTitle: item.name,
             animates: true,
             //selected: index === 0,
-            text: index === 0 ? " ": `${index + 1}`,
+            text: `${index + 1}`,
             icon : { url: '../../../../assets/imgs/address_of_visiting.png', scaledSize: {height: 40, width: 40}}
           }
         }
@@ -151,17 +151,16 @@ export class MapComponent implements OnInit, OnChanges {
 
 
   mapDataPrepareData(mapData, color: string) {
-    console.log("mapDataPrepareData", mapData);
     return mapData.map((item, index) => {
       return {
         ...item,
         options: {
           glyphTitle: item.name,
           animates: true,
-          //selected: index === 0,
-          text: index === 0 ? " ": `${index + 1}`,
-          color,
-          icon : { url: index === 0 ? '../../../../assets/imgs/charging_station.png' : '../../../../assets/imgs/charging_station_dis.png', scaledSize: {height: 40, width: 40}}
+          selected: index === 0,
+          text: `${index + 1}`,
+          color: '#fff',
+          icon : { url: '../../../../assets/imgs/dot.png', scaledSize: {height: 24, width: 24}}
         }
       }
     })

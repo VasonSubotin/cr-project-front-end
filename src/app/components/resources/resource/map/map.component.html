@@ -1,34 +1,41 @@
 <style>
   agm-map {
-  max-height: 600px;
-  height: 230px;
-}
-
-
+    max-height: 600px;
+    height: 230px;
+  }
 </style>
 <ng-container *ngIf="settings && mapData">
-  <agm-map  [ngStyle]="{'height': size === 'big' ? '600px': '230px'}"
-  [latitude]="settings.region.center.latitude" [longitude]="settings.region.center.longitude"  [zoom]="zoom">
+  <agm-map
+    [ngStyle]="{ height: size === 'big' ? '600px' : '230px' }"
+    [latitude]="settings.region.center.latitude"
+    [longitude]="settings.region.center.longitude"
+    [zoom]="zoom"
+  >
     <ng-container *ngIf="locations.length > 0">
-      
-      
-      <agm-marker  *ngFor="let item of locations" [iconUrl]="item.options.icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.options"></agm-marker>
-  
-    
-   
-   </ng-container>
+      <agm-marker
+        *ngFor="let item of locations"
+        [iconUrl]="item.options.icon"
+        [latitude]="item.latitude"
+        [longitude]="item.longitude"
+        [label]="item.options"
+      ></agm-marker>
+    </ng-container>
     <ng-container *ngIf="customAnnotation.length > 0">
-      
-      
-      <agm-marker  *ngFor="let item of customAnnotation" [iconUrl]="item.options.icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.options"></agm-marker>
-
-    
-   
-   </ng-container>
-   <ng-container *ngIf="car">
-   <agm-marker  [iconUrl]="car.options.icon" [latitude]="car.latitude" [longitude]="car.longitude" [label]="car.options"></agm-marker>
-   </ng-container>
-
+      <agm-marker
+        *ngFor="let item of customAnnotation"
+        [iconUrl]="item.options.icon"
+        [latitude]="item.latitude"
+        [longitude]="item.longitude"
+        [label]="item.options"
+      ></agm-marker>
+    </ng-container>
+    <ng-container *ngIf="car">
+      <agm-marker
+        [iconUrl]="car.options.icon"
+        [latitude]="car.latitude"
+        [longitude]="car.longitude"
+        [label]="car.options"
+      ></agm-marker>
+    </ng-container>
   </agm-map>
-  
 </ng-container>

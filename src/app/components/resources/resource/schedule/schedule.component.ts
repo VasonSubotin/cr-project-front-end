@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
-import {AuthService} from '../../../../services/auth.service';
-import {LineConfigModel, LineValuesModel} from './line-chart/charts.model';
-import {COLORS_MAP, HOUR_IN_MILLISECONDS} from './line-chart/line-chart.config';
+import { AuthService } from '../../../../services/auth.service';
+import { LineConfigModel, LineValuesModel } from './line-chart/charts.model';
+import { COLORS_MAP, HOUR_IN_MILLISECONDS } from './line-chart/line-chart.config';
 
 @Component({
   selector: 'app-schedule',
@@ -34,34 +34,34 @@ export class ScheduleComponent implements OnInit {
   @Input() moers: any;
 
   constructor(private activatedRoute: ActivatedRoute,
-              private authService: AuthService) {
+    private authService: AuthService) {
   }
 
   public ngOnInit(): void {
     //const data = this.convertData();
 
- 
+
     this.schedulePerformanceValues = [
-      
- {
-  label: 'CO2 emission',
-  color: COLORS_MAP.ORANGE,
-  type: 'line',
-  data: this.generateMoers().sort((a, b) => a[0] - b[0]),
-  axis: 0
-},{
-      label: 'SOC',
-      color: COLORS_MAP.BLUE,
-      type: 'line',
-      data: this.generateSOC().sort((a, b) => a[0] - b[0]),
-      axis: 1
-    }, {
-      label: 'Power',
-      type: 'area',
-      color: COLORS_MAP.YELLOW,
-      data: this.generatePower(),
-      axis: 2
-    }];
+
+      {
+        label: 'CO2 emission',
+        color: COLORS_MAP.ORANGE,
+        type: 'line',
+        data: this.generateMoers().sort((a, b) => a[0] - b[0]),
+        axis: 0
+      }, {
+        label: 'SOC',
+        color: COLORS_MAP.BLUE,
+        type: 'line',
+        data: this.generateSOC().sort((a, b) => a[0] - b[0]),
+        axis: 1
+      }, {
+        label: 'Power',
+        type: 'area',
+        color: COLORS_MAP.YELLOW,
+        data: this.generatePower(),
+        axis: 2
+      }];
   }
 
   public convertData(): number[] {
@@ -89,31 +89,31 @@ export class ScheduleComponent implements OnInit {
     const costSoc = [];
     this.intervals.map((item, index, array): any => {
       let startInterval = 0;
-      if(index === 0) {
+      if (index === 0) {
         startInterval += this.initial_energy;
       }
       if (index !== 0) {
         startInterval = array[index - 1].energy;
       }
-      costSoc.push([+new Date(item.time_start), (startInterval/ this.capacity) * 100]);
+      costSoc.push([+new Date(item.time_start), (startInterval / this.capacity) * 100]);
       item.energy += startInterval;
-      costSoc.push([+new Date(item.time_start) + item.duration, (item.energy/ this.capacity) * 100]);
+      costSoc.push([+new Date(item.time_start) + item.duration, (item.energy / this.capacity) * 100]);
     });
     return costSoc;
   }
 
   public generateMoers(): number[][] {
     let moers = [];
-    if(this.moers) {
+    if (this.moers) {
       let date = this.moers.start;
-        if(this.moers.values) {
-          this.moers.values.forEach(value => {
-            moers.push([date, value / 1000]);
-            date = date + (1000 * 60 * 5);
-          });
-        }
+      if (this.moers.values) {
+        this.moers.values.forEach(value => {
+          moers.push([date, value / 1000]);
+          date = date + (1000 * 60 * 5);
+        });
+      }
     }
-    
+
     return moers;
   }
 }
