@@ -18,7 +18,8 @@
       [formGroup]="myGroup"
       (ngSubmit)="onSubmit()"
     >
-    
+
+
     <div formArrayName="events">
       <div *ngFor="let event of events.controls; let i=index">
         <div [formGroupName]="i">
@@ -44,19 +45,19 @@
               />
               <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
             </label>
-
+     
             <button (click)="removeEvent(i)"   type="button"
             class="button-system button-remove">
             <img src="../../../../assets/imgs/Close.png" height="40" width="40" />
           </button>
           </div>
-
+  
         </div>
       </div>
     </div>
 
 
-
+    
       <button
         (click)="addEvents()"
         type="button"
@@ -64,7 +65,7 @@
       >
         Add New DR Event
       </button>
-
+     
       <button
       type="submit"
         color="primary"
