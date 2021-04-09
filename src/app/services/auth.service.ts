@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {request} from "../constants/api";
+import { from } from "rxjs";
 
 @Injectable()
 export class AuthService {
@@ -109,6 +110,36 @@ export class AuthService {
     };
     return this.http.get(`${this.apiConstants.apiUrl}resources/${idResource}/drivingSchedule`, _options);
   }
+
+  getDrEventsById(idResource) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+
+      })
+    };
+    return this.http.get(`${this.apiConstants.apiUrl}resources/${idResource}/DREvents`, _options);
+  }
+
+  postDrEventsById(idResource, events: {from: string, to: string}[]) {
+    const _options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      })
+    };
+    const body = events.map(event => {
+      return { 
+        resourceId: idResource,
+       start: event.from, 
+       stop: event.to
+      }
+
+    })
+    return this.http.post(`${this.apiConstants.apiUrl}allDREvents`, body, _options);
+  }
+
 
   getResourceImage(idResource) {
     const _options = {
