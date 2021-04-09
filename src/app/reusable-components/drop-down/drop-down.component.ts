@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {Router} from "@angular/router";
 import {EditResourcePopupComponent} from "../popups/edit-resource-popup/edit-resource-popup.component";
+
+import {DREventsPopupComponent} from "../popups/dr-events-popup/dr-events-popup.component";
 import {MatDialog} from "@angular/material/dialog";
 import {catchError} from "rxjs/operators";
 import {AuthService} from "../../services/auth.service";
@@ -45,6 +47,21 @@ export class DropDownComponent {
       }
     );
   }
+  openDREvents($event: Event) {
+    $event.stopPropagation();
+    const dialogConf: any = {
+      data: this.resourceData.smResource, panelClass: 'dr-events-dialog', closeOnNavigation: true, autoFocus: false
+    };
+    const dialogRef = this.matDialog.open(DREventsPopupComponent, dialogConf);
+    this.switchDropDownState();
+    dialogRef.afterClosed().subscribe(
+      unixEvent => {
+        if (unixEvent) {
+        }
+      }
+    );
+  }
+
   deleteResource($event: Event) {
     $event.stopPropagation();
     this.switchDropDownState();

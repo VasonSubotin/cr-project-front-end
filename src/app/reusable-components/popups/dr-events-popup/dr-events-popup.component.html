@@ -1,0 +1,79 @@
+<div class="popup-container flex-block flex-block--column">
+  <div class="popup-header flex-block">
+    <div class="title-font">
+      Edit {{ resource.vendor }} {{ resource.model }}
+    </div>
+
+    <div class="close" (click)="closeEvent()">
+      <img src="../../../../assets/imgs/Close.png" height="40" width="40" />
+    </div>
+  </div>
+
+  <div class="popup-content">
+
+
+    <form
+      #form
+      class="login-form flex-block flex-block--center flex-block--column"
+      [formGroup]="myGroup"
+      (ngSubmit)="onSubmit()"
+    >
+
+
+    <div formArrayName="events">
+      <div *ngFor="let event of events.controls; let i=index">
+        <div [formGroupName]="i">
+          <div class="time">
+            <label>
+              <input
+                [owlDateTimeTrigger]="dt1"
+                [owlDateTime]="dt1"
+                formControlName="from"
+                placeholder="From"
+                class="input-login login-input time-input"
+              />
+              <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+            </label>
+            <div class="m8"></div>
+            <label>
+              <input
+                [owlDateTimeTrigger]="dt2"
+                [owlDateTime]="dt2"
+                formControlName="to"
+                placeholder="To"
+                class="input-login login-input time-input"
+              />
+              <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+            </label>
+     
+            <button (click)="removeEvent(i)"   type="button"
+            class="button-system button-remove">
+            <img src="../../../../assets/imgs/Close.png" height="40" width="40" />
+          </button>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+
+    
+      <button
+        (click)="addEvents()"
+        type="button"
+        class="button-system button-add"
+      >
+        Add New DR Event
+      </button>
+     
+      <button
+      type="submit"
+        color="primary"
+        class="button-system button-system--login margin-top-60 save"
+        [disabled]="form.valid"
+      >
+        Save
+      </button>
+    </form>
+  </div>
+</div>

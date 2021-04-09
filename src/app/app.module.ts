@@ -54,6 +54,7 @@ import { MySnackbarService } from './services/snackbar.service';
 import { CarComponent } from './components/resources/car/car.component';
 import { HistoryService } from './services/history.service';
 import { ResourcesService } from './services/resources.service';
+import { DREventsPopupComponent } from './reusable-components/popups/dr-events-popup/dr-events-popup.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ResourcesService } from './services/resources.service';
     RequestPopupComponent,
 
     EditResourcePopupComponent,
+    DREventsPopupComponent,
     PageLoaderComponent,
     setTimeStartComponent,
     HistoryComponent,
@@ -111,7 +113,7 @@ import { ResourcesService } from './services/resources.service';
     AppleMapsModule,
   ],
 
-  entryComponents: [EditResourcePopupComponent],
+  entryComponents: [EditResourcePopupComponent, DREventsPopupComponent],
   providers: [
     AuthService,
     PoliciesService,
