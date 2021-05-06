@@ -30,7 +30,7 @@
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
     "d3": "^6.2.0",
-    "highcharts": "^8.2.2",
+    "highcharts": "^9.0.0",
     "moment": "^2.29.1",
     "ng-pick-datetime": "^7.0.0",
     "ng2-charts": "^2.3.3",
