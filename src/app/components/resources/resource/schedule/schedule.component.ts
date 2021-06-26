@@ -6,7 +6,6 @@ import { AuthService } from '../../../../services/auth.service';
 import { LineConfigModel, LineValuesModel } from './line-chart/charts.model';
 import {
   COLORS_MAP,
-  HOUR_IN_MILLISECONDS,
 } from './line-chart/line-chart.config';
 
 @Component({
@@ -41,7 +40,6 @@ export class ScheduleComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    //const data = this.convertData();
 
     this.schedulePerformanceValues = [
       {
@@ -68,28 +66,15 @@ export class ScheduleComponent implements OnInit {
     ];
   }
 
-  public convertData(): number[] {
-    const arrayMinutes = [];
-    for (
-      let mSecond = this.moers.start;
-      mSecond < this.moers.stop;
-      mSecond = mSecond + HOUR_IN_MILLISECONDS
-    ) {
-      arrayMinutes.push(moment(mSecond).format('LT'));
-    }
-    return arrayMinutes;
-  }
-
   public generatePower(): number[][] {
     const powerArray = [];
     this.intervals.map((item) => {
-      powerArray.push([+new Date(item.time_start), null]);
       powerArray.push([+new Date(item.time_start), 0]);
       powerArray.push([+new Date(item.time_start), item.power]);
       powerArray.push([+new Date(item.time_start) + item.duration, item.power]);
       powerArray.push([+new Date(item.time_start) + item.duration, 0]);
-      powerArray.push([+new Date(item.time_start) + item.duration, null]);
     });
+    console.log('powerArray', powerArray)
     return powerArray;
   }
 
@@ -113,6 +98,7 @@ export class ScheduleComponent implements OnInit {
         (item.energy / this.capacity) * 100,
       ]);
     });
+    console.log('costSoc', costSoc)
     return costSoc;
   }
 
@@ -129,7 +115,7 @@ export class ScheduleComponent implements OnInit {
         }
 
         iEnd = new Date(this.intervals[this.intervals.length - 1].time_start).getTime()  + this.intervals[this.intervals.length - 1].duration 
-        console.log(iEnd)
+        
       }
 
       if (this.moers.values) {
@@ -140,7 +126,7 @@ export class ScheduleComponent implements OnInit {
           date = date + 1000 * 60 * 5;
           }
         });
-        
+
         const lastValue = this.moers.values[this.intervals.length - 1]
         while (iEnd >= date) {
           moers.push([date, lastValue  / 1000]);
@@ -148,7 +134,7 @@ export class ScheduleComponent implements OnInit {
         }
        
       }
-    }
+    }    console.log('moers', moers)
 
     return moers;
   }

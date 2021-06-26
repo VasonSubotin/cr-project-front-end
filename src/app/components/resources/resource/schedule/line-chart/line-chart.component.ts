@@ -9,7 +9,6 @@ import {
   SECONDARY_AXIS_CONFIG
 } from './line-chart.config';
 import {ChartsService} from '../../../../../services/charts.service';
-import {CHARGE_SCHEDULE} from '../line-chart-data';
 
 @Component({
   selector: 'app-line-chart',
@@ -114,45 +113,6 @@ export class LineChartComponent implements AfterViewInit, OnDestroy {
       }
     }
     return tickPosCor;
-  }
-
-  /** Sets interval for X-axis ticks. */
-  public xAxisTickPositioner(): number[] {
-    const minTick = CHARGE_SCHEDULE.moers.start;
-    const maxTick = CHARGE_SCHEDULE.moers.stop;
-
-    const length = Math.round((maxTick - minTick) / (HOUR_IN_MILLISECONDS)) - 2;
-    const ticks: any = [];
-    for (let i = 0; i < length; i++) {
-      if (i === 0) {
-        ticks.push(+(new Date(minTick)).getHours());
-      } else if (i === length - 1) {
-        ticks.push(+(new Date(maxTick)).getHours());
-      } else {
-        ticks.push(+(new Date(ticks[i - 1] + 2)));
-      }
-    }
-    ticks.unshift(+(new Date(minTick - HOUR_IN_MILLISECONDS)).getHours());
-    ticks.push(+(new Date(maxTick + HOUR_IN_MILLISECONDS)).getHours());
-    ticks.info = {
-      higherRanks: {},
-      unitName: 'hour'
-    };
-    return ticks;
-  }
-
-  /** Round min and max position. */
-  public getRoundPosition(position: number): number {
-    const newDate = new Date(position);
-    let tick: number;
-    if (newDate.getMinutes() > 30) {
-      tick = position + (newDate.getMinutes() * 60000);
-    } else if (newDate.getMinutes() < 30) {
-      tick = position - (newDate.getMinutes() * 60000);
-    } else {
-      tick = position;
-    }
-    return tick;
   }
 
   /** Maps data to Array of line chart series. */

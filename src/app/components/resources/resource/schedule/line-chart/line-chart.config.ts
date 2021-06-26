@@ -25,7 +25,7 @@ export const LINE_CHART_CONFIG: Options = {
   },
   xAxis: {
     type: 'datetime',
-    startOnTick: true,
+    startOnTick: false,
     tickInterval: 3600 * 1000,
     tickAmount: 6,
     crosshair: true,
