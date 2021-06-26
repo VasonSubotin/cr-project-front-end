@@ -1,7 +1,7 @@
 <div class="popup-container flex-block flex-block--column">
   <div class="popup-header flex-block">
     <div class="title-font">
-      Edit {{ resource.vendor }} {{ resource.model }}
+      DR events settings {{ resource.vendor }} {{ resource.model }} 
     </div>
 
     <div class="close" (click)="closeEvent()">
@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div class="popup-content">
+  <div class="popup-content-dr-events">
 
 
     <form
@@ -20,16 +20,18 @@
     >
 
 
-    <div formArrayName="events">
+    <div formArrayName="events" class="dr-events-form-content">
       <div *ngFor="let event of events.controls; let i=index">
-        <div [formGroupName]="i">
+        <div [formGroupName]="i" class="event">
+          <span>Interval {{i+1}}</span>
           <div class="time">
+    
             <label>
               <input
                 [owlDateTimeTrigger]="dt1"
                 [owlDateTime]="dt1"
                 formControlName="from"
-                placeholder="From"
+                placeholder="Start"
                 class="input-login login-input time-input"
               />
               <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
@@ -40,15 +42,15 @@
                 [owlDateTimeTrigger]="dt2"
                 [owlDateTime]="dt2"
                 formControlName="to"
-                placeholder="To"
+                placeholder="End"
                 class="input-login login-input time-input"
               />
               <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
             </label>
      
             <button (click)="removeEvent(i)"   type="button"
-            class="button-system button-remove">
-            <img src="../../../../assets/imgs/Close.png" height="40" width="40" />
+            class="button-system button-remove button-event">
+            <img src="../../../../assets/imgs/Close.png" height="30" width="30" />
           </button>
           </div>
   

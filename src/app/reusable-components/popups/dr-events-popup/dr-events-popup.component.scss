@@ -5,8 +5,8 @@
   position: relative;
 }
 
-.popup-content {
-  width: 450px;
+.popup-content-dr-events {
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -31,6 +31,10 @@
   margin-left: 10px;
 }
 
+
+.dr-events-form-content{
+  width: 100%;
+}
 
 
 .modal-title {
@@ -108,8 +112,10 @@
 
 .time {
   display: flex;
-  margin-top: 24px;
+  margin-top: 16px;
+  margin-bottom: 24px;
   width: 100%;
+  
 
   label {
     width: 100% !important;
@@ -127,4 +133,11 @@
 .save {
   justify-content: center;
   min-height: 56px;
+}
+
+.button-event{
+  background-color: transparent;
+  outline: none !important ;
+  opacity: 0.3;
+  padding-right: 0px;
 }
