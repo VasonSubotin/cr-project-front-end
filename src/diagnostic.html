@@ -1,0 +1,281 @@
+<div>
+    <h1>{{ .Title}}</h1>
+    <!-- <p>{{ .Message}}</p> -->
+</div>
+<div>
+    <input id="dateFrom" type="text" />
+    <input id="dateTo" type="text" />
+    <input id="getData" type="button" value="Update" onclick="javascript: getData_onclick()" />
+</div>
+<canvas id="myChart" width="1500" height="700"></canvas>
+<div id="log"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js"></script>
+<script>
+    const url = "http://212.80.197.144:3001"
+        //const url = "http://192.168.0.137:3001"
+    const colors = ['rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ];
+
+    var defdata = {
+        labels: [],
+        datasets: []
+    };
+
+    var config = {
+        type: 'line',
+        data: defdata,
+        options: {
+            responsive: false,
+            interaction: {
+                intersect: false,
+                axis: 'x'
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: (ctx) => 'Messages for diagnostics',
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Events'
+                    },
+                    // ticks: {
+                    //     font: function(context) {
+                    //         if (context.tick && context.tick.label) {
+                    //             context.tick.label = context.tick.label + "<bt>\r\n" + "!!!!!!"
+                    //             return {};
+                    //         }
+                    //     }
+                    // }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Current (A)'
+                    }
+                }
+            },
+        }
+    };
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const chargePointIdElem = document.getElementById('chargePointId');
+    const dateFromElem = document.getElementById('dateFrom');
+    const dateToElem = document.getElementById('dateTo');
+    const getData = document.getElementById('getData');
+    var dateFrom = new Date();
+    var dateTo = new Date();
+    var myChart = null;
+
+    function testUpdate(stepped) {
+        if (stepped == null) {
+            stepped = 'before';
+        }
+
+        myChart.data.datasets.forEach(dataset => {
+            dataset.stepped = stepped;
+        });
+        myChart.update();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        myChart = new Chart(ctx, config);
+
+        dateFrom.setHours(dateTo.getHours() - 1);
+        dateFromElem.value = dateFrom.toISOString();
+        dateToElem.value = dateTo.toISOString();
+
+        getData_onclick();
+    });
+    var settings, connections;
+
+    function getData_onclick() {
+        // get all logs of settings 
+        getSettings();
+        // get data for all connections
+        getMessages();
+        // draw chart
+    }
+
+    function createIfNullCP(items) {
+        if (items == null) {
+            items = [];
+        }
+        return items;
+    }
+
+    function isPrime(element, index, array) {
+        var start = 2;
+        while (start <= Math.sqrt(element)) {
+            if (element % start++ < 1) {
+                return false;
+            }
+        }
+        return element > 1;
+    }
+
+    function getMessages() {
+        var __data = {};
+        var labels = [];
+        var datasets = [];
+        httpGetAsync(url + '/sitechart/' + dateFromElem.value + '/' + dateToElem.value, (response) => {
+            messages = JSON.parse(response);
+            console.log(messages);
+            if (messages != null && messages.length > 0) {
+                labels = [];
+                myChart.data.datasets = [];
+                messages.forEach(element => {
+                    var items = __data[element.chargePointId];
+                    if (items == null) {
+                        items = [];
+                    }
+                    items.push(element);
+                    labels.push(element.timestamp);
+                    __data[element.chargePointId] = items;
+                });
+            }
+
+            var keys = Object.keys(__data)
+            var datasetHubLimit = {
+                label: "Hub Safety Limit",
+                data: [],
+                borderColor: [
+                    colors[keys.length + 1]
+                ],
+                fill: false,
+                stepped: true,
+            };
+            var datasetHub = {
+                label: "Hub",
+                data: [],
+                borderColor: [
+                    colors[keys.length + 2]
+                ],
+                fill: false,
+                stepped: true,
+            };
+            for (let l = 0; l < labels.length; l++) {
+                const datetime = new Date(labels[l]);
+                //hub limit
+                for (let s = 0; s < settings.length; s++) {
+                    var foundSettings = settings.find(element => new Date(element.createdAt) >= datetime);
+                    if (foundSettings == null) {
+                        foundSettings = settings.find(element => new Date(element.createdAt) <= datetime);
+                    }
+                    if (foundSettings == null) {
+                        datasetHubLimit.data[l] = null
+                    } else {
+                        datasetHubLimit.data[l] = foundSettings.siteLimit * (1 - foundSettings.safetyLimit);
+                    }
+                }
+
+                // Chargers
+                for (let k = 0; k < keys.length; k++) {
+                    const key = keys[k];
+                    var items = __data[key];
+                    var dataset = datasets[k];
+                    if (dataset == null) {
+                        dataset = {
+                            label: key,
+                            data: [],
+                            borderColor: [
+                                colors[k]
+                            ],
+                            fill: false,
+                            stepped: true,
+                        };
+                    }
+
+                    const found = items.find(element => element.timestamp == labels[l]);
+                    if (found != null) {
+                        dataset.data[l] = found.current;
+                        labels[l] = datetime.toLocaleTimeString() + ' - ' + key + ' - ' + found.action;
+                    } else {
+                        if (dataset.data.length > 0) {
+                            dataset.data[l] = dataset.data[dataset.data.length - 1];
+                        } else {
+                            dataset.data[l] = null;
+                        }
+                    }
+
+                    datasets[k] = dataset;
+
+                    if (datasetHub.data[l] == null) {
+                        datasetHub.data[l] = 0;
+                    }
+                    var val = dataset.data[l];
+                    if (val == null) {
+                        val = 0;
+                    }
+                    datasetHub.data[l] += val;
+                }
+
+
+            }
+            myChart.data.labels = labels;
+            myChart.data.datasets = datasets;
+            myChart.data.datasets.push(datasetHubLimit);
+            myChart.data.datasets.push(datasetHub);
+
+            console.log(__data);
+            myChart.update();
+        });
+        /*
+
+        type OcppMessageViewModel struct {
+        	Timestamp      time.Time `json:"timestamp"`
+        	ChargePointId  string    `json:"chargePointId"`
+        	Action         string    `json:"action"`
+        	Status         string    `json:"status"`
+        	AllowedCurrent float32   `json:"allowedCurrent"`
+        	Current        float32   `json:"current"`
+        }*/
+    }
+
+    // function getMessages() {
+    //     connections.array.forEach(element => {
+    //         httpGetAsync('http://212.80.197.144:3001/chart/' + chargePointIdElem.value + '/' + dateFromElem.value + '/' + dateToElem.value, (response) => {
+    //             //connections = JSON.parse(response);
+    //             // update chart
+    //         });
+    //     });
+    // }
+
+    function getConnections() {
+        httpGetAsync(url + '/connections', (response) => {
+            connections = JSON.parse(response);
+            getMessages();
+        });
+    }
+
+    function getSettings() {
+        httpGetAsync(url + '/settings/' + dateFromElem.value + '/' + dateToElem.value, (response) => {
+            settings = JSON.parse(response);
+        });
+    }
+
+    // function getData() {
+    //     _data = JSON.parse(data);
+    // }
+
+    function httpGetAsync(theUrl, callback) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                callback(xmlHttp.responseText);
+        }
+        xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+        xmlHttp.send(null);
+    }
+
+    const logElement = document.getElementById('myChart')
+</script>
