@@ -244,10 +244,10 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/core@~10.1.2":
-  version "10.1.6"
-  resolved "https://universum-libs-js-614482876163.d.codeartifact.eu-central-1.amazonaws.com:443/npm/ui-kit/@angular/core/-/core-10.1.6.tgz#1e9e5abb7a412a92babf230ea385b32996574751"
-  integrity sha512-sUleQouCedT87VOCb49T7cm6La2VeJg1omtO5+QfjWmifNcQ/nqV56Zxov3RT7CmsVwVbkA0X5Q62oSEPAUXrw==
+"@angular/core@~10.2.5":
+  version "10.2.5"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-10.2.5.tgz#2050b0dbb180aa98c2ec46bba6d4827565ba2a2d"
+  integrity sha512-krhOKNTj5XE92Rk9ASX5KmgTF72j7qT2PLVxrGEVjuUKjBY2XaK3TV0Kotq9zI3qa9WgeCrP/Njn6jlKQCCAEQ==
   dependencies:
     tslib "^2.0.0"
 
